@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunwoo F. Choi — neuroscience, memory, computational psychiatry</title>
+<meta name="description" content="Sunwoo 'Frank' Choi. Neuroscience at Amherst College '30. Autobiographical memory and how recollection reconstructs rather than replays.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-paper:  #E6EAE3;
+    --color-sky:    #C4D2D0;
+    --color-ink:    #14161A;
+    --color-ether:  #55704F;
+    --color-haze:   #8FA689;
+    --color-bone:   #F2F0EA;
+    --color-signal: #C8342A;
+    --color-rule:   rgba(20,22,26,.16);
+    --font-display: "Anton", Impact, sans-serif;
+    --font-kr:      "Noto Sans KR", sans-serif;
+    --font-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  /* ---- the handful of things utilities can't express cleanly ---- */
+
+  ::selection{background:var(--color-ink);color:var(--color-bone)}
+
+  a:focus-visible,button:focus-visible{
+    outline:2px solid var(--color-signal);outline-offset:3px;
+  }
+
+  /* film grain / scanline, felt not seen */
+  .grain{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .grain::after{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(to bottom,rgba(20,22,26,.05) 0 1px,transparent 1px 3px);
+    opacity:.35;
+  }
+
+  /* blinking block cursor */
+  .cursor{
+    display:inline-block;width:.62ch;height:1.05em;
+    background:currentColor;vertical-align:-.16em;margin-left:.05em;
+    animation:blink 1.05s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+
+  /* typed ether overlay states (class toggled from JS) */
+  #ether{text-shadow:0 0 1px rgba(230,234,227,.6)}
+  #ether.on-ink{color:var(--color-haze);opacity:.5}
+
+  /* cold-open white frame (class toggled from JS) */
+  #whiteframe.flash{opacity:1}
+
+  /* statement char-reveal: same glyphs, opacity only — zero layout shift */
+  .statement-lines .ch{opacity:1}
+  .statement-lines.armed .ch{opacity:0}
+  .statement-lines .ch.lit{opacity:1}
+
+  /* section grounds — multi-stop gradients stay readable as named classes */
+  .bg-hero{background:
+    radial-gradient(120% 90% at 78% 8%,rgba(196,210,208,.9) 0%,rgba(230,234,227,0) 55%),
+    linear-gradient(180deg,var(--color-paper) 0%,#EDEFE8 60%,var(--color-paper) 100%);}
+  .bg-statement{background:linear-gradient(160deg,#EDEFE9 0%,var(--color-sky) 130%);}
+  .bg-index{background:linear-gradient(180deg,var(--color-paper),#EAEDE6);}
+  .bg-off{background:
+    radial-gradient(90% 70% at 15% 20%,rgba(196,210,208,.6),transparent 60%),
+    linear-gradient(180deg,#EAEDE6,#EEF0EA);}
+
+  /* bleached CSS stand-in fields — SWAP with real photographs */
+  .field-1{background:
+    linear-gradient(200deg,#DFE6DF 0%,#C4D2D0 60%,#B9C9C4 100%),
+    radial-gradient(60% 50% at 70% 20%,rgba(255,255,255,.7),transparent 60%);
+    background-blend-mode:screen;}
+  .field-2{background:linear-gradient(160deg,#EEF0EA,#CDD8CF 90%);}
+  .field-3{background:
+    linear-gradient(180deg,#E9EDE7,#B8C9C3),
+    repeating-linear-gradient(90deg,rgba(85,112,79,.06) 0 2px,transparent 2px 7px);}
+  .field-4{background:linear-gradient(135deg,#DEE6DE,#C4D2D0 55%,#A9BDB6);}
+  .field-5{background:radial-gradient(80% 80% at 30% 30%,#EEF0EA,#C4D2D0 90%);}
+
+  /* reduced motion: kill typing + cold open, keep layout */
+  @media (prefers-reduced-motion:reduce){
+    .cursor{animation:none}
+    .statement-lines.armed .ch{opacity:1}
+    *{scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body class="m-0 bg-paper text-ink font-mono font-normal text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+
+<a class="absolute -left-[999px] top-0 z-[200] bg-ink text-bone px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#hero">Skip to content</a>
+<div class="grain fixed inset-0 z-[60] pointer-events-none opacity-[.04] mix-blend-multiply" aria-hidden="true"></div>
+
+<!-- ============ 00 · COLD OPEN (line text lives in COLD_OPEN_LINE, top of script) ============ -->
+<div id="coldopen" class="fixed inset-0 z-[120] bg-ink flex items-center justify-center p-8 motion-reduce:hidden" role="presentation">
+  <p class="m-0 text-haze text-[clamp(1rem,3.4vw,1.6rem)] tracking-[.02em] max-w-[34ch]"><span id="coldopen-text"></span><span class="cursor bg-bone" aria-hidden="true"></span></p>
+  <div class="absolute bottom-[1.4rem] inset-x-0 text-center text-bone/40 text-[.72rem] tracking-[.14em] uppercase">press any key to skip</div>
+</div>
+<div id="whiteframe" class="fixed inset-0 z-[130] bg-white opacity-0 pointer-events-none motion-reduce:hidden" aria-hidden="true"></div>
+
+<!-- ============ signature: persistent typed ether overlay (fragments in ETHER_FRAGMENTS, top of script) ============ -->
+<div id="ether" class="fixed z-40 pointer-events-none left-[clamp(1rem,4vw,3.5rem)] bottom-[clamp(1rem,5vh,3rem)] max-w-[80vw] md:max-w-[min(38ch,72vw)] text-ether opacity-35 text-[clamp(.72rem,1.5vw,.9rem)] leading-[1.55] tracking-[.01em] whitespace-pre-wrap transition-colors duration-200" aria-hidden="true"><span id="ether-text"></span><span class="cursor"></span></div>
+
+<main>
+  <!-- ============ 01 · HERO ============ -->
+  <section id="hero" class="bg-hero relative min-h-svh flex flex-col justify-center pt-[clamp(4rem,12vh,8rem)] pb-[clamp(3rem,8vh,6rem)] overflow-hidden" aria-label="Sunwoo F. Choi">
+    <div class="relative max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
+      <span class="absolute font-kr font-black text-haze opacity-[.22] md:opacity-[.28] text-[38vw] md:text-[clamp(9rem,34vw,26rem)] leading-[.8] tracking-[-0.02em] top-[-0.24em] right-[-0.06em] z-0 pointer-events-none select-none mix-blend-multiply whitespace-nowrap" data-slot="hero-ghost" aria-hidden="true">최선우</span>
+      <h1 class="relative z-[1] m-0 font-display font-normal uppercase tracking-[-0.03em] leading-[.86] text-[clamp(3.2rem,14.5vw,13rem)]" data-slot="hero-name">
+        <!-- tuned for two stacked lines of up to ~11 characters each; a same-length swap will not reflow -->
+        <span class="block">Sunwoo</span>
+        <span class="block">F. Choi</span>
+      </h1>
+      <p class="relative z-[1] mt-[clamp(1.6rem,4vw,2.6rem)] text-[clamp(.78rem,1.6vw,.95rem)]" data-slot="hero-meta">
+        <span class="text-ether font-medium">neuroscience</span> · <span class="text-ether font-medium">memory</span> · <span class="text-ether font-medium">computational psychiatry</span> — amherst college '30
+      </p>
+    </div>
+    <div class="absolute bottom-[clamp(1rem,4vh,2rem)] left-[clamp(1.1rem,5vw,4rem)] text-[.68rem] tracking-[.2em] uppercase opacity-40 z-[1]" aria-hidden="true">scroll ↓</div>
+  </section>
+
+  <!-- ============ 02 · STATEMENT (character-level reveal on scroll; static under reduced motion) ============ -->
+  <section id="statement" class="bg-statement min-h-[92svh] flex items-center py-[clamp(5rem,14vh,9rem)]" aria-label="Statement">
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
+      <div class="statement-lines text-[clamp(1.4rem,4.4vw,3rem)] leading-[1.26] tracking-[-0.015em] font-normal max-w-[24ch] text-ink" id="statement-lines">
+        <p class="m-0 mb-[.5em]" data-slot="statement-line-1">what you remember, you are remembering for the first time.</p>
+        <p class="m-0 mb-[.5em] text-ether" data-slot="statement-line-2">the day itself is gone. only the retelling stays.</p>
+        <p class="m-0 mb-[.5em]" data-slot="statement-line-3">and each retelling arrives already rewritten.</p>
+        <p class="m-0 mb-[.5em]" data-slot="statement-line-4">so what have you kept, and what have you rebuilt?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · WORK — six chronological entries ============ -->
+  <section id="work" class="py-[clamp(4.5rem,12vh,8rem)]" aria-label="Work">
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
+      <p class="text-[.7rem] tracking-[.24em] uppercase text-ether font-semibold m-0 mb-[1.4rem]"><span class="text-ink opacity-40">03 /</span> Work</p>
+
+      <div class="grid md:grid-cols-[5.5rem_1fr] gap-y-[.4rem] md:gap-y-0 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-rule">
+        <div class="font-display text-[clamp(1.4rem,4vw,2.2rem)] leading-none opacity-40 md:opacity-[.32] tracking-[.02em]" aria-hidden="true">01</div>
+        <div>
+          <h3 class="m-0 font-mono font-semibold text-[clamp(1.15rem,2.8vw,1.6rem)] tracking-[-0.01em] leading-[1.15]" data-slot="work-01-title">Eidola</h3>
+          <p class="mt-2 mb-0 text-ether font-medium text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span data-slot="work-01-role">Founder &amp; CMO</span><span class="text-ink opacity-50" data-slot="work-01-date">Feb 2026 — present · San Francisco</span></p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-01-prose-1">A voice-journaling and cognitive-mapping platform that builds a personal knowledge graph from ambient capture — the things you say, held before they scatter.</p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-01-prose-2">I built the brand identity and logo, wrote the manifesto — <em>Reality in the 21st Century</em> — and led the clinical work, grounded in memory-reconstruction research in mood disorders.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[5.5rem_1fr] gap-y-[.4rem] md:gap-y-0 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-rule">
+        <div class="font-display text-[clamp(1.4rem,4vw,2.2rem)] leading-none opacity-40 md:opacity-[.32] tracking-[.02em]" aria-hidden="true">02</div>
+        <div>
+          <h3 class="m-0 font-mono font-semibold text-[clamp(1.15rem,2.8vw,1.6rem)] tracking-[-0.01em] leading-[1.15]" data-slot="work-02-title">Boston University RISE</h3>
+          <p class="mt-2 mb-0 text-ether font-medium text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span data-slot="work-02-role">Student Researcher</span><span class="text-ink opacity-50" data-slot="work-02-date">Summer 2025 · Boston</span></p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-02-prose-1">Built a computational model of the mBDNF/proBDNF regulatory pathway using ordinary differential equations, Hill functions, and a deep graph neural network to model neuronal survival.</p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-02-prose-2">Also built a brain–computer interface from a commercial EEG rig and Arduino, accepted as a late-breaking abstract at the Society for Neuroscience conference in San Diego.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[5.5rem_1fr] gap-y-[.4rem] md:gap-y-0 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-rule">
+        <div class="font-display text-[clamp(1.4rem,4vw,2.2rem)] leading-none opacity-40 md:opacity-[.32] tracking-[.02em]" aria-hidden="true">03</div>
+        <div>
+          <h3 class="m-0 font-mono font-semibold text-[clamp(1.15rem,2.8vw,1.6rem)] tracking-[-0.01em] leading-[1.15]" data-slot="work-03-title">Cognitive Stimuli &amp; Adolescent Brain Function</h3>
+          <p class="mt-2 mb-0 text-ether font-medium text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span data-slot="work-03-role">Principal Investigator</span><span class="text-ink opacity-50" data-slot="work-03-date">2024 — 2025 · independent</span></p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-03-prose-1">Collected EEG data and administered a self-built 40-question N-back working-memory battery, comparing exercise against short-form video consumption.</p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-03-prose-2">Ran the statistical analysis on both the neural and the behavioral outcomes, tracking how working memory shifted across the two conditions.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[5.5rem_1fr] gap-y-[.4rem] md:gap-y-0 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-rule">
+        <div class="font-display text-[clamp(1.4rem,4vw,2.2rem)] leading-none opacity-40 md:opacity-[.32] tracking-[.02em]" aria-hidden="true">04</div>
+        <div>
+          <h3 class="m-0 font-mono font-semibold text-[clamp(1.15rem,2.8vw,1.6rem)] tracking-[-0.01em] leading-[1.15]" data-slot="work-04-title">Trends in Molecular Medicine</h3>
+          <p class="mt-2 mb-0 text-ether font-medium text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span data-slot="work-04-role">First Author</span><span class="text-ink opacity-50" data-slot="work-04-date">Cell Press · 2024 — 2025</span></p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-04-prose-1">“Beyond pluripotency: Yamanaka factors drive brain regeneration,” written with Professor Ruslan Rust of USC.</p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-04-prose-2">A meta-analysis of Yamanaka-factor-driven neural restoration in Alzheimer's disease.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[5.5rem_1fr] gap-y-[.4rem] md:gap-y-0 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-rule">
+        <div class="font-display text-[clamp(1.4rem,4vw,2.2rem)] leading-none opacity-40 md:opacity-[.32] tracking-[.02em]" aria-hidden="true">05</div>
+        <div>
+          <h3 class="m-0 font-mono font-semibold text-[clamp(1.15rem,2.8vw,1.6rem)] tracking-[-0.01em] leading-[1.15]" data-slot="work-05-title">Texas School Safety Center</h3>
+          <p class="mt-2 mb-0 text-ether font-medium text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span data-slot="work-05-role">Teen Ambassador</span><span class="text-ink opacity-50" data-slot="work-05-date">2025 — 2026</span></p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-05-prose-1">One of nine ambassadors selected across the state. Built an interactive web tool to help students recognize and understand depression.</p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-05-prose-2">Distributed it through Central Texas high schools, and gave a keynote on youth wellbeing.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[5.5rem_1fr] gap-y-[.4rem] md:gap-y-0 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-b border-rule">
+        <div class="font-display text-[clamp(1.4rem,4vw,2.2rem)] leading-none opacity-40 md:opacity-[.32] tracking-[.02em]" aria-hidden="true">06</div>
+        <div>
+          <h3 class="m-0 font-mono font-semibold text-[clamp(1.15rem,2.8vw,1.6rem)] tracking-[-0.01em] leading-[1.15]" data-slot="work-06-title">USC High School Neuroscience Journal Club</h3>
+          <p class="mt-2 mb-0 text-ether font-medium text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span data-slot="work-06-role">Organizer</span><span class="text-ink opacity-50" data-slot="work-06-date">2024 — 2026</span></p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-06-prose-1">Ran biweekly meetings for 60+ members alongside Professors Ruslan Rust and Charisse Winston.</p>
+          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90" data-slot="work-06-prose-2">Built the site, blog, and YouTube channel; organized 31 capstone projects and a webinar; brokered a partnership with Consensus AI.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 04 · TITLE CARD (BLACK, hard cut; --signal appears here, twice total on page) ============ -->
+  <section class="bg-ink text-bone min-h-svh flex flex-col justify-center px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,10vh,7rem)] overflow-hidden" id="card-04" aria-label="Research">
+    <div class="text-[.7rem] tracking-[.24em] uppercase text-haze flex justify-between gap-4 border-b border-bone/15 pb-[.9rem] mb-auto">
+      <span data-slot="card-04-meta-left">Registry · index</span>
+      <span class="text-signal">● rec</span>
+    </div>
+    <h2 class="font-display font-normal uppercase text-[19vw] md:text-[14vw] leading-[.82] tracking-[-0.03em] m-0" data-slot="card-04-word">Research</h2>
+    <div class="h-[3px] bg-signal w-[clamp(60px,10vw,140px)] mt-[1.4rem]" aria-hidden="true"></div>
+    <div class="mt-auto pt-[1.2rem] border-t border-bone/15 flex justify-between gap-4 flex-wrap text-[.72rem] tracking-[.1em] text-haze">
+      <span data-slot="card-04-foot-left">sixteen entries follow</span>
+      <span data-slot="card-04-foot-right">04 — 05</span>
+    </div>
+  </section>
+
+  <!-- ============ 05 · INDEX — 16-row registry ============ -->
+  <section id="index" class="bg-index py-[clamp(4.5rem,12vh,8rem)]" aria-label="Index of publications and honors">
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
+      <div class="flex justify-between items-baseline gap-4 border-b-2 border-ink pb-[.6rem] mb-[.2rem]">
+        <span class="text-[.7rem] tracking-[.24em] uppercase text-ether font-semibold" data-slot="index-head">Index — publications &amp; honors</span>
+        <span class="text-[.7rem] tracking-[.1em] opacity-40">16 entries</span>
+      </div>
+
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—01</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-01-title">ISEF Finalist &amp; Best of Fair</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-01-venue">Greater Austin SEF</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-01-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—02</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-02-title">The Gold Medal</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-02-venue">The Congressional Award</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-02-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—03</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-03-title">First Author, Trends in Molecular Medicine</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-03-venue">Cell Press</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-03-year">2024</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—04</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-04-title">Late-Breaking Abstract</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-04-venue">Society for Neuroscience</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-04-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—05</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-05-title">First Place, Research in Psychological Science</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-05-venue">APA</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-05-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—06</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-06-title">Health Innovation Award</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-06-venue">Dell Center for Healthy Living</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-06-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—07</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-07-title">Semifinalist</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-07-venue">Columbia Junior Science Journal</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-07-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—08</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-08-title">“FOXP2 and the Dorsal Striatum”</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-08-venue">Journal of Student Research</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-08-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—09</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-09-title">Silver Key</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-09-venue">Scholastic Art &amp; Writing</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-09-year">2023</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—10</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-10-title">Presidential Service Award, Gold</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-10-venue">President's Volunteer Service</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-10-year">2024</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—11</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-11-title">All-Region Cellist ×3, section leader</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-11-venue">TMEA</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-11-year">2024–26</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—12</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-12-title">Area Finalist, cello</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-12-venue">TMEA</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-12-year">—</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—13</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-13-title">Second Place</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-13-venue">National Orchestra Cup</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-13-year">2025</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—14</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-14-title">First Place, Honor Full Orchestra</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-14-venue">UIL Texas</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-14-year">—</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—15</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-15-title">Music Theory Gold Medal ×3</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-15-venue">UT Austin</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-15-year">—</span></div>
+      <div class="grid grid-cols-[3rem_1fr_4ch] md:grid-cols-[4rem_1fr_auto_4ch] gap-x-[1.2rem] gap-y-[.3rem] py-[.72rem] border-b border-rule items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.08em]" aria-hidden="true">R—16</span><span class="text-[.92rem] font-medium leading-[1.4]" data-slot="index-16-title">President — Neuroscience &amp; Neurodiversity Club</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-span-1 md:col-start-auto text-[.78rem] text-ether whitespace-nowrap text-left md:text-right" data-slot="index-16-venue">Westwood HS</span><span class="text-[.78rem] opacity-55 text-right tabular-nums" data-slot="index-16-year">2025–26</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 06 · OFF-RECORD — six items, 15–25 words each ============ -->
+  <section id="offrecord" class="bg-off py-[clamp(5rem,13vh,9rem)]" aria-label="Off-record">
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-[clamp(2rem,5vw,3.4rem)]">
+        <h2 class="font-display font-normal uppercase text-[clamp(2.6rem,9vw,6rem)] max-[420px]:text-[15vw] leading-[.85] tracking-[-0.03em] m-0" data-slot="off-head">Off-record</h2>
+        <p class="text-[.7rem] tracking-[.24em] uppercase text-ether font-semibold m-0"><span class="text-ink opacity-40">06 /</span> <span data-slot="off-eyebrow">the parts not in the index</span></p>
+      </div>
+
+      <div class="grid grid-cols-12 gap-[clamp(1.4rem,3vw,2rem)]">
+        <!-- SWAP: photograph one — large landscape plate (cello) -->
+        <figure class="relative overflow-hidden border border-rule flex flex-col justify-end p-[1.2rem] m-0 col-span-12 md:col-span-7 min-h-[clamp(220px,34vw,340px)]" role="img" aria-label="Placeholder for photograph one: cello.">
+          <div class="field-1 absolute inset-0 z-[1]" aria-hidden="true"></div>
+          <figcaption class="relative z-[2] text-[.82rem] leading-[1.5] max-w-[44ch]" data-slot="off-01-text"><b class="font-semibold">Cello.</b> Soloist with the school symphony, all-region three years running, section leader — the instrument I've spent the most hours alone in a room with.</figcaption>
+        </figure>
+
+        <!-- SWAP: photograph two — tall plate (piano) -->
+        <figure class="relative overflow-hidden border border-rule flex flex-col justify-end p-[1.2rem] m-0 col-span-12 md:col-span-5 min-h-[clamp(220px,34vw,340px)]" role="img" aria-label="Placeholder for photograph two: piano.">
+          <div class="field-2 absolute inset-0 z-[1]" aria-hidden="true"></div>
+          <figcaption class="relative z-[2] text-[.82rem] leading-[1.5] max-w-[44ch]" data-slot="off-02-text"><b class="font-semibold">Piano.</b> Freelance accompanist for whoever needs one — an admitted NYO '25 audition, a run of UIL solo competitions, other people's recitals.</figcaption>
+        </figure>
+
+        <!-- SWAP: photograph three — square plate (guitar) -->
+        <figure class="relative overflow-hidden border border-rule flex flex-col justify-end p-[1.2rem] m-0 col-span-12 sm:col-span-6 md:col-span-4 min-h-[200px] max-[420px]:min-h-[160px]" role="img" aria-label="Placeholder for photograph three: guitar.">
+          <div class="field-3 absolute inset-0 z-[1]" aria-hidden="true"></div>
+          <figcaption class="relative z-[2] text-[.82rem] leading-[1.5] max-w-[44ch]" data-slot="off-03-text"><b class="font-semibold">Guitar.</b> Self-taught, badly at first, mostly for myself. No competitions, no adjudicators — the one instrument nobody's ever graded me on.</figcaption>
+        </figure>
+
+        <!-- SWAP: photograph four — square plate (photography) -->
+        <figure class="relative overflow-hidden border border-rule flex flex-col justify-end p-[1.2rem] m-0 col-span-12 sm:col-span-6 md:col-span-4 min-h-[200px] max-[420px]:min-h-[160px]" role="img" aria-label="Placeholder for photograph four: photography.">
+          <div class="field-4 absolute inset-0 z-[1]" aria-hidden="true"></div>
+          <figcaption class="relative z-[2] text-[.82rem] leading-[1.5] max-w-[44ch]" data-slot="off-04-text"><b class="font-semibold">Photography.</b> I shoot for a creator with 250K+ followers and cut the video too. Most of what I keep for myself is overexposed and half out of focus.</figcaption>
+        </figure>
+
+        <!-- SWAP: photograph five — square plate (languages) -->
+        <figure class="relative overflow-hidden border border-rule flex flex-col justify-end p-[1.2rem] m-0 col-span-12 sm:col-span-6 md:col-span-4 min-h-[200px] max-[420px]:min-h-[160px]" role="img" aria-label="Placeholder for photograph five: languages.">
+          <div class="field-5 absolute inset-0 z-[1]" aria-hidden="true"></div>
+          <figcaption class="relative z-[2] text-[.82rem] leading-[1.5] max-w-[44ch]" data-slot="off-05-text"><b class="font-semibold">Languages.</b> Korean at home, Spanish by choice — the second one for bilingual book readings with pediatric patients at a community clinic in Austin.</figcaption>
+        </figure>
+
+        <p class="col-span-12 mt-[.6rem] mb-0 max-w-[56ch] text-ether text-[.95rem] leading-[1.7]" data-slot="off-06-text">
+          Film. Iwai, Anno, Sono Sion, Akira. I understood memory as an image that fades and gets redrawn long before I ever understood it as a science.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 · COLOPHON ============ -->
+  <section id="colophon" class="bg-ink text-bone min-h-svh flex flex-col justify-center px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,10vh,7rem)]" aria-label="Colophon and contact">
+    <div class="text-[.7rem] tracking-[.24em] uppercase text-haze flex justify-between gap-4 border-b border-bone/15 pb-[.9rem] mb-auto">
+      <span data-slot="colophon-meta-left">Colophon · end card</span>
+      <span data-slot="colophon-meta-right">07 / fin</span>
+    </div>
+    <h2 class="font-display font-normal uppercase text-[clamp(2.4rem,10vw,7rem)] leading-[.85] tracking-[-0.03em] m-0" data-slot="colophon-end">The rest is<br>reconstruction.</h2>
+    <!-- SWAP: replace both the href and the visible text with the real contact email -->
+    <p class="mt-[1.6rem] mb-0"><a class="text-[clamp(1.1rem,3.4vw,1.8rem)] no-underline border-b-2 border-haze pb-[.1rem] text-bone hover:border-signal" href="mailto:you@example.com" data-slot="colophon-contact">you@example.com</a></p>
+    <div class="mt-auto pt-[1.2rem] border-t border-bone/15 flex justify-between gap-x-8 gap-y-4 flex-wrap text-[.74rem] tracking-[.05em] text-haze">
+      <p class="m-0 max-w-[48ch] leading-[1.7]" data-slot="colophon-note">One hand-written HTML file. Anton and IBM Plex Mono, no frameworks, no build step — the typed overlay and the film grain do the rest.</p>
+      <p class="m-0 max-w-[48ch] leading-[1.7]" data-slot="colophon-sign">After <em>All About Lily Chou-Chou</em>, eidola.me, and <em>Neon Genesis Evangelion</em>. © 2026</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================================================================
+     CONTENT ARRAYS — the second pass edits these and the data-slot
+     nodes in the markup; nothing below the arrays needs touching.
+     ================================================================ */
+
+  /* 00 · cold open — one line, 8–12 words */
+  var COLD_OPEN_LINE = "you are about to read a reconstruction, not a record";
+
+  /* signature overlay — 12 fragments (write twelve, cut two to reach ten),
+     6–14 words each, lowercase, present tense, no exclamation points.
+     NOTE: SECTION_FRAGMENTS below points at fixed indices; if you delete
+     fragments, re-check those index numbers still land where you want. */
+  var ETHER_FRAGMENTS = [
+    "i keep a recording of a day i no longer remember",
+    "the fair was in march. i remember it in blue.",
+    "최선우, sunwoo, frank — three names for one person",
+    "the event happened once. the account keeps changing.",
+    "the eeg knows a signal i never felt",
+    "a file holds what it was given. a memory edits.",
+    "i read the trace back and it disagrees with me",
+    "every recall rewrites the thing it is recalling",
+    "i am the last person to trust about my own past",
+    "what i saved and what i remember are different files",
+    "the account comes after the event and takes its place",
+    "i remember the room. i think i invented the light."
+  ];
+
+  /* which fragment index to queue when each section scrolls into view */
+  var SECTION_FRAGMENTS = {
+    "statement": 1,
+    "work": 7,
+    "card-04": 5,
+    "index": 8,
+    "offrecord": 6,
+    "colophon": 3
+  };
+
+  /* sections whose ground is ink — overlay shifts to --haze over these */
+  var ON_INK = { "card-04": true, "colophon": true };
+
+  /* ================================================================
+     LOGIC — no content below this line
+     ================================================================ */
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 00 · cold open ---------- */
+  var cold = document.getElementById("coldopen");
+  var flash = document.getElementById("whiteframe");
+  var coldText = document.getElementById("coldopen-text");
+  var coldDone = false;
+
+  function endColdOpen(){
+    if(coldDone) return;
+    coldDone = true;
+    if(flash){
+      flash.classList.add("flash");            /* single white frame — hard cut */
+      setTimeout(function(){ flash.classList.remove("flash"); }, 90);
+    }
+    if(cold){ cold.style.display = "none"; }
+    document.removeEventListener("keydown", endColdOpen, true);
+    document.removeEventListener("pointerdown", endColdOpen, true);
+    document.removeEventListener("wheel", endColdOpen, true);
+    document.removeEventListener("touchstart", endColdOpen, true);
+    startEther();
+  }
+
+  if(reduce || !cold){
+    if(cold) cold.style.display = "none";
+    startEther();
+  } else {
+    document.addEventListener("keydown", endColdOpen, true);
+    document.addEventListener("pointerdown", endColdOpen, true);
+    document.addEventListener("wheel", endColdOpen, true);
+    document.addEventListener("touchstart", endColdOpen, true);
+    var ci = 0;
+    (function typeCold(){
+      if(coldDone) return;
+      if(ci <= COLD_OPEN_LINE.length){
+        coldText.textContent = COLD_OPEN_LINE.slice(0, ci);
+        ci++;
+        setTimeout(typeCold, 26);
+      } else {
+        setTimeout(endColdOpen, 520);          /* hold, then hard cut */
+      }
+    })();
+    setTimeout(endColdOpen, 1900);             /* hard ceiling: under 2s */
+  }
+
+  /* ---------- signature · persistent typed ether overlay ---------- */
+  var etherBox = document.getElementById("ether");
+  var etherText = document.getElementById("ether-text");
+  var etherStarted = false;
+  var queued = null;
+  var timer = null;
+
+  function pick(prev){
+    var i = Math.floor(Math.random()*ETHER_FRAGMENTS.length);
+    if(i === prev) i = (i+1) % ETHER_FRAGMENTS.length;
+    return i;
+  }
+
+  function startEther(){
+    if(etherStarted || !etherBox) return;
+    etherStarted = true;
+
+    if(reduce){
+      /* no typing: show one stable fragment */
+      etherText.textContent = "> " + ETHER_FRAGMENTS[0];
+      return;
+    }
+
+    var current = -1;
+    (function cycle(){
+      current = (queued !== null) ? queued : pick(current);
+      queued = null;
+      var line = "> " + ETHER_FRAGMENTS[current];
+      var k = 0;
+      (function type(){
+        if(k <= line.length){
+          etherText.textContent = line.slice(0,k);
+          k++;
+          timer = setTimeout(type, 42 + Math.random()*36);
+        } else {
+          timer = setTimeout(cycle, 4000);     /* hold, then next fragment */
+        }
+      })();
+    })();
+  }
+
+  /* ---------- 02 · statement — character-level reveal, no layout shift ----------
+     Each line is split into per-character spans (same glyphs, opacity only),
+     revealed sequentially when the section enters the viewport. The full
+     sentence stays available to assistive tech via aria-label. */
+  var stmt = document.getElementById("statement-lines");
+  var stmtPlayed = false;
+
+  function armStatement(){
+    if(!stmt || reduce) return;
+    var lines = stmt.querySelectorAll("p");
+    lines.forEach(function(p){
+      var text = p.textContent;
+      p.setAttribute("aria-label", text);
+      var frag = document.createDocumentFragment();
+      var holder = document.createElement("span");
+      holder.setAttribute("aria-hidden","true");
+      for(var i=0;i<text.length;i++){
+        var s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = text[i];
+        holder.appendChild(s);
+      }
+      frag.appendChild(holder);
+      p.textContent = "";
+      p.appendChild(frag);
+    });
+    stmt.classList.add("armed");
+  }
+
+  function playStatement(){
+    if(stmtPlayed || !stmt || reduce) return;
+    stmtPlayed = true;
+    var chars = stmt.querySelectorAll(".ch");
+    var i = 0;
+    (function step(){
+      if(i < chars.length){
+        chars[i].classList.add("lit");
+        i++;
+        setTimeout(step, 26);                  /* slow, character-level pace */
+      }
+    })();
+  }
+
+  armStatement();
+
+  /* ---------- section observation: fragment queueing + ink shift + statement ---------- */
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var id = e.target.id;
+          if(id in SECTION_FRAGMENTS) queued = SECTION_FRAGMENTS[id];
+          if(etherBox) etherBox.classList.toggle("on-ink", !!ON_INK[id]);
+          if(id === "statement") playStatement();
+        }
+      });
+    }, {threshold:0.5});
+    ["hero","statement","work","card-04","index","offrecord","colophon"].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) io.observe(el);
+    });
+  } else {
+    playStatement();
+  }
+})();
+</script>
+
+<!-- ================================================================
+     SLOT MANIFEST — the second pass is written against this list.
+     Format: slot id · section · expected length
+     Slots live on data-slot attributes unless marked JS.
+
+     00 · COLD OPEN
+       COLD_OPEN_LINE (JS const)        · 00 cold open   · 8–12 words
+
+     SIGNATURE OVERLAY
+       ETHER_FRAGMENTS (JS array, 12)   · overlay        · 6–14 words each, lowercase, present tense (cut two to reach ten)
+       SECTION_FRAGMENTS (JS map)       · overlay        · fragment index per section id
+
+     01 · HERO
+       hero-name                        · 01 hero        · 14–16 characters, three-part Latin name, two block spans
+       hero-ghost                       · 01 hero        · 3 Hangul glyphs
+       hero-meta                        · 01 hero        · ~10 words, three accent fields + institution line
+
+     02 · STATEMENT
+       statement-line-1                 · 02 statement   · 6–10 words
+       statement-line-2 (ether color)   · 02 statement   · 6–10 words
+       statement-line-3                 · 02 statement   · 6–10 words
+       statement-line-4                 · 02 statement   · 6–10 words
+
+     03 · WORK (six entries, chronological; NN = 01–06)
+       work-NN-title                    · 03 work        · 2–5 words
+       work-NN-role                     · 03 work        · 2–4 words
+       work-NN-date                     · 03 work        · date range
+       work-NN-prose-1                  · 03 work        · ~20 words
+       work-NN-prose-2                  · 03 work        · ~20 words
+
+     04 · TITLE CARD
+       card-04-word                     · 04 title card  · 1 word
+       card-04-meta-left                · 04 title card  · 2–3 words
+       card-04-foot-left                · 04 title card  · 2–5 words
+       card-04-foot-right               · 04 title card  · short marker
+
+     05 · INDEX (sixteen rows; NN = 01–16)
+       index-head                       · 05 index       · 3–5 words
+       index-NN-title                   · 05 index       · 4–8 words
+       index-NN-venue                   · 05 index       · 2–4 words (may be empty where source gives no body)
+       index-NN-year                    · 05 index       · year (— where source gives none)
+
+     06 · OFF-RECORD (six items)
+       off-head                         · 06 off-record  · 1–2 words
+       off-eyebrow                      · 06 off-record  · 3–6 words
+       off-01-text … off-05-text        · 06 off-record  · 15–25 words each (plate captions)
+       off-06-text                      · 06 off-record  · 15–25 words (closing note)
+       image plates                     · 06 off-record  · five SWAP comments mark photograph positions
+
+     07 · COLOPHON
+       colophon-end                     · 07 colophon    · 2–4 words, may break across two lines
+       colophon-contact                 · 07 colophon    · real email (SWAP comment above it; href too)
+       colophon-note                    · 07 colophon    · ~25 words
+       colophon-sign                    · 07 colophon    · short sign-off + year
+       colophon-meta-left / -right      · 07 colophon    · short markers
+     ================================================================ -->
+</body>
+</html>

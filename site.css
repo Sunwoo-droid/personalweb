@@ -1,0 +1,94 @@
+/* ================================================================
+   shared chrome — monochrome. all color comes from ink on paper
+   (or paper on ink, on inverted pages). no third color exists.
+   ================================================================ */
+
+::selection{background:#000;color:#fff}
+.inv ::selection{background:#fff;color:#000}
+
+a:focus-visible,button:focus-visible{
+  outline:2px solid currentColor;outline-offset:3px;
+}
+
+/* ---- film grain / scanline, felt not seen ---- */
+.grain{
+  position:fixed;inset:0;z-index:60;pointer-events:none;
+  opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.inv .grain{mix-blend-mode:screen;opacity:.08}
+/* dark ground: white scanlines, screened over pure black */
+.grain::after{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);
+  opacity:.35;
+}
+
+/* ---- blinking block cursor ---- */
+.cursor{
+  display:inline-block;width:.62ch;height:1.05em;
+  background:currentColor;vertical-align:-.16em;margin-left:.05em;
+  animation:blink 1.05s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+/* ---- hangul-typing elements: korean glyphs while scrambled ---- */
+.kr-live{font-family:"Nanum Gothic Coding","IBM Plex Mono",monospace!important}
+
+/* ---- home gateway: live scramble field, name, dive-in ---- */
+.field-wall{
+  position:absolute;inset:0;z-index:0;overflow:hidden;
+  pointer-events:none;user-select:none;
+  opacity:.62;
+  font-size:.72rem;line-height:1.6;letter-spacing:.04em;
+}
+.field-wall--dim{opacity:.5}
+/* fragments are point-anchored and scattered by the home script — never a grid */
+.field-wall .frag{position:absolute;transform:translate(-50%,-50%);white-space:nowrap}
+
+.name{text-wrap:balance}
+
+/* dive-in: sized like a field fragment, but a solid white highlight */
+.dive{
+  display:inline-block;background:#fff;color:#000;
+  font-family:"IBM Plex Mono",monospace;font-weight:500;
+  font-size:.72rem;line-height:2;letter-spacing:.04em;
+  padding:.1em .55em;text-decoration:none;
+}
+.dive:hover,.dive:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.dive .cursor{background:#000}
+
+/* ---- vertical korean titles (evangelion title-card treatment) ---- */
+.vtitle{
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:"Noto Serif KR",serif;font-weight:900;
+  letter-spacing:.08em;line-height:1;
+  user-select:none;
+}
+
+/* ---- manifesto wall (landing background texture) ---- */
+.manifesto-wall{
+  position:absolute;inset:-6% 0;z-index:0;overflow:hidden;
+  pointer-events:none;user-select:none;
+  opacity:.06;
+  font-size:.72rem;line-height:2.1;letter-spacing:.04em;
+  column-width:22ch;column-gap:4ch;
+  animation:wall-drift 90s linear infinite alternate;
+}
+.manifesto-wall p{margin:0 0 1.4em;break-inside:avoid}
+@keyframes wall-drift{to{transform:translateY(-3.5%)}}
+
+/* ---- off-record photo stand-ins: near-black panels, faint white texture ---- */
+.field-1{background:linear-gradient(200deg,#000 0%,#161616 60%,#0b0b0b 100%)}
+.field-2{background:linear-gradient(160deg,#040404,#151515 90%)}
+.field-3{background:linear-gradient(180deg,#0a0a0a,#171717),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px)}
+.field-4{background:linear-gradient(135deg,#050505,#171717 55%,#0b0b0b)}
+.field-5{background:radial-gradient(80% 80% at 30% 30%,#181818,#050505 90%)}
+
+/* ---- reduced motion: no typing, no drift, keep layout ---- */
+@media (prefers-reduced-motion:reduce){
+  .cursor{animation:none}
+  .manifesto-wall{animation:none}
+  *{scroll-behavior:auto!important}
+}

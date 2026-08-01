@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" class="inv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연락 [ CONTACT ] — Sunwoo F. Choi</title>
+<meta name="description" content="Contact Sunwoo 'Frank' Choi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-paper:   #FFFFFF;
+    --color-ink:     #000000;
+    --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-krserif:  "Noto Serif KR", serif;
+    --font-krmono:   "Nanum Gothic Coding", monospace;
+  }
+</style>
+<link rel="stylesheet" href="site.css">
+</head>
+<!-- inverted page: paper-on-ink. still strictly black/white. -->
+<body class="m-0 bg-ink text-paper font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+
+<a class="absolute -left-[999px] top-0 z-[200] bg-paper text-ink px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="border-b border-paper/20">
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[.72rem] tracking-[.12em]" aria-label="Site">
+    <a class="hover:bg-paper hover:text-ink px-1" href="index.html">[ 00 // HOME ]</a>
+    <a class="hover:bg-paper hover:text-ink px-1" href="projects.html">[ 01 // PROJECTS ]</a>
+    <a class="hover:bg-paper hover:text-ink px-1" href="off-record.html">[ 02 // OFF-RECORD ]</a>
+    <a class="bg-paper text-ink px-1" href="contact.html" aria-current="page">[ 03 // CONTACT ]</a>
+    <span class="ml-auto opacity-40 hidden sm:inline" aria-hidden="true">re:0043 // fin</span>
+  </nav>
+</header>
+
+<div class="fixed z-40 pointer-events-none left-[clamp(1rem,4vw,3.5rem)] bottom-[clamp(1rem,5vh,3rem)] max-w-[80vw] md:max-w-[min(38ch,72vw)] text-paper/45 text-[clamp(.72rem,1.5vw,.9rem)] leading-[1.55] tracking-[.01em] whitespace-pre-wrap" id="ether" aria-hidden="true"><span id="ether-text" class="font-krmono"></span><span class="cursor"></span></div>
+<div class="fixed z-40 pointer-events-none right-[clamp(1rem,4vw,3.5rem)] bottom-[clamp(1rem,5vh,3rem)] text-[.66rem] tracking-[.14em] opacity-35 tabular-nums" id="hud" aria-hidden="true"></div>
+
+<main id="main" class="relative min-h-[calc(100svh-3.2rem)] flex flex-col justify-center overflow-hidden">
+  <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,6rem)] relative">
+    <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-1/2 -translate-y-1/2 text-[clamp(4rem,20vw,14rem)] opacity-[.12]" aria-hidden="true">연락</span>
+
+    <p class="m-0 text-[.7rem] tracking-[.24em] opacity-50" aria-hidden="true">[ 03 // END ]</p>
+    <h1 class="m-0 mt-3 font-sans font-bold tracking-[.02em] leading-[1] text-[clamp(2.6rem,11vw,7rem)]">[&nbsp;CONTACT&nbsp;]</h1>
+    <p class="mt-5 mb-0 max-w-[46ch] text-[clamp(1rem,2.4vw,1.4rem)] leading-[1.5]" data-krtype data-speed="16">say it before you forget. the account arrives late, but it arrives.</p>
+
+    <!-- SWAP: replace both the href and the visible text with the real contact email -->
+    <p class="mt-[clamp(2rem,6vh,3.5rem)] mb-0">
+      <a class="inline-block font-sans font-bold no-underline text-[clamp(1.2rem,4vw,2.4rem)] border-b-2 border-paper/60 hover:border-paper pb-1" href="mailto:you@example.com">[ you@example.com ]</a>
+    </p>
+
+    <ul class="mt-[clamp(2rem,5vh,3rem)] mb-0 p-0 list-none grid gap-y-2 text-[.85rem] tracking-[.06em]">
+      <li>[ LOC ] <span class="opacity-60">// Austin, TX → Amherst, MA</span></li>
+      <li>[ GEO ] <span class="opacity-60">// 30.2672N 97.7431W → 42.3732N 72.5199W</span></li>
+      <li>[ LANG ] <span class="opacity-60">// KR fluent // ES proficient // EN</span></li>
+      <li>[ RE ] <span class="opacity-60">// 0043 — reality in the 21st century</span></li>
+    </ul>
+  </div>
+
+  <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-2">
+    <p class="m-0 max-w-[64ch] text-[.72rem] leading-[1.7] opacity-45">
+      Built by hand — four static HTML pages, IBM Plex Mono and Noto Serif KR, Tailwind for layout, no other frameworks. The typing scrambles English through a Dubeolsik keyboard before it resolves. After <em>All About Lily Chou-Chou</em>, eidola.me, and <em>Neon Genesis Evangelion</em>.
+    </p>
+  </div>
+</main>
+
+<footer class="border-t border-paper/20">
+  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-4 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.66rem] tracking-[.12em] opacity-50">
+    <span>[ sunwoo // frank // choi ]</span>
+    <span aria-hidden="true">03 — fin — © 2026</span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

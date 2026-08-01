@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en" class="inv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>최선우 — Sunwoo F. Choi</title>
+<meta name="description" content="Sunwoo 'Frank' Choi — neuroscience, memory, computational psychiatry. Amherst College '30.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-paper:   #000000;
+    --color-ink:     #FFFFFF;
+    --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-krserif:  "Noto Serif KR", serif;
+    --font-krmono:   "Nanum Gothic Coding", monospace;
+  }
+</style>
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+
+<a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#enter">Skip to entry</a>
+<div class="grain" aria-hidden="true"></div>
+
+<main id="main">
+  <!-- ============ HERO — name over a live scramble field of the record ============ -->
+  <section id="hero" class="relative min-h-svh flex items-center justify-center overflow-hidden px-[clamp(1.1rem,5vw,4rem)]">
+    <!-- background field: achievements / projects / institutions / subjects, populated + scrambled by the home script -->
+    <div id="field" class="field-wall" aria-hidden="true"></div>
+
+    <h1 class="name relative z-10 text-center font-sans font-bold text-ink text-[clamp(2rem,9vw,6.5rem)] tracking-[.02em] leading-[1.04]">&lt;&lt;&nbsp;SUNWOO F. CHOI&nbsp;&gt;&gt;</h1>
+
+    <a href="#enter" class="absolute bottom-[clamp(1.2rem,5vh,2.5rem)] left-1/2 -translate-x-1/2 z-10 text-[.68rem] tracking-[.24em] uppercase opacity-50 no-underline hover:opacity-90">scroll ↓</a>
+  </section>
+
+  <!-- ============ ENTER — one field line resolves to the highlighted CTA ============ -->
+  <section id="enter" class="relative min-h-svh flex items-center justify-center overflow-hidden px-[clamp(1.1rem,5vw,4rem)]">
+    <div id="field2" class="field-wall field-wall--dim" aria-hidden="true"></div>
+    <a id="divein" href="projects.html" class="dive relative z-10" aria-label="dive in — enter the site">dive in</a>
+  </section>
+</main>
+
+<script src="site.js"></script>
+<script>
+/* ================================================================
+   home gateway behavior — a live field of the record (no reflections)
+   that types/scrambles at random, plus the dive-in CTA that resolves
+   on scroll. reuses window.KR (the scramble engine) from site.js.
+   ================================================================ */
+(function(){
+  "use strict";
+  var KR = window.KR || {};
+  var reduce = (KR.reduce != null) ? KR.reduce
+             : (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* the wall content: achievements, projects, institutions, subjects */
+  var FIELD = [
+    /* institutions */
+    "Amherst College","Boston University RISE","USC","Cell Press",
+    "Trends in Molecular Medicine","Texas School Safety Center",
+    "Society for Neuroscience","Dell Center for Healthy Living",
+    "People's Community Clinic","Westwood High School",
+    /* projects */
+    "Eidola","mBDNF / proBDNF model","deep graph neural network",
+    "brain–computer interface","EEG + Arduino","40-question N-back battery",
+    "Yamanaka factors","brain regeneration","depression web tool",
+    "USC Neuroscience Journal Club","personal knowledge graph","voice journaling",
+    /* achievements */
+    "ISEF Finalist","Best of Fair","Congressional Award Gold","APA — 1st Place",
+    "Health Innovation Award","SfN Late-Breaking Abstract","Columbia JSJ Semifinalist",
+    "Scholastic Silver Key","Presidential Service Gold","All-Region Cellist ×3",
+    "TMEA Area Finalist","National Orchestra Cup","UIL Honor Orchestra",
+    "Music Theory Gold ×3","First Author",
+    /* subjects */
+    "neuroscience","autobiographical memory","computational psychiatry",
+    "event segmentation","fuzzy-trace theory","reward prediction error",
+    "rumination","memory reconstruction","EEG analysis","graph neural networks",
+    "ODE modeling","Python / C++ / JS","Korean · Spanish · English"
+  ];
+
+  function rand(){ return FIELD[Math.floor(Math.random()*FIELD.length)]; }
+
+  function shuffle(a){
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  /* one fragment: scramble in (calm), hold a good while, clear, wait dark, repeat.
+     one scramble per appearance + long holds = no constant glitching. */
+  function dutyCycle(el){
+    if(reduce || !KR.krType){ el.textContent = rand(); return; }   /* static, no motion */
+    function show(){
+      KR.krType(el, rand(), 30 + Math.random()*26, 300, function(){
+        setTimeout(function(){
+          el.textContent = "";                               /* clear (go dark) */
+          setTimeout(show, 2000 + Math.random()*3000);       /* stay dark a while */
+        }, 2200 + Math.random()*2800);                       /* stay visible, calm */
+      });
+    }
+    setTimeout(show, Math.random()*4000);
+  }
+
+  /* scatter a SPARSE set of fragments across a jittered grid, leaving a clear
+     central zone (a band for the name / a small box for the dive-in) so nothing overlaps. */
+  function scatterField(container, cols, rows, fill, exX, exY){
+    if(!container) return;
+    var mX = 0.06, mY = 0.10, slots = [];
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var x = mX + (c+0.5)/cols*(1-2*mX);
+        var y = mY + (r+0.5)/rows*(1-2*mY);
+        if(Math.abs(x-0.5) < exX && Math.abs(y-0.5) < exY) continue;   /* keep the clear zone empty */
+        slots.push({ x:x, y:y });
+      }
+    }
+    shuffle(slots);
+    var n = Math.round(slots.length * fill);
+    for(var i=0;i<n;i++){
+      var p = slots[i];
+      var el = document.createElement("span");
+      el.className = "frag";
+      el.style.left = ((p.x + (Math.random()-0.5)/cols*0.5)*100).toFixed(2) + "%";
+      el.style.top  = ((p.y + (Math.random()-0.5)/rows*0.5)*100).toFixed(2) + "%";
+      container.appendChild(el);
+      dutyCycle(el);
+    }
+  }
+
+  /* hero: clear a full-width central band for the big name (exX 0.5 spans the width).
+     enter: clear a small central box so the dive-in fragment stands alone. */
+  scatterField(document.getElementById("field"),  7, 7, 0.60, 0.5,  0.16);
+  scatterField(document.getElementById("field2"), 8, 7, 0.42, 0.16, 0.12);
+
+  /* dive-in: a highlighted line that scrambles/types itself out when scrolled into view */
+  var dive  = document.getElementById("divein");
+  var enter = document.getElementById("enter");
+  if(dive){
+    if(reduce || !KR.krType || !("IntersectionObserver" in window)){
+      dive.textContent = "dive in";           /* stays static, still routes on click */
+    } else {
+      var played = false;
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !played){
+            played = true;
+            KR.krType(dive, "dive in", 62, 220, null);
+          }
+        });
+      }, { threshold: 0.6 });
+      io.observe(enter);
+    }
+  }
+})();
+</script>
+</body>
+</html>
