@@ -33,13 +33,13 @@
 
     <h1 class="name relative z-10 text-center font-sans font-bold text-ink text-[clamp(2rem,9vw,6.5rem)] tracking-[.02em] leading-[1.04]">&lt;&lt;&nbsp;SUNWOO F. CHOI&nbsp;&gt;&gt;</h1>
 
-    <a href="#enter" class="absolute bottom-[clamp(1.2rem,5vh,2.5rem)] left-1/2 -translate-x-1/2 z-10 text-[.68rem] tracking-[.24em] uppercase opacity-50 no-underline hover:opacity-90">scroll ↓</a>
+    <a href="#enter" id="scrollcue" class="absolute bottom-[clamp(1.2rem,5vh,2.5rem)] left-1/2 -translate-x-1/2 z-10 text-[.68rem] tracking-[.24em] uppercase opacity-50 no-underline hover:opacity-90 transition-opacity duration-500">scroll ↓</a>
   </section>
 
   <!-- ============ ENTER — one field line resolves to the highlighted CTA ============ -->
   <section id="enter" class="relative min-h-svh flex items-center justify-center overflow-hidden px-[clamp(1.1rem,5vw,4rem)]">
     <div id="field2" class="field-wall field-wall--dim" aria-hidden="true"></div>
-    <a id="divein" href="projects.html" class="dive relative z-10" aria-label="dive in — enter the site">dive in</a>
+    <a id="divein" href="projects.html" class="dive absolute -translate-y-1/2 z-10" aria-label="dive in — enter the site">dive in</a>
   </section>
 </main>
 
@@ -89,30 +89,46 @@
   }
 
   /* one fragment: scramble in (calm), hold a good while, clear, wait dark, repeat.
-     one scramble per appearance + long holds = no constant glitching. */
+     one scramble per appearance + long holds = no constant glitching.
+     every duration is drawn per-cycle from a wide range, and the initial phase
+     spans a whole cycle, so fragments never fall into synchronized waves.
+     a global budget keeps at most MAX_LIVE fragments lit at any moment. */
+  var MAX_LIVE = 25, live = 0;
   function dutyCycle(el){
-    if(reduce || !KR.krType){ el.textContent = rand(); return; }   /* static, no motion */
+    if(reduce || !KR.krType){                                /* static, no motion */
+      if(live < MAX_LIVE){ live++; el.textContent = rand(); }
+      return;
+    }
     function show(){
-      KR.krType(el, rand(), 30 + Math.random()*26, 300, function(){
+      if(live >= MAX_LIVE){                                  /* budget full — stay dark, retry */
+        setTimeout(show, 700 + Math.random()*1500);
+        return;
+      }
+      live++;
+      KR.krType(el, rand(), 20 + Math.random()*42, 300, function(){
         setTimeout(function(){
           el.textContent = "";                               /* clear (go dark) */
-          setTimeout(show, 2000 + Math.random()*3000);       /* stay dark a while */
-        }, 2200 + Math.random()*2800);                       /* stay visible, calm */
+          live--;
+          setTimeout(show, 1400 + Math.random()*7000);       /* stay dark a while */
+        }, 1600 + Math.random()*5400);                       /* stay visible, calm */
       });
     }
-    setTimeout(show, Math.random()*4000);
+    setTimeout(show, Math.random()*10000);
   }
 
-  /* scatter a SPARSE set of fragments across a jittered grid, leaving a clear
-     central zone (a band for the name / a small box for the dive-in) so nothing overlaps. */
-  function scatterField(container, cols, rows, fill, exX, exY){
+  /* fragments follow fixed columns, like a terminal readout: every fragment
+     left-aligns to its column's edge and is clipped to the column's width,
+     each column owns its own row slots — so nothing overlaps or clumps.
+     only a small vertical jitter per slot keeps rows from reading as a table. */
+  var mX = 0.05, mY = 0.10;
+  function scatterField(container, cols, rows, fill, skip){
     if(!container) return;
-    var mX = 0.06, mY = 0.10, slots = [];
-    for(var r=0;r<rows;r++){
-      for(var c=0;c<cols;c++){
-        var x = mX + (c+0.5)/cols*(1-2*mX);
+    var colW = (1-2*mX)/cols, slots = [];
+    for(var c=0;c<cols;c++){
+      var x = mX + c*colW;                     /* column left edge */
+      for(var r=0;r<rows;r++){
         var y = mY + (r+0.5)/rows*(1-2*mY);
-        if(Math.abs(x-0.5) < exX && Math.abs(y-0.5) < exY) continue;   /* keep the clear zone empty */
+        if(skip && skip(x, y)) continue;       /* reserved slots stay empty */
         slots.push({ x:x, y:y });
       }
     }
@@ -122,17 +138,48 @@
       var p = slots[i];
       var el = document.createElement("span");
       el.className = "frag";
-      el.style.left = ((p.x + (Math.random()-0.5)/cols*0.5)*100).toFixed(2) + "%";
-      el.style.top  = ((p.y + (Math.random()-0.5)/rows*0.5)*100).toFixed(2) + "%";
+      el.style.left = (p.x*100).toFixed(2) + "%";
+      el.style.top  = ((p.y + (Math.random()-0.5)/rows*0.35)*100).toFixed(2) + "%";
+      el.style.maxWidth = ((colW - 0.015)*100).toFixed(2) + "%";   /* stay inside the column */
       container.appendChild(el);
       dutyCycle(el);
     }
   }
 
-  /* hero: clear a full-width central band for the big name (exX 0.5 spans the width).
-     enter: clear a small central box so the dive-in fragment stands alone. */
-  scatterField(document.getElementById("field"),  7, 7, 0.60, 0.5,  0.16);
-  scatterField(document.getElementById("field2"), 8, 7, 0.42, 0.16, 0.12);
+  /* hero: fragments dot the entire background; the name overlays on top (z-10 over z-0). */
+  scatterField(document.getElementById("field"), 5, 9, 0.60, null);
+
+  /* enter: the dive-in claims a random slot roughly in the middle of the grid —
+     aligned to a column axis like any fragment — and that slot is reserved
+     so no background fragment can ever spawn under it. */
+  (function(){
+    var cols = 5, rows = 9, colW = (1-2*mX)/cols;
+    var mid = [];
+    for(var c=1;c<=3;c++){
+      for(var r=3;r<=5;r++){
+        mid.push({ x: mX + c*colW, y: mY + (r+0.5)/rows*(1-2*mY) });
+      }
+    }
+    var dslot = mid[Math.floor(Math.random()*mid.length)];
+    var diveEl = document.getElementById("divein");
+    if(diveEl){
+      diveEl.style.left = (dslot.x*100).toFixed(2) + "%";
+      diveEl.style.top  = (dslot.y*100).toFixed(2) + "%";
+    }
+    scatterField(document.getElementById("field2"), cols, rows, 0.42, function(x, y){
+      return Math.abs(x - dslot.x) < 1e-6 && Math.abs(y - dslot.y) < 1e-6;
+    });
+  })();
+
+  /* scroll cue: fade out as soon as the user starts scrolling, back if they return to top */
+  var cue = document.getElementById("scrollcue");
+  if(cue){
+    window.addEventListener("scroll", function(){
+      var away = window.scrollY > 40;
+      cue.style.opacity = away ? "0" : "";
+      cue.style.pointerEvents = away ? "none" : "";
+    }, { passive: true });
+  }
 
   /* dive-in: a highlighted line that scrambles/types itself out when scrolled into view */
   var dive  = document.getElementById("divein");
@@ -141,12 +188,15 @@
     if(reduce || !KR.krType || !("IntersectionObserver" in window)){
       dive.textContent = "dive in";           /* stays static, still routes on click */
     } else {
-      var played = false;
+      /* retrigger on every arrival: blank while off-screen, scramble in each time */
+      var playing = false;
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
-          if(e.isIntersecting && !played){
-            played = true;
-            KR.krType(dive, "dive in", 62, 220, null);
+          if(e.isIntersecting && !playing){
+            playing = true;
+            KR.krType(dive, "dive in", 62, 220, function(){ playing = false; });
+          } else if(!e.isIntersecting && !playing){
+            dive.textContent = "";
           }
         });
       }, { threshold: 0.6 });

@@ -43,8 +43,8 @@ a:focus-visible,button:focus-visible{
   font-size:.72rem;line-height:1.6;letter-spacing:.04em;
 }
 .field-wall--dim{opacity:.5}
-/* fragments are point-anchored and scattered by the home script — never a grid */
-.field-wall .frag{position:absolute;transform:translate(-50%,-50%);white-space:nowrap}
+/* fragments left-align to column edges set by the home script; clipped to their column */
+.field-wall .frag{position:absolute;transform:translateY(-50%);white-space:nowrap;overflow:hidden;text-align:left}
 
 .name{text-wrap:balance}
 
