@@ -80,21 +80,33 @@
   }
   if(queue.length) runQueue(0);
 
-  /* ---- persistent ether overlay: same trick, cycling fragments ---- */
+  /* ---- persistent ether overlay: same trick, cycling fragments ----
+     the lines are from eidola.me/manifesto — the same set the eidola
+     landing page types onto its background. shared with the home field
+     via KR.FRAGMENTS so the copy is defined once. */
   var ETHER_FRAGMENTS = [
-    "i keep a recording of a day i no longer remember",
-    "the fair was in march. i remember it in blue.",
-    "sunwoo, frank, choi — three names for one person",
-    "the event happened once. the account keeps changing.",
-    "the eeg knows a signal i never felt",
-    "a file holds what it was given. a memory edits.",
-    "i read the trace back and it disagrees with me",
-    "every recall rewrites the thing it is recalling",
-    "i am the last person to trust about my own past",
-    "what i saved and what i remember are different files",
-    "the account comes after the event and takes its place",
-    "i remember the room. i think i invented the light."
+    "Memory makes you who you are.",
+    "The fear of AI is only the exacerbation of a fear that has been with us since the beginning of time: Human Error.",
+    "Human Error is a euphemism for forgetting.",
+    "All human errors result from forgetting.",
+    "Memory is reconstructed upon recall.",
+    "Forgetting leads to distortion which causes inaccurate views of oneself.",
+    "We do not know ourselves.",
+    "When we communicate with others, information is transferred in chunks.",
+    "It may contain a lot, but it cannot contain everything.",
+    "Information transfer is always limited.",
+    "The very idea of individuals, distinct and separate, requires loss of information.",
+    "Our thoughts themselves are being outsourced.",
+    "Large Language Models are external to us.",
+    "The closer the moment of recall is to the moment of event, the less the distortion.",
+    "Crystallizing a thought at the moment of occurrence minimizes the forgetting.",
+    "A comprehensive repository for an individual.",
+    "The internal thought repository and the external experience repository go hand in hand.",
+    "It improves an individual’s sense of self.",
+    "At that point, the bucket becomes an individual’s entire brain.",
+    "As we continue to build technology into its final form."
   ];
+  window.KR.FRAGMENTS = ETHER_FRAGMENTS;
 
   var etherText = document.getElementById("ether-text");
   if(etherText){
