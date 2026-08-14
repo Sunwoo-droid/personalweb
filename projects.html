@@ -18,7 +18,7 @@
     --font-krmono:   "Nanum Gothic Coding", monospace;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=4">
+<link rel="stylesheet" href="site.css?v=5">
 </head>
 <body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
 
@@ -50,32 +50,41 @@
   </section>
 
   <!-- ============ WORK ============ -->
-  <!-- [01] EIDOLA — header, then a full-screen demo video, then the description -->
-  <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pt-[clamp(3rem,8vh,6rem)]">
-    <article class="grid md:grid-cols-[6rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-ink/25">
-      <div class="font-krserif font-black text-[clamp(1.8rem,5vw,2.8rem)] leading-none opacity-25" aria-hidden="true">[01]</div>
-      <div>
-        <h2 class="m-0 font-sans font-bold text-[clamp(1.2rem,2.8vw,1.7rem)] leading-[1.15]">[ EIDOLA ]</h2>
-        <p class="mt-2 mb-0 text-[.9rem] flex flex-wrap gap-x-4 gap-y-1"><span class="font-medium">Founder &amp; CMO</span><span class="opacity-50">Feb 2026 — present // San Francisco</span></p>
-      </div>
-    </article>
-  </section>
+  <!-- [01] EIDOLA — a pinned looping film; the title, then the description,
+       ride over it as you scroll. the button opens the demo reel. -->
+  <section id="eidola-stage" class="relative h-[240svh]" aria-label="Eidola">
+    <div class="sticky top-0 h-svh w-full overflow-hidden">
+      <video id="eidola-loop" class="absolute inset-0 w-full h-full object-cover" src="eidolaloop.mp4" poster="eidolaloop-poster.jpg"
+             autoplay muted loop playsinline preload="metadata" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+      <div id="eidola-scrim" class="absolute inset-0 bg-black/25 pointer-events-none"></div>
 
-  <!-- full-bleed demo video: fills the viewport as you scroll into it -->
-  <section class="relative w-full h-svh" aria-label="Eidola — demo video">
-    <iframe class="absolute inset-0 w-full h-full border-0" src="https://drive.google.com/file/d/1myHo4UtFfQbz2FqtPkXLXN0JqF9yYy0Z/preview" title="Eidola — demo video" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <!-- screen one: the title card -->
+      <div id="eidola-title" class="absolute inset-0 flex flex-col items-center justify-center text-center px-[clamp(1.1rem,5vw,4rem)]">
+        <p class="m-0 text-[.7rem] tracking-[.24em]"><span class="hl">[ 01 // EIDOLA ]</span></p>
+        <h2 class="m-0 mt-4 font-sans font-bold tracking-[.02em] leading-[1.12] text-[clamp(2.2rem,9vw,5.5rem)]"><span class="hl">[&nbsp;EIDOLA&nbsp;]</span></h2>
+        <p class="m-0 mt-4 text-[.82rem] tracking-[.08em]"><span class="hl">Founder &amp; CMO&nbsp;&nbsp;//&nbsp;&nbsp;Feb 2026 — present</span></p>
+        <p class="m-0 mt-8">
+          <button type="button" id="demo-open" class="playbtn">
+            <span class="playbtn__tri" aria-hidden="true"></span>Play the demo
+          </button>
+        </p>
+      </div>
+
+      <!-- screen two: the description, overlaid as you scroll -->
+      <div id="eidola-desc" class="absolute inset-0 flex items-center px-[clamp(1.1rem,5vw,4rem)] opacity-0">
+        <div class="max-w-[1180px] mx-auto w-full grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-y-6 md:gap-x-[clamp(2rem,6vw,5rem)] items-start">
+          <h3 class="m-0 font-sans font-bold leading-[1.15] text-[clamp(1.5rem,4.2vw,2.6rem)]"><span class="hl">Held before they scatter</span></h3>
+          <div>
+            <p class="m-0 text-[clamp(.9rem,1.5vw,1.05rem)] leading-[1.75]"><span class="hl">A voice-journaling and cognitive-mapping platform that builds a personal knowledge graph from ambient capture — the things you say, held before they scatter.</span></p>
+            <p class="m-0 mt-[.9rem] text-[clamp(.9rem,1.5vw,1.05rem)] leading-[1.75]"><span class="hl">I built the brand identity and logo, wrote the manifesto — <em>Reality in the 21st Century</em> — and led the clinical work, grounded in memory-reconstruction research in mood disorders.</span></p>
+            <p class="m-0 mt-[1.4rem]"><a class="inline-block bg-ink text-paper text-[.78rem] tracking-[.14em] px-2 py-1 no-underline hover:opacity-80" href="https://eidola.me/manifesto">[ READ THE MANIFESTO → ]</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(3rem,8vh,6rem)]">
-
-    <article class="grid md:grid-cols-[6rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)]">
-      <div aria-hidden="true"></div>
-      <div>
-        <p class="mt-0 mb-0 max-w-[66ch] text-[.95rem] opacity-90">A voice-journaling and cognitive-mapping platform that builds a personal knowledge graph from ambient capture — the things you say, held before they scatter.</p>
-        <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] opacity-90">I built the brand identity and logo, wrote the manifesto — <em>Reality in the 21st Century</em> — and led the clinical work, grounded in memory-reconstruction research in mood disorders.</p>
-        <p class="mt-[1.2rem] mb-0"><a class="inline-block text-[.78rem] tracking-[.14em] border border-ink/40 px-2 py-1 no-underline hover:bg-ink hover:text-paper" href="https://eidola.me/manifesto">[ READ THE MANIFESTO → ]</a></p>
-      </div>
-    </article>
 
     <article class="grid md:grid-cols-[6rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)] py-[clamp(1.8rem,4vw,2.8rem)] border-t border-ink/25">
       <div class="font-krserif font-black text-[clamp(1.8rem,5vw,2.8rem)] leading-none opacity-25" aria-hidden="true">[02]</div>
@@ -164,6 +173,102 @@
   </div>
 </footer>
 
+<!-- demo reel: loads only when opened, unloads on close so it stops playing -->
+<div id="demo-modal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/92 p-[clamp(.8rem,4vw,3rem)]" role="dialog" aria-modal="true" aria-label="Eidola — demo video">
+  <button type="button" id="demo-close" class="absolute top-[clamp(.8rem,3vw,2rem)] right-[clamp(.8rem,3vw,2rem)] bg-ink text-paper text-[.72rem] tracking-[.14em] px-2 py-1">[ CLOSE ✕ ]</button>
+  <div class="w-full max-w-[1180px] aspect-video">
+    <iframe id="demo-frame" class="w-full h-full border-0" src="" title="Eidola — demo video" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
 <script src="site.js?v=2"></script>
+<script>
+/* ================================================================
+   eidola stage — the loop stays pinned while the title card fades
+   out and the description rides in over it, then the demo reel
+   opens in a lightbox. no library; one rAF-throttled scroll read.
+   ================================================================ */
+(function(){
+  "use strict";
+  var DEMO_SRC = "https://drive.google.com/file/d/1myHo4UtFfQbz2FqtPkXLXN0JqF9yYy0Z/preview";
+  var reduce = (window.KR && window.KR.reduce != null) ? window.KR.reduce
+             : (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* ---- the loop: poster only when the visitor asked for less motion ---- */
+  var loop = document.getElementById("eidola-loop");
+  if(loop && reduce){ loop.removeAttribute("autoplay"); loop.pause(); }
+
+  /* ---- crossfade driven by how far we are through the pinned section ---- */
+  var stage = document.getElementById("eidola-stage"),
+      title = document.getElementById("eidola-title"),
+      desc  = document.getElementById("eidola-desc"),
+      scrim = document.getElementById("eidola-scrim");
+
+  function ramp(p, a, b){ return Math.min(1, Math.max(0, (p-a)/(b-a))); }
+
+  if(stage && title && desc && scrim){
+    var queued = false;
+    function paint(){
+      queued = false;
+      var r = stage.getBoundingClientRect();
+      var travel = r.height - window.innerHeight;
+      if(travel <= 0) return;
+      var p = Math.min(1, Math.max(0, -r.top / travel));
+
+      /* a dead zone between the two: the title is fully gone — the film
+         alone on screen — before the description starts arriving */
+      var out = ramp(p, 0.05, 0.28);          /* title card leaves */
+      var into = ramp(p, 0.40, 0.60);         /* description arrives */
+      title.style.opacity = String(1 - out);
+      title.style.transform = "translateY(" + (-24*out).toFixed(1) + "px)";
+      title.style.pointerEvents = (1-out) < 0.15 ? "none" : "";   /* stays clickable while it reads as visible */
+      desc.style.opacity = String(into);
+      desc.style.transform = "translateY(" + (28*(1-into)).toFixed(1) + "px)";
+      desc.style.pointerEvents = into > 0.5 ? "" : "none";
+      scrim.style.background = "rgba(0,0,0," + (0.22 + 0.4*into).toFixed(3) + ")";  /* film sinks back as you read */
+    }
+    function onScroll(){
+      if(queued) return;
+      queued = true;
+      window.requestAnimationFrame(paint);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    paint();
+  }
+
+  /* ---- demo reel lightbox ---- */
+  var modal = document.getElementById("demo-modal"),
+      frame = document.getElementById("demo-frame"),
+      openBtn = document.getElementById("demo-open"),
+      closeBtn = document.getElementById("demo-close");
+
+  function openDemo(){
+    if(!modal) return;
+    frame.src = DEMO_SRC;
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    if(loop) loop.pause();
+    closeBtn.focus();
+  }
+  function closeDemo(){
+    if(!modal) return;
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    frame.src = "";                       /* unload: stops playback for good */
+    document.body.style.overflow = "";
+    if(loop && !reduce) loop.play().catch(function(){});
+    if(openBtn) openBtn.focus();
+  }
+
+  if(openBtn)  openBtn.addEventListener("click", openDemo);
+  if(closeBtn) closeBtn.addEventListener("click", closeDemo);
+  if(modal) modal.addEventListener("click", function(e){ if(e.target === modal) closeDemo(); });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && modal && !modal.classList.contains("hidden")) closeDemo();
+  });
+})();
+</script>
 </body>
 </html>
