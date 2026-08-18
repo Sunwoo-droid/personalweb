@@ -77,6 +77,40 @@ a:focus-visible,button:focus-visible{
 /* the description sets its own line rhythm so the bands stack without gaps */
 #eidola-desc .hl{padding:.16em .38em}
 
+/* ---- EEG band: the Mind Monitor trace from the ISEF poster, carrying
+       entry [02] the way the film carries [01] ---- */
+.eeg-band{
+  background-color:#000;
+  background-image:url("eeg-strip.jpg");
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+/* Los Angeles at night, carrying entry [03].
+   photo: Henning Witzel / Unsplash (Unsplash License) */
+.la-band{
+  background-color:#0a1020;
+  background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url("la-strip.jpg");
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+
+/* the BDNF structures from the same poster, carrying entry [04] */
+.bdnf-band{
+  background-color:#000;
+  background-image:url("bdnf-strip.jpg");
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+
+/* pull the bands back by their own left padding so the glyphs — not the
+   highlight — line up with the column the other entries sit on */
+.eeg-band .hl,.bdnf-band .hl,.la-band .hl{margin-left:-.34em}
+
+/* ---- resource links on the entries: the same solid white the manifesto
+       button wears, so every outbound link on the page reads alike ---- */
+.reslink{
+  display:inline-block;background:#fff;color:#000;text-decoration:none;
+  font-size:.78rem;letter-spacing:.14em;padding:.25em .5em;
+}
+.reslink:hover,.reslink:focus-visible{opacity:.8}
+
 /* ---- play button: a solid white pill over the film ---- */
 .playbtn{
   display:inline-flex;align-items:center;gap:.6em;
