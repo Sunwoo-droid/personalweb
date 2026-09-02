@@ -7,18 +7,19 @@
 <meta name="description" content="Sunwoo 'Frank' Choi — neuroscience, memory, computational psychiatry. Amherst College '30.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400;700&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <style type="text/tailwindcss">
   @theme {
     --color-paper:   #000000;
     --color-ink:     #FFFFFF;
+    --font-sans:     "Geist", ui-sans-serif, system-ui, sans-serif;
     --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --font-krserif:  "Noto Serif KR", serif;
     --font-krmono:   "Nanum Gothic Coding", monospace;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=11">
+<link rel="stylesheet" href="site.css?v=12">
 </head>
 <body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
 
@@ -28,7 +29,7 @@
 <main id="main">
   <!-- ============ HERO — name over a live scramble field of the record ============ -->
   <section id="hero" class="relative min-h-svh flex items-center justify-center overflow-hidden px-[clamp(1.1rem,5vw,4rem)]">
-    <!-- background field: lines from eidola.me/manifesto, populated + scrambled by the home script -->
+    <!-- background field: lines from eidola.me/manifesto, populated + scrambled by site.js -->
     <div id="field" class="field-wall" aria-hidden="true"></div>
 
     <h1 class="name relative z-10 text-center font-sans font-bold text-ink text-[clamp(2rem,9vw,6.5rem)] tracking-[.02em] leading-[1.04]">&lt;&lt;&nbsp;SUNWOO F. CHOI&nbsp;&gt;&gt;</h1>
@@ -43,12 +44,12 @@
   </section>
 </main>
 
-<script src="site.js?v=2"></script>
+<script src="site.js?v=3"></script>
 <script>
 /* ================================================================
-   home gateway behavior — a live field of the record (no reflections)
-   that types/scrambles at random, plus the dive-in CTA that resolves
-   on scroll. reuses window.KR (the scramble engine) from site.js.
+   home gateway — both fields come from the shared engine in site.js;
+   this script only places the dive-in on the grid and wires the
+   scroll cue + the scramble-in of the CTA.
    ================================================================ */
 (function(){
   "use strict";
@@ -56,118 +57,25 @@
   var reduce = (KR.reduce != null) ? KR.reduce
              : (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
-  /* the wall content: lines from eidola.me/manifesto, shared via site.js */
-  var FIELD = (KR.FRAGMENTS && KR.FRAGMENTS.length) ? KR.FRAGMENTS
-            : ["Memory makes you who you are."];
+  /* hero: fragments dot the entire background; the name overlays on top */
+  if(KR.buildField) KR.buildField(document.getElementById("field"), 1.0, null);
 
-  function rand(){ return FIELD[Math.floor(Math.random()*FIELD.length)]; }
-
-  /* one fragment: scramble in (calm), hold a good while, clear, wait dark, repeat.
-     one scramble per appearance + long holds = no constant glitching.
-     every duration is drawn per-cycle from a wide range, and the initial phase
-     spans a whole cycle, so fragments never fall into synchronized waves.
-     a global budget keeps at most MAX_LIVE fragments lit at any moment. */
-  var MAX_LIVE = 25, live = 0;
-  function dutyCycle(el){
-    if(reduce || !KR.krType){                                /* static, no motion */
-      if(live < MAX_LIVE){ live++; el.textContent = rand(); }
-      return;
-    }
-    function show(){
-      if(live >= MAX_LIVE){                                  /* budget full — stay dark, retry */
-        setTimeout(show, 700 + Math.random()*1500);
-        return;
-      }
-      live++;
-      el.classList.add("typing");                            /* caret rides the text */
-      KR.krType(el, rand(), 20 + Math.random()*42, 300, function(){
-        setTimeout(function(){
-          el.classList.remove("typing");
-          el.textContent = "";                               /* clear (go dark) */
-          live--;
-          setTimeout(show, 1400 + Math.random()*7000);       /* stay dark a while */
-        }, 1600 + Math.random()*5400);                       /* stay visible, calm */
-      });
-    }
-    setTimeout(show, Math.random()*10000);
-  }
-
-  /* layout matched to eidola.me's landing canvas: one column per ~320px of
-     viewport (clamped 2–6), 12px inner column padding, sentences wrapping
-     inside their column, 3 slots per column per screen height. each slot
-     jitters vertically by up to ±0.9 of a row height — eidola's number —
-     so nothing reads as rows, and a relaxation pass pushes near-collisions
-     apart (their trick too) so fragments never overlap. */
-  var W = window.innerWidth || document.documentElement.clientWidth || 1280;
-  var COLS = Math.max(2, Math.min(6, Math.round(W/320)));
-  var ROWS = 3, COLW = W/COLS, PAD = 12;
-  var GAP = 76;                                /* min space between anchors ≈ one 3-line fragment */
-
-  function scatterColumn(container, c, H, fill, fixedY){
-    var top = 0.10*H, rowH = 0.80*H/ROWS;
-    var pts = [];
-    for(var r=0;r<ROWS;r++){
-      var base = top + (r+0.5)*rowH;
-      if(fixedY != null && Math.abs(base - fixedY) < rowH/2) continue;  /* reserved slot */
-      if(Math.random() >= fill) continue;
-      pts.push({ y: base + 0.9*rowH*(2*Math.random()-1), fixed: false });
-    }
-    if(fixedY != null) pts.push({ y: fixedY, fixed: true });   /* dive-in: immovable */
-    for(var it=0; it<12; it++){
-      pts.sort(function(a,b){ return a.y-b.y; });
-      var moved = false;
-      for(var i=1;i<pts.length;i++){
-        var a = pts[i-1], b = pts[i], dy = b.y - a.y;
-        if(dy >= GAP) continue;
-        moved = true;
-        var push = GAP - dy;
-        if(a.fixed) b.y += push;
-        else if(b.fixed) a.y -= push;
-        else { a.y -= push/2; b.y += push/2; }
-      }
-      for(var j=0;j<pts.length;j++){
-        if(!pts[j].fixed) pts[j].y = Math.min(Math.max(0.06*H, pts[j].y), 0.94*H);
-      }
-      if(!moved) break;
-    }
-    for(var k=0;k<pts.length;k++){
-      if(pts[k].fixed) continue;
-      var el = document.createElement("span");
-      el.className = "frag";
-      el.style.left = (c*COLW + PAD).toFixed(0) + "px";
-      el.style.top  = pts[k].y.toFixed(0) + "px";
-      el.style.maxWidth = (COLW - 2*PAD).toFixed(0) + "px";   /* wrap inside the column */
-      container.appendChild(el);
-      dutyCycle(el);
-    }
-  }
-
-  function scatterField(container, fill, reserved){
-    if(!container) return;
-    var H = container.clientHeight || window.innerHeight || 800;
-    for(var c=0;c<COLS;c++){
-      scatterColumn(container, c, H, fill, (reserved && reserved.c === c) ? reserved.y : null);
-    }
-  }
-
-  /* hero: fragments dot the entire background; the name overlays on top (z-10 over z-0). */
-  scatterField(document.getElementById("field"), 1.0, null);
-
-  /* enter: the dive-in claims a middle slot of the grid — aligned to a column
-     axis like any fragment — and that slot is reserved so no background
-     fragment can ever spawn on it (the relaxation treats it as immovable). */
+  /* enter: the dive-in claims a middle slot of the grid — aligned to a
+     column axis like any fragment — and that slot is reserved so no
+     background fragment can ever spawn on it. */
   (function(){
     var field2 = document.getElementById("field2");
-    if(!field2) return;
+    if(!field2 || !KR.buildField) return;
+    var G = KR.fieldGeom;
     var H = field2.clientHeight || window.innerHeight || 800;
-    var dc = (COLS > 2) ? 1 + Math.floor(Math.random()*(COLS-2)) : Math.floor(Math.random()*COLS);
-    var diveY = 0.10*H + 1.5*(0.80*H/ROWS);    /* center of the middle row */
+    var dc = (G.cols > 2) ? 1 + Math.floor(Math.random()*(G.cols-2)) : Math.floor(Math.random()*G.cols);
+    var diveY = 0.10*H + 1.5*(0.80*H/G.rows);    /* center of the middle row */
     var diveEl = document.getElementById("divein");
     if(diveEl){
-      diveEl.style.left = (dc*COLW + PAD).toFixed(0) + "px";
+      diveEl.style.left = (dc*G.colw + G.pad).toFixed(0) + "px";
       diveEl.style.top  = diveY.toFixed(0) + "px";
     }
-    scatterField(field2, 0.7, { c: dc, y: diveY });
+    KR.buildField(field2, 0.7, { c: dc, y: diveY });
   })();
 
   /* scroll cue: fade out as soon as the user starts scrolling, back if they return to top */

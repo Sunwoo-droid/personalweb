@@ -1,10 +1,10 @@
 /* ================================================================
-   shared chrome — monochrome. all color comes from ink on paper
-   (or paper on ink, on inverted pages). no third color exists.
+   shared chrome — monochrome, ink on black everywhere. hierarchy
+   comes from opacity and space, never from boxes or panels.
+   no third color exists.
    ================================================================ */
 
-::selection{background:#000;color:#fff}
-.inv ::selection{background:#fff;color:#000}
+::selection{background:#fff;color:#000}
 
 a:focus-visible,button:focus-visible{
   outline:2px solid currentColor;outline-offset:3px;
@@ -13,15 +13,13 @@ a:focus-visible,button:focus-visible{
 /* ---- film grain / scanline, felt not seen ---- */
 .grain{
   position:fixed;inset:0;z-index:60;pointer-events:none;
-  opacity:.05;mix-blend-mode:multiply;
+  opacity:.07;mix-blend-mode:screen;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.inv .grain{mix-blend-mode:screen;opacity:.08}
-/* dark ground: white scanlines, screened over pure black */
 .grain::after{
   content:"";position:absolute;inset:0;
   background:repeating-linear-gradient(to bottom,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);
-  opacity:.35;
+  opacity:.3;
 }
 
 /* ---- blinking block cursor ---- */
@@ -35,9 +33,9 @@ a:focus-visible,button:focus-visible{
 /* ---- hangul-typing elements: korean glyphs while scrambled ---- */
 .kr-live{font-family:"Nanum Gothic Coding","IBM Plex Mono",monospace!important}
 
-/* ---- home gateway: live scramble field, name, dive-in ---- */
-/* type + ink matched to eidola.me's landing canvas:
-   Geist 13px / 20px line height, white at 25% opacity */
+/* ---- the live field: a wall of the record, typing to itself ----
+   type + ink matched to eidola.me's landing canvas:
+   Geist 13px / 20px line height, white at low opacity */
 .field-wall{
   position:absolute;inset:0;z-index:0;overflow:hidden;
   pointer-events:none;user-select:none;
@@ -46,10 +44,11 @@ a:focus-visible,button:focus-visible{
   font-size:13px;line-height:20px;
 }
 .field-wall--dim{opacity:.2}
-/* fragments left-align to column edges set by the home script and wrap
-   inside their column, eidola.me-style — full sentences, no truncation */
+.field-wall--page{opacity:.16}
+/* fragments left-align to column edges set by the field engine and
+   wrap inside their column — full sentences, no truncation */
 .field-wall .frag{position:absolute;transform:translateY(-50%);overflow:hidden;text-align:left}
-/* caret: a small block riding the typed text, eidola-style (6.5×13 blinking block) */
+/* caret: a small block riding the typed text (6.5×13 blinking block) */
 .field-wall .frag.typing::after{
   content:"";display:inline-block;width:6.5px;height:13px;
   background:#fff;margin-left:2px;vertical-align:-1.5px;
@@ -58,7 +57,16 @@ a:focus-visible,button:focus-visible{
 
 .name{text-wrap:balance}
 
-/* dive-in: sized like a field fragment, but a solid white highlight */
+/* ---- nav: quiet lowercase mono, presence by opacity alone ---- */
+.navlink{
+  color:currentColor;text-decoration:none;opacity:.45;
+  transition:opacity .25s ease;
+}
+.navlink:hover,.navlink:focus-visible{opacity:1}
+.navlink[aria-current="page"]{opacity:1}
+.navlink--home{opacity:.75}
+
+/* ---- dive-in: sized like a field fragment, but a solid white highlight ---- */
 .dive{
   display:inline-block;background:#fff;color:#000;
   font-family:"IBM Plex Mono",monospace;font-weight:500;
@@ -68,63 +76,35 @@ a:focus-visible,button:focus-visible{
 .dive:hover,.dive:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .dive .cursor{background:#000}
 
-/* ---- text over film: black ink on a white highlight, one band per line ---- */
-.hl{
-  background:#fff;color:#000;
-  padding:.12em .34em;
-  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+/* ---- quiet text link: hairline underline, brightens on hover ---- */
+.tlink{
+  color:currentColor;text-decoration:none;
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  opacity:.6;padding-bottom:.2em;
+  border-bottom:1px solid rgba(255,255,255,.3);
+  transition:opacity .25s ease,border-color .25s ease;
 }
-/* the description sets its own line rhythm so the bands stack without gaps */
-#eidola-desc .hl{padding:.16em .38em}
+.tlink:hover,.tlink:focus-visible{opacity:1;border-color:rgba(255,255,255,.9)}
 
-/* ---- EEG band: the Mind Monitor trace from the ISEF poster, carrying
-       entry [02] the way the film carries [01] ---- */
-.eeg-band{
-  background-color:#000;
-  background-image:url("eeg-strip.jpg");
-  background-size:cover;background-position:center;background-repeat:no-repeat;
-}
-/* Los Angeles at night, carrying entry [03].
-   photo: Henning Witzel / Unsplash (Unsplash License) */
-.la-band{
-  background-color:#0a1020;
-  background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url("la-strip.jpg");
-  background-size:cover;background-position:center;background-repeat:no-repeat;
-}
-
-/* the BDNF structures from the same poster, carrying entry [04] */
-.bdnf-band{
-  background-color:#000;
-  background-image:url("bdnf-strip.jpg");
-  background-size:cover;background-position:center;background-repeat:no-repeat;
-}
-
-/* pull the bands back by their own left padding so the glyphs — not the
-   highlight — line up with the column the other entries sit on */
-.eeg-band .hl,.bdnf-band .hl,.la-band .hl{margin-left:-.34em}
-
-/* ---- resource links on the entries: the same solid white the manifesto
-       button wears, so every outbound link on the page reads alike ---- */
-.reslink{
-  display:inline-block;background:#fff;color:#000;text-decoration:none;
-  font-size:.78rem;letter-spacing:.14em;padding:.25em .5em;
-}
-.reslink:hover,.reslink:focus-visible{opacity:.8}
-
-/* ---- play button: a solid white pill over the film ---- */
+/* ---- play button: a ghost outline over the film ---- */
 .playbtn{
-  display:inline-flex;align-items:center;gap:.6em;
-  background:#fff;color:#000;border:0;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.7em;
+  background:rgba(0,0,0,.25);color:#fff;cursor:pointer;
+  border:1px solid rgba(255,255,255,.5);
   font-family:"IBM Plex Mono",monospace;font-weight:500;
-  font-size:.82rem;letter-spacing:.1em;
-  padding:.7em 1.3em;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.9em 1.6em;
+  transition:background .3s ease,color .3s ease,border-color .3s ease;
 }
-.playbtn:hover,.playbtn:focus-visible{background:#000;color:#fff;outline:2px solid #fff;outline-offset:2px}
+.playbtn:hover,.playbtn:focus-visible{background:#fff;color:#000;border-color:#fff}
 .playbtn__tri{
   width:0;height:0;
-  border-left:.62em solid currentColor;
-  border-top:.38em solid transparent;border-bottom:.38em solid transparent;
+  border-left:.58em solid currentColor;
+  border-top:.36em solid transparent;border-bottom:.36em solid transparent;
 }
+
+/* text riding the film reads through a soft shadow, not a band */
+.film-text{text-shadow:0 1px 30px rgba(0,0,0,.7),0 1px 8px rgba(0,0,0,.5)}
 
 /* the stage crossfade is written per animation frame from scroll position —
    a CSS transition here would lag behind and show both layers at once */
@@ -137,29 +117,9 @@ a:focus-visible,button:focus-visible{
   user-select:none;
 }
 
-/* ---- manifesto wall (landing background texture) ---- */
-.manifesto-wall{
-  position:absolute;inset:-6% 0;z-index:0;overflow:hidden;
-  pointer-events:none;user-select:none;
-  opacity:.06;
-  font-size:.72rem;line-height:2.1;letter-spacing:.04em;
-  column-width:22ch;column-gap:4ch;
-  animation:wall-drift 90s linear infinite alternate;
-}
-.manifesto-wall p{margin:0 0 1.4em;break-inside:avoid}
-@keyframes wall-drift{to{transform:translateY(-3.5%)}}
-
-/* ---- off-record photo stand-ins: near-black panels, faint white texture ---- */
-.field-1{background:linear-gradient(200deg,#000 0%,#161616 60%,#0b0b0b 100%)}
-.field-2{background:linear-gradient(160deg,#040404,#151515 90%)}
-.field-3{background:linear-gradient(180deg,#0a0a0a,#171717),
-  repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px)}
-.field-4{background:linear-gradient(135deg,#050505,#171717 55%,#0b0b0b)}
-.field-5{background:radial-gradient(80% 80% at 30% 30%,#181818,#050505 90%)}
-
 /* ---- reduced motion: no typing, no drift, keep layout ---- */
 @media (prefers-reduced-motion:reduce){
   .cursor{animation:none}
-  .manifesto-wall{animation:none}
+  .field-wall .frag.typing::after{animation:none}
   *{scroll-behavior:auto!important}
 }

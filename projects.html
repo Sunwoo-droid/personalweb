@@ -3,74 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>연구 기록 [ PROJECTS ] — Sunwoo F. Choi</title>
+<title>연구 기록 — Projects — Sunwoo F. Choi</title>
 <meta name="description" content="Work and research: Eidola, independent EEG research on adolescent brain function, the USC HS Neuroscience Journal Club, and Boston University RISE.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400;700&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <style type="text/tailwindcss">
   @theme {
     --color-paper:   #000000;
     --color-ink:     #FFFFFF;
+    --font-sans:     "Geist", ui-sans-serif, system-ui, sans-serif;
     --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --font-krserif:  "Noto Serif KR", serif;
     --font-krmono:   "Nanum Gothic Coding", monospace;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=11">
+<link rel="stylesheet" href="site.css?v=12">
 </head>
 <body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
 
 <a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 
-<header class="border-b border-ink/20">
-  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[.72rem] tracking-[.12em]" aria-label="Site">
-    <a class="hover:bg-ink hover:text-paper px-1" href="index.html">[ 00 // HOME ]</a>
-    <a class="bg-ink text-paper px-1" href="projects.html" aria-current="page">[ 01 // PROJECTS ]</a>
-    <a class="hover:bg-ink hover:text-paper px-1" href="off-record.html">[ 02 // OFF-RECORD ]</a>
-    <a class="hover:bg-ink hover:text-paper px-1" href="contact.html">[ 03 // CONTACT ]</a>
-    <span class="ml-auto opacity-40 hidden sm:inline" aria-hidden="true">re:0043 // 4 entries</span>
+<header class="relative z-20">
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] pt-6 pb-2 flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
+    <a class="navlink navlink--home" href="index.html">sunwoo f. choi</a>
+    <span class="ml-auto" aria-hidden="true"></span>
+    <a class="navlink" href="projects.html" aria-current="page">projects</a>
+    <a class="navlink" href="off-record.html">off-record</a>
+    <a class="navlink" href="contact.html">contact</a>
   </nav>
 </header>
 
-<div class="fixed z-40 pointer-events-none left-[clamp(1rem,4vw,3.5rem)] bottom-[clamp(1rem,5vh,3rem)] max-w-[80vw] md:max-w-[min(38ch,72vw)] text-ink/45 text-[clamp(.72rem,1.5vw,.9rem)] leading-[1.55] tracking-[.01em] whitespace-pre-wrap" id="ether" aria-hidden="true"><span id="ether-text" class="font-krmono"></span><span class="cursor"></span></div>
-<div class="fixed z-40 pointer-events-none right-[clamp(1rem,4vw,3.5rem)] bottom-[clamp(1rem,5vh,3rem)] text-[.66rem] tracking-[.14em] opacity-35 tabular-nums" id="hud" aria-hidden="true"></div>
-
 <main id="main">
-  <!-- ============ TITLE CARD — vertical korean, english bracketed over ============ -->
-  <section class="relative overflow-hidden border-b border-ink/20 min-h-[46svh] flex items-center" aria-label="Projects">
-    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,6rem)] relative">
-      <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-1/2 -translate-y-1/2 text-[clamp(4rem,18vw,12rem)] opacity-[.1]" aria-hidden="true">연구 기록</span>
-      <p class="m-0 text-[.7rem] tracking-[.24em] opacity-50" aria-hidden="true">[ 01 // RECORD ]</p>
-      <h1 class="m-0 mt-3 font-sans font-bold tracking-[.02em] leading-[1] text-[clamp(2.4rem,10vw,6.5rem)]">[&nbsp;PROJECTS&nbsp;]</h1>
-      <p class="mt-4 mb-0 max-w-[52ch] text-[.9rem] opacity-70" data-krtype data-speed="12">four entries. the numbering carries the order, not the ranking.</p>
+  <!-- ============ TITLE — the landing weather, dimmed, behind the page name ============ -->
+  <section class="relative overflow-hidden min-h-[52svh] flex items-center" aria-label="Projects">
+    <div class="field-wall field-wall--page" data-field="0.6" aria-hidden="true"></div>
+    <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-0 bottom-0 text-center text-[clamp(2.6rem,6vw,4.6rem)] opacity-[.07]" aria-hidden="true">연구 기록</span>
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,6rem)] relative z-10">
+      <p class="m-0 text-[.66rem] tracking-[.3em] uppercase opacity-45" aria-hidden="true">01 // record</p>
+      <h1 class="m-0 mt-4 font-sans font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Projects</h1>
+      <p class="mt-5 mb-0 max-w-[52ch] text-[.88rem] leading-[1.7] opacity-60" data-krtype data-speed="12">four entries. the numbering carries the order, not the ranking.</p>
     </div>
   </section>
 
-  <!-- ============ WORK ============ -->
-  <!-- [01] EIDOLA — a pinned looping film; the title, then the description,
-       ride over it as you scroll. the button opens the demo reel. -->
+  <!-- ============ 01 EIDOLA — a pinned looping film; the title, then the
+       description, ride over it as you scroll. ============ -->
   <section id="eidola-stage" class="relative h-[240svh]" aria-label="Eidola">
     <div class="sticky top-0 h-svh w-full overflow-hidden">
       <video id="eidola-loop" class="absolute inset-0 w-full h-full object-cover" src="eidolaloop.mp4" poster="eidolaloop-poster.jpg"
              autoplay muted loop playsinline preload="metadata" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
-      <div id="eidola-scrim" class="absolute inset-0 bg-black/25 pointer-events-none"></div>
+      <div id="eidola-scrim" class="absolute inset-0 bg-black/35 pointer-events-none"></div>
 
       <!-- the entry number, held on the film like a slate — it stays put
-           through both screens, on the same column as [02] and the rest -->
-      <div class="absolute inset-x-0 top-[clamp(1.2rem,5vh,2.6rem)] z-10 pointer-events-none">
+           through both screens, on the same column as 02 and the rest -->
+      <div class="absolute inset-x-0 top-[clamp(1.4rem,5vh,2.8rem)] z-10 pointer-events-none">
         <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
-          <span class="font-krserif font-black text-[clamp(1.8rem,5vw,2.8rem)] leading-none"><span class="hl">[01]</span></span>
+          <span class="film-text text-[.8rem] tracking-[.3em] opacity-70 tabular-nums">01</span>
         </div>
       </div>
 
       <!-- screen one: the title card -->
       <div id="eidola-title" class="absolute inset-0 flex flex-col items-center justify-center text-center px-[clamp(1.1rem,5vw,4rem)]">
-        <h2 class="m-0 mt-4 font-sans font-bold tracking-[.02em] leading-[1.12] text-[clamp(2.2rem,9vw,5.5rem)]"><span class="hl">[&nbsp;EIDOLA&nbsp;]</span></h2>
-        <p class="m-0 mt-4 text-[.82rem] tracking-[.08em]"><span class="hl">Founder &amp; CMO&nbsp;&nbsp;//&nbsp;&nbsp;Feb 2026 — present</span></p>
-        <p class="m-0 mt-8">
+        <h2 class="film-text m-0 font-sans font-bold uppercase tracking-[.06em] leading-[1.05] text-[clamp(2.6rem,9vw,5.5rem)]">Eidola</h2>
+        <p class="film-text m-0 mt-4 text-[.7rem] tracking-[.24em] uppercase opacity-80">Founder &amp; CMO&nbsp;&nbsp;//&nbsp;&nbsp;Feb 2026 — present</p>
+        <p class="m-0 mt-10">
           <button type="button" id="demo-open" class="playbtn">
             <span class="playbtn__tri" aria-hidden="true"></span>Play the demo
           </button>
@@ -80,110 +78,72 @@
       <!-- screen two: the description, overlaid as you scroll -->
       <div id="eidola-desc" class="absolute inset-0 flex items-center px-[clamp(1.1rem,5vw,4rem)] opacity-0">
         <div class="max-w-[1180px] mx-auto w-full grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-y-6 md:gap-x-[clamp(2rem,6vw,5rem)] items-start">
-          <h3 class="m-0 font-sans font-bold leading-[1.15] text-[clamp(1.5rem,4.2vw,2.6rem)]"><span class="hl">Know Thyself</span></h3>
+          <h3 class="film-text m-0 font-sans font-bold leading-[1.15] text-[clamp(1.6rem,4.2vw,2.6rem)]">Know Thyself</h3>
           <div>
-            <p class="m-0 text-[clamp(.9rem,1.5vw,1.05rem)] leading-[1.75]"><span class="hl">A cognitive-mapping platform that builds a personal knowledge graph and gives you thought pattern analyses from frictionless capture, from manual voice recordings to gmail scrapping.</span></p>
-            <p class="m-0 mt-[.9rem] text-[clamp(.9rem,1.5vw,1.05rem)] leading-[1.75]"><span class="hl">I founded the team, built the brand identity and website, wrote the manifesto, directed all marketing, and led the clinical work, grounded in memory-reconstruction research in mood disorders.</span></p>
-            <p class="m-0 mt-[1.4rem]"><a class="inline-block bg-ink text-paper text-[.78rem] tracking-[.14em] px-2 py-1 no-underline hover:opacity-80" href="https://eidola.me/manifesto">[ READ THE MANIFESTO → ]</a></p>
+            <p class="film-text m-0 text-[clamp(.9rem,1.5vw,1rem)] leading-[1.8] opacity-90">A cognitive-mapping platform that builds a personal knowledge graph and gives you thought-pattern analyses from frictionless capture — voice recordings to gmail scraping.</p>
+            <p class="film-text m-0 mt-4 text-[clamp(.9rem,1.5vw,1rem)] leading-[1.8] opacity-90">I founded the team, built the brand identity and website, wrote the manifesto, directed all marketing, and led the clinical work — grounded in memory-reconstruction research in mood disorders.</p>
+            <p class="m-0 mt-8"><a class="tlink" href="https://eidola.me/manifesto">Read the manifesto ↗</a></p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(3rem,8vh,6rem)]">
+  <!-- ============ 02–04 — quiet entries, space instead of boxes ============ -->
+  <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(4rem,10vh,7rem)]">
 
-    <!-- [02] rides on its own EEG trace — the Mind Monitor band from the ISEF
-         poster, pulled out to the full width of the window while the text
-         stays on the same column as every other entry -->
-    <article class="eeg-band relative ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] border-t border-ink/25">
-      <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(2.2rem,5vw,3.4rem)] grid md:grid-cols-[6rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-        <div class="font-krserif font-black text-[clamp(1.8rem,5vw,2.8rem)] leading-none" aria-hidden="true"><span class="hl">[02]</span></div>
-        <div>
-          <h2 class="m-0 font-sans font-bold text-[clamp(1.2rem,2.8vw,1.7rem)] leading-[1.15]"><span class="hl">[ COGNITIVE STIMULI &amp; ADOLESCENT BRAIN FUNCTION ]</span></h2>
-          <p class="mt-2 mb-0 text-[.9rem]"><span class="hl"><span class="font-medium">Principal Investigator</span>&nbsp;&nbsp;//&nbsp;&nbsp;2024 — 2025 // independent</span></p>
-          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] leading-[1.7]"><span class="hl">Collected EEG data and administered a self-built 40-question N-back working-memory battery, comparing exercise against short-form video consumption.</span></p>
-          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] leading-[1.7]"><span class="hl">Ran the statistical analysis on both the neural and the behavioral outcomes, tracking how working memory shifted across the two conditions.</span></p>
-          <p class="mt-[1.3rem] mb-0"><a class="reslink" href="https://cbsaustin.com/news/local/central-texas-students-excel-at-worlds-largest-science-fair-earn-top-awards-scholarships" target="_blank" rel="noopener">[ PRESS — CBS AUSTIN → ]</a></p>
-        </div>
+    <article class="border-t border-ink/10 py-[clamp(2.8rem,7vh,4.5rem)] grid md:grid-cols-[5rem_1fr] gap-y-3 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
+      <div class="text-[.8rem] tracking-[.3em] opacity-30 tabular-nums pt-1" aria-hidden="true">02</div>
+      <div>
+        <h2 class="m-0 font-sans font-bold uppercase tracking-[.05em] leading-[1.25] text-[clamp(1.1rem,2.4vw,1.45rem)]">Cognitive Stimuli &amp; Adolescent Brain Function</h2>
+        <p class="mt-3 mb-0 text-[.68rem] tracking-[.2em] uppercase opacity-45">Principal Investigator&nbsp;&nbsp;//&nbsp;&nbsp;2024 — 2025&nbsp;&nbsp;//&nbsp;&nbsp;independent</p>
+        <p class="mt-6 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">Collected EEG data and administered a self-built 40-question N-back working-memory battery, comparing exercise against short-form video consumption.</p>
+        <p class="mt-4 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">Ran the statistical analysis on both the neural and the behavioral outcomes, tracking how working memory shifted across the two conditions.</p>
+        <p class="mt-8 mb-0"><a class="tlink" href="https://cbsaustin.com/news/local/central-texas-students-excel-at-worlds-largest-science-fair-earn-top-awards-scholarships" target="_blank" rel="noopener">Press — CBS Austin ↗</a></p>
       </div>
     </article>
 
-    <!-- [03] rides Los Angeles at night — the city the program ran out of -->
-    <article class="la-band relative ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] border-t border-ink/25">
-      <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(2.2rem,5vw,3.4rem)] grid md:grid-cols-[6rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-        <div class="font-krserif font-black text-[clamp(1.8rem,5vw,2.8rem)] leading-none" aria-hidden="true"><span class="hl">[03]</span></div>
-        <div>
-          <h2 class="m-0 font-sans font-bold text-[clamp(1.2rem,2.8vw,1.7rem)] leading-[1.15]"><span class="hl">[ USC HS NEUROSCIENCE JOURNAL CLUB ]</span></h2>
-          <p class="mt-2 mb-0 text-[.9rem]"><span class="hl"><span class="font-medium">Organizer</span>&nbsp;&nbsp;//&nbsp;&nbsp;2024 — 2026 // Los Angeles</span></p>
-          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] leading-[1.7]"><span class="hl">Ran biweekly meetings for 60+ members alongside Professors Ruslan Rust and Charisse Winston.</span></p>
-          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] leading-[1.7]"><span class="hl">Built the site, blog, and YouTube channel; organized 31 capstone projects and a webinar; brokered a partnership with Consensus AI.</span></p>
-          <p class="mt-[1.3rem] mb-0 flex flex-wrap gap-2"><a class="reslink" href="https://www.uschighschoolneurosciencejournalclub.com/" target="_blank" rel="noopener">[ PROGRAM SITE → ]</a><a class="reslink" href="https://consensus.app/" target="_blank" rel="noopener">[ CONSENSUS → ]</a></p>
-        </div>
+    <article class="border-t border-ink/10 py-[clamp(2.8rem,7vh,4.5rem)] grid md:grid-cols-[5rem_1fr] gap-y-3 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
+      <div class="text-[.8rem] tracking-[.3em] opacity-30 tabular-nums pt-1" aria-hidden="true">03</div>
+      <div>
+        <h2 class="m-0 font-sans font-bold uppercase tracking-[.05em] leading-[1.25] text-[clamp(1.1rem,2.4vw,1.45rem)]">USC HS Neuroscience Journal Club</h2>
+        <p class="mt-3 mb-0 text-[.68rem] tracking-[.2em] uppercase opacity-45">Organizer&nbsp;&nbsp;//&nbsp;&nbsp;2024 — 2026&nbsp;&nbsp;//&nbsp;&nbsp;Los Angeles</p>
+        <p class="mt-6 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">Ran biweekly meetings for 60+ members alongside Professors Ruslan Rust and Charisse Winston.</p>
+        <p class="mt-4 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">Built the site, blog, and YouTube channel; organized 31 capstone projects and a webinar; brokered a partnership with Consensus AI.</p>
+        <p class="mt-8 mb-0 flex flex-wrap gap-x-7 gap-y-3"><a class="tlink" href="https://www.uschighschoolneurosciencejournalclub.com/" target="_blank" rel="noopener">Program site ↗</a><a class="tlink" href="https://consensus.app/" target="_blank" rel="noopener">Consensus ↗</a></p>
       </div>
     </article>
 
-    <!-- [04] rides the BDNF structures, pulled out to the full width of the
-         window the same way the EEG trace carries [02] -->
-    <article class="bdnf-band relative ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] border-t border-b border-ink/25">
-      <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(2.2rem,5vw,3.4rem)] grid md:grid-cols-[6rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-        <div class="font-krserif font-black text-[clamp(1.8rem,5vw,2.8rem)] leading-none" aria-hidden="true"><span class="hl">[04]</span></div>
-        <div>
-          <h2 class="m-0 font-sans font-bold text-[clamp(1.2rem,2.8vw,1.7rem)] leading-[1.15]"><span class="hl">[ BOSTON UNIVERSITY RISE ]</span></h2>
-          <p class="mt-2 mb-0 text-[.9rem]"><span class="hl"><span class="font-medium">Student Researcher</span>&nbsp;&nbsp;//&nbsp;&nbsp;Summer 2025 // Boston</span></p>
-          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] leading-[1.7]"><span class="hl">Built a computational model of the mBDNF/proBDNF regulatory pathway using ordinary differential equations, Hill functions, and a deep graph neural network to model neuronal survival.</span></p>
-          <p class="mt-[.9rem] mb-0 max-w-[66ch] text-[.95rem] leading-[1.7]"><span class="hl">Also built a brain–computer interface from a commercial EEG rig and Arduino, accepted as a late-breaking abstract at the Society for Neuroscience conference in San Diego.</span></p>
-          <p class="mt-[1.3rem] mb-0"><a class="reslink" href="https://docs.google.com/presentation/d/1RXHrpcVf2pffBXXYDNz4AGzqvdJO62xgLRQzTFpudjM/preview" target="_blank" rel="noopener">[ SfN 2025 POSTER → ]</a></p>
-        </div>
+    <article class="border-t border-ink/10 py-[clamp(2.8rem,7vh,4.5rem)] grid md:grid-cols-[5rem_1fr] gap-y-3 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
+      <div class="text-[.8rem] tracking-[.3em] opacity-30 tabular-nums pt-1" aria-hidden="true">04</div>
+      <div>
+        <h2 class="m-0 font-sans font-bold uppercase tracking-[.05em] leading-[1.25] text-[clamp(1.1rem,2.4vw,1.45rem)]">Boston University RISE</h2>
+        <p class="mt-3 mb-0 text-[.68rem] tracking-[.2em] uppercase opacity-45">Student Researcher&nbsp;&nbsp;//&nbsp;&nbsp;Summer 2025&nbsp;&nbsp;//&nbsp;&nbsp;Boston</p>
+        <p class="mt-6 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">Built a computational model of the mBDNF/proBDNF regulatory pathway using ordinary differential equations, Hill functions, and a deep graph neural network to model neuronal survival.</p>
+        <p class="mt-4 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">Also built a brain–computer interface from a commercial EEG rig and Arduino, accepted as a late-breaking abstract at the Society for Neuroscience conference in San Diego.</p>
+        <p class="mt-8 mb-0"><a class="tlink" href="https://docs.google.com/presentation/d/1RXHrpcVf2pffBXXYDNz4AGzqvdJO62xgLRQzTFpudjM/preview" target="_blank" rel="noopener">SfN 2025 poster ↗</a></p>
       </div>
     </article>
 
-  </section>
-
-  <!-- ============ INDEX — registry ============ -->
-  <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(4rem,10vh,7rem)]" aria-label="Index of publications and honors">
-    <div class="relative mb-4">
-      <p class="m-0 text-[.7rem] tracking-[.24em] opacity-50" aria-hidden="true">[ INDEX ]</p>
-      <h2 class="m-0 mt-1 font-sans font-bold text-[clamp(1.3rem,4vw,2.2rem)]">[ PUBLICATIONS &amp; HONORS ]</h2>
-    </div>
-    <div class="border-t-2 border-ink">
-      <!-- rows: [ Rid ] / title / venue / year -->
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R01]</span><span class="text-[.92rem] font-medium leading-[1.4]">ISEF Finalist &amp; Best of Fair</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Greater Austin SEF</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R02]</span><span class="text-[.92rem] font-medium leading-[1.4]">The Gold Medal</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">The Congressional Award</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R03]</span><span class="text-[.92rem] font-medium leading-[1.4]">First Author, Trends in Molecular Medicine</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Cell Press</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2024</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R04]</span><span class="text-[.92rem] font-medium leading-[1.4]">Late-Breaking Abstract</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Society for Neuroscience</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R05]</span><span class="text-[.92rem] font-medium leading-[1.4]">First Place, Research in Psychological Science</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">APA</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R06]</span><span class="text-[.92rem] font-medium leading-[1.4]">Health Innovation Award</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Dell Center for Healthy Living</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R07]</span><span class="text-[.92rem] font-medium leading-[1.4]">Semifinalist</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Columbia Junior Science Journal</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R08]</span><span class="text-[.92rem] font-medium leading-[1.4]">“FOXP2 and the Dorsal Striatum”</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Journal of Student Research</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R09]</span><span class="text-[.92rem] font-medium leading-[1.4]">Silver Key</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Scholastic Art &amp; Writing</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2023</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R10]</span><span class="text-[.92rem] font-medium leading-[1.4]">Presidential Service Award, Gold</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">President's Volunteer Service</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2024</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R11]</span><span class="text-[.92rem] font-medium leading-[1.4]">All-Region Cellist ×3, section leader</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">TMEA</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2024–26</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R12]</span><span class="text-[.92rem] font-medium leading-[1.4]">Area Finalist, cello</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">TMEA</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">—</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R13]</span><span class="text-[.92rem] font-medium leading-[1.4]">Second Place</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">National Orchestra Cup</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R14]</span><span class="text-[.92rem] font-medium leading-[1.4]">First Place, Honor Full Orchestra</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">UIL Texas</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">—</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R15]</span><span class="text-[.92rem] font-medium leading-[1.4]">Music Theory Gold Medal ×3</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">UT Austin</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">—</span></div>
-      <div class="grid grid-cols-[3.2rem_1fr_4ch] md:grid-cols-[4.2rem_1fr_auto_4ch] gap-x-4 gap-y-1 py-3 border-b border-ink/20 items-baseline"><span class="text-[.7rem] opacity-40 tracking-[.06em]" aria-hidden="true">[R16]</span><span class="text-[.92rem] font-medium leading-[1.4]">President — Neuroscience &amp; Neurodiversity Club</span><span class="order-last md:order-none col-start-2 col-span-2 md:col-auto text-[.78rem] opacity-60 whitespace-nowrap md:text-right">Westwood HS</span><span class="text-[.78rem] opacity-45 text-right tabular-nums">2025–26</span></div>
-    </div>
   </section>
 </main>
 
-<footer class="border-t border-ink/20">
-  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-4 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.66rem] tracking-[.12em] opacity-50">
-    <span>[ 01 // PROJECTS ]</span>
-    <span aria-hidden="true">4 entries — 16 rows — © 2026</span>
+<footer class="border-t border-ink/10">
+  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.62rem] tracking-[.2em] opacity-35">
+    <span>projects — four entries</span>
+    <span aria-hidden="true">© 2026 sunwoo f. choi</span>
   </div>
 </footer>
 
 <!-- demo reel: loads only when opened, unloads on close so it stops playing -->
 <div id="demo-modal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/92 p-[clamp(.8rem,4vw,3rem)]" role="dialog" aria-modal="true" aria-label="Eidola — demo video">
-  <button type="button" id="demo-close" class="absolute top-[clamp(.8rem,3vw,2rem)] right-[clamp(.8rem,3vw,2rem)] bg-ink text-paper text-[.72rem] tracking-[.14em] px-2 py-1">[ CLOSE ✕ ]</button>
+  <button type="button" id="demo-close" class="absolute top-[clamp(.8rem,3vw,2rem)] right-[clamp(.8rem,3vw,2rem)] playbtn">close ✕</button>
   <div class="w-full max-w-[1180px] aspect-video">
     <iframe id="demo-frame" class="w-full h-full border-0" src="" title="Eidola — demo video" allow="autoplay; fullscreen" allowfullscreen></iframe>
   </div>
 </div>
 
-<script src="site.js?v=2"></script>
+<script src="site.js?v=3"></script>
 <script>
 /* ================================================================
    eidola stage — the loop stays pinned while the title card fades
@@ -227,7 +187,7 @@
       desc.style.opacity = String(into);
       desc.style.transform = "translateY(" + (28*(1-into)).toFixed(1) + "px)";
       desc.style.pointerEvents = into > 0.5 ? "" : "none";
-      scrim.style.background = "rgba(0,0,0," + (0.22 + 0.4*into).toFixed(3) + ")";  /* film sinks back as you read */
+      scrim.style.background = "rgba(0,0,0," + (0.35 + 0.4*into).toFixed(3) + ")";  /* film sinks back as you read */
     }
     function onScroll(){
       if(queued) return;
