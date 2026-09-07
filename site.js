@@ -201,6 +201,29 @@
     buildField(el, fill, null);
   });
 
+  /* ---- a [data-autohide] header retreats on the way down, returns on the
+     way up. threshold keeps trackpad jitter from flickering the bar. ---- */
+  (function(){
+    var head = document.querySelector("[data-autohide]");
+    if(!head) return;
+    var lastY = window.pageYOffset || 0, queued = false, THRESH = 6;
+    function paint(){
+      queued = false;
+      var y = window.pageYOffset || 0;
+      if(Math.abs(y - lastY) < THRESH) return;      /* below threshold: hold, don't reset */
+      var hide = y > lastY && y > head.offsetHeight;
+      head.classList.toggle("sitehead--hidden", hide);
+      lastY = y;
+    }
+    window.addEventListener("scroll", function(){
+      if(queued) return;
+      queued = true;
+      window.requestAnimationFrame(paint);
+    }, { passive: true });
+    /* keyboard focus must never land on an off-screen bar */
+    head.addEventListener("focusin", function(){ head.classList.remove("sitehead--hidden"); });
+  })();
+
   /* ---- auto-run every [data-krtype] in document order, sequentially ---- */
   var queue = [].slice.call(document.querySelectorAll("[data-krtype]"));
   queue.forEach(function(el){

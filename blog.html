@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en" class="inv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog</title>
+<meta name="description" content="Writing by Sunwoo 'Frank' Choi — pulled live from Medium.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400;700&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-paper:   #000000;
+    --color-ink:     #FFFFFF;
+    --font-sans:     "Geist", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-krserif:  "Noto Serif KR", serif;
+    --font-krmono:   "Nanum Gothic Coding", monospace;
+  }
+</style>
+<link rel="stylesheet" href="site.css?v=21">
+</head>
+<body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+
+<a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="sitehead" data-autohide>
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
+    <a class="navlink navlink--home" href="index.html">sunwoo f. choi</a>
+    <span class="ml-auto" aria-hidden="true"></span>
+    <a class="navlink" href="projects.html">projects</a>
+    <a class="navlink" href="blog.html" aria-current="page">blog</a>
+    <a class="navlink" href="off-record.html">off-record</a>
+    <a class="navlink" href="contact.html">contact</a>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- ============ TITLE — the landing weather, dimmed ============ -->
+  <section class="relative overflow-hidden min-h-[46svh] flex items-center" aria-label="Blog">
+    <div class="field-wall field-wall--page" data-field="0.55" aria-hidden="true"></div>
+    <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-0 bottom-0 text-center text-[clamp(2.8rem,7vw,5.4rem)] opacity-[.07]" aria-hidden="true">일지</span>
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,5rem)] relative z-10">
+      <p class="m-0 text-[.66rem] tracking-[.3em] uppercase opacity-45" data-krtype data-speed="26">live // medium</p>
+      <h1 class="m-0 mt-4 font-sans font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Blog</h1>
+      <p class="mt-5 mb-0 max-w-[52ch] text-[.88rem] leading-[1.7] opacity-60">Read any entry here, or open it on Medium. The spacing down the spine is the real time between posts.</p>
+      <p id="log-count" class="mt-4 mb-0 text-[.64rem] tracking-[.22em] uppercase opacity-0 transition-opacity duration-700 tabular-nums"></p>
+    </div>
+  </section>
+
+  <!-- ============ THE LOG ============ -->
+  <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(4rem,10vh,7rem)]">
+    <div class="max-w-[980px]">
+      <div id="log" class="log" aria-busy="true" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-ink/10">
+  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.62rem] tracking-[.2em] opacity-35">
+    <span id="foot-note">blog — syndicated from medium</span>
+    <span aria-hidden="true">© 2026 sunwoo f. choi</span>
+  </div>
+</footer>
+
+<script src="site.js?v=6"></script>
+<script>
+/* ================================================================
+   the log — Medium's RSS, read at load and rendered as a timeline.
+
+   Medium serves no CORS headers, so the feed goes through a public
+   reader (rss2json), with a raw-XML proxy as the backup. every post
+   body is put through an allowlist sanitizer before it touches the
+   DOM: remote HTML is never trusted, even when it's your own.
+   ================================================================ */
+(function(){
+  "use strict";
+
+  /* ---- the one thing to change: the Medium handle, without the @ ---- */
+  var HANDLE = "sunwoo.f.choi";
+
+  var FEED   = "https://medium.com/feed/@" + HANDLE;
+  var WPM    = 220;
+  var log    = document.getElementById("log");
+  var countEl= document.getElementById("log-count");
+  var reduce = (window.KR && window.KR.reduce != null) ? window.KR.reduce
+             : (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* ================= the retrieving state ================= */
+  /* three placeholder entries whose titles run the site's hangul
+     scramble — the signature doing an actual job: this is being read. */
+  var JAMO = "ㅂㅈㄷㄱㅅㅛㅕㅑㅐㅔㅁㄴㅇㄹㅎㅗㅓㅏㅣㅋㅌㅊㅍㅠㅜㅡ";
+  var timers = [];
+
+  function skeleton(){
+    var frag = document.createDocumentFragment();
+    [30, 22, 27].forEach(function(len, i){
+      var wrap = document.createElement("div");
+      wrap.className = "entry";
+      wrap.innerHTML = '<span class="entry__date">— — — —</span>' +
+                       '<div class="skel__title"></div><div class="skel__bar"></div>';
+      frag.appendChild(wrap);
+      var spacer = document.createElement("div");
+      spacer.style.height = "58px";
+      frag.appendChild(spacer);
+
+      var t = wrap.querySelector(".skel__title");
+      if(reduce){ t.textContent = "—"; return; }
+      timers.push(setInterval(function(){
+        var s = "";
+        for(var k=0;k<len;k++) s += (Math.random() < 0.13) ? " " : JAMO[Math.floor(Math.random()*JAMO.length)];
+        t.textContent = s;
+      }, 90 + i*17));
+    });
+    log.appendChild(frag);
+  }
+
+  function stopSkeleton(){
+    timers.forEach(clearInterval);
+    timers = [];
+    log.innerHTML = "";
+  }
+
+  /* ================= fetching ================= */
+  function viaReader(){
+    return fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(FEED))
+      .then(function(r){ if(!r.ok) throw new Error("reader " + r.status); return r.json(); })
+      .then(function(d){
+        if(!d || d.status !== "ok" || !d.items || !d.items.length) throw new Error("reader empty");
+        return d.items.map(function(it){
+          return {
+            title: it.title || "Untitled",
+            link:  clean(it.link),
+            date:  it.pubDate || "",
+            html:  it.content || it.description || "",
+            tags:  it.categories || [],
+            thumb: it.thumbnail || ""
+          };
+        });
+      });
+  }
+
+  function viaProxy(){
+    return fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(FEED))
+      .then(function(r){ if(!r.ok) throw new Error("proxy " + r.status); return r.text(); })
+      .then(function(xml){
+        var doc = new DOMParser().parseFromString(xml, "text/xml");
+        var items = [].slice.call(doc.getElementsByTagName("item"));
+        if(!items.length) throw new Error("proxy empty");
+        function tag(it, name){
+          var n = it.getElementsByTagName(name)[0];
+          return n ? n.textContent : "";
+        }
+        return items.map(function(it){
+          var enc = it.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded")[0];
+          return {
+            title: tag(it, "title") || "Untitled",
+            link:  clean(tag(it, "link")),
+            date:  tag(it, "pubDate"),
+            html:  enc ? enc.textContent : tag(it, "description"),
+            tags:  [].slice.call(it.getElementsByTagName("category")).map(function(c){ return c.textContent; }),
+            thumb: ""
+          };
+        });
+      });
+  }
+
+  /* ================= sanitizing ================= */
+  /* allowlist only. anything not named here is dropped whole, which
+     covers script/style/iframe/object without having to enumerate them. */
+  var OK = {
+    P:1, BR:1, HR:1, EM:1, I:1, STRONG:1, B:1, U:1, SPAN:1, DIV:1, SECTION:1,
+    H1:1, H2:1, H3:1, H4:1, H5:1, H6:1, BLOCKQUOTE:1, UL:1, OL:1, LI:1,
+    A:1, IMG:1, FIGURE:1, FIGCAPTION:1, PRE:1, CODE:1
+  };
+
+  function sanitize(html){
+    var doc = new DOMParser().parseFromString(html || "", "text/html");
+    (function walk(node){
+      [].slice.call(node.children).forEach(function(el){
+        if(!OK[el.tagName]){ el.parentNode.removeChild(el); return; }
+        [].slice.call(el.attributes).forEach(function(a){
+          var n = a.name.toLowerCase();
+          var keep = (el.tagName === "A"   && n === "href") ||
+                     (el.tagName === "IMG" && (n === "src" || n === "alt"));
+          if(!keep) el.removeAttribute(a.name);
+        });
+        if(el.tagName === "A"){
+          if(!/^https?:\/\//i.test(el.getAttribute("href") || "")) el.removeAttribute("href");
+          else { el.setAttribute("target", "_blank"); el.setAttribute("rel", "noopener nofollow"); }
+        }
+        if(el.tagName === "IMG"){
+          if(!/^https?:\/\//i.test(el.getAttribute("src") || "")){ el.parentNode.removeChild(el); return; }
+          el.setAttribute("loading", "lazy");
+        }
+        walk(el);
+      });
+    })(doc.body);
+    return doc.body;
+  }
+
+  /* ================= shaping ================= */
+  function clean(url){
+    return (url || "").split("?")[0];
+  }
+
+  /* Medium's RSS flattens every heading to a plain <p>, so section breaks
+     arrive as undifferentiated body text. promote a paragraph back to a
+     heading only when it looks unmistakably like one: short, unpunctuated,
+     pure text, and followed by more prose. set false to leave the feed
+     exactly as Medium sends it. */
+  var REHEAD = true;
+
+  function reheading(body){
+    if(!REHEAD) return;
+    var ps = [].slice.call(body.querySelectorAll("p"));
+    ps.forEach(function(el, i){
+      if(i === 0) return;                               /* the lede is not a heading */
+      if(el.children.length) return;                    /* pure text only */
+      var t = (el.textContent || "").trim();
+      var words = t ? t.split(/\s+/).length : 0;
+      if(!t || t.length > 60 || words > 8) return;
+      if(/[.,;:!?…"'\)\]]$/.test(t)) return;            /* a sentence, not a label */
+      if(/^["'\u201c\u2018(\[]/.test(t)) return;         /* a pull quote */
+      var next = el.nextElementSibling;
+      if(!next || next.tagName === "P" && !next.textContent.trim()) return;
+      var h = document.createElement("h3");
+      h.textContent = t;
+      el.parentNode.replaceChild(h, el);
+    });
+  }
+
+  function firstImage(body){
+    var img = body.querySelector("img");
+    return img ? img.getAttribute("src") : "";
+  }
+
+  function stamp(d){
+    if(isNaN(d)) return "";
+    function pad(n){ return (n < 10 ? "0" : "") + n; }
+    return d.getFullYear() + "." + pad(d.getMonth()+1) + "." + pad(d.getDate());
+  }
+
+  function daysBetween(a, b){
+    return Math.max(0, Math.round((a - b) / 86400000));
+  }
+
+  function ago(d){
+    var n = daysBetween(new Date(), d);
+    if(n <= 0) return "today";
+    if(n === 1) return "yesterday";
+    if(n < 30) return n + " days ago";
+    if(n < 365) return Math.round(n/30) + " months ago";
+    return Math.round(n/365) + " years ago";
+  }
+
+  /* ================= rendering ================= */
+  function render(posts){
+    stopSkeleton();
+    log.setAttribute("aria-busy", "false");
+
+    var frag = document.createDocumentFragment();
+
+    posts.forEach(function(p, i){
+      var body  = sanitize(p.html);
+      reheading(body);
+      var text  = (body.textContent || "").replace(/\s+/g, " ").trim();
+      var words = text ? text.split(" ").length : 0;
+      var mins  = Math.max(1, Math.round(words / WPM));
+      var date  = new Date(p.date);
+      var thumb = p.thumb || firstImage(body);
+
+      var el = document.createElement("article");
+      el.className = "entry";
+
+      var head = document.createElement("button");
+      head.type = "button";
+      head.className = "entry__head";
+      head.setAttribute("aria-expanded", "false");
+      head.id = "entry-head-" + i;
+
+      var left = document.createElement("div");
+      var meta = [];
+      if(mins) meta.push(mins + " min read");
+      if(p.tags.length) meta.push(p.tags.slice(0, 3).join(" · "));
+
+      left.innerHTML =
+        '<span class="entry__date"></span>' +
+        '<h2 class="entry__title"></h2>' +
+        '<p class="entry__excerpt"></p>' +
+        '<p class="entry__meta"></p>';
+      left.querySelector(".entry__date").textContent  = stamp(date);
+      left.querySelector(".entry__title").textContent = p.title;
+      left.querySelector(".entry__excerpt").textContent =
+        text.length > 190 ? text.slice(0, 190).replace(/\s+\S*$/, "") + "…" : text;
+      left.querySelector(".entry__meta").textContent = meta.join("  //  ");
+      head.appendChild(left);
+
+      if(thumb){
+        var im = document.createElement("img");
+        im.className = "entry__thumb";
+        im.alt = "";
+        im.loading = "lazy";
+        im.onerror = function(){                    /* no empty frames when Medium's CDN misses */
+          if(im.parentNode) im.parentNode.removeChild(im);
+        };
+        im.src = thumb;
+        head.appendChild(im);
+      }
+      el.appendChild(head);
+
+      /* the post, expanded in place */
+      var more = document.createElement("div");
+      more.className = "more";
+      more.id = "entry-body-" + i;
+      more.setAttribute("role", "region");
+      more.setAttribute("aria-labelledby", head.id);
+      var inner = document.createElement("div");
+      inner.className = "more__in";
+      var prose = document.createElement("div");
+      prose.className = "prose";
+      while(body.firstChild) prose.appendChild(body.firstChild);
+      var end = document.createElement("p");
+      end.className = "prose__end";
+      var endLink = document.createElement("a");
+      endLink.className = "tlink";
+      endLink.href = p.link;
+      endLink.target = "_blank";
+      endLink.rel = "noopener";
+      endLink.textContent = "Continue on Medium ↗";   /* claps and responses live there */
+      end.appendChild(endLink);
+      prose.appendChild(end);
+      inner.appendChild(prose);
+      more.appendChild(inner);
+      head.setAttribute("aria-controls", more.id);
+
+      var actions = document.createElement("p");
+      actions.className = "entry__actions";
+      var toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "tlink";
+      toggle.textContent = "Read here";
+      var out = document.createElement("a");
+      out.className = "tlink";
+      out.href = p.link;
+      out.target = "_blank";
+      out.rel = "noopener";
+      out.textContent = "Open on Medium ↗";
+      actions.appendChild(toggle);
+      actions.appendChild(out);
+      el.appendChild(actions);
+      el.appendChild(more);
+
+      function setOpen(open){
+        el.classList.toggle("is-open", open);
+        head.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.textContent = open ? "Collapse" : "Read here";
+      }
+      function flip(){ setOpen(!el.classList.contains("is-open")); }
+      head.addEventListener("click", flip);
+      toggle.addEventListener("click", flip);
+
+      frag.appendChild(el);
+
+      /* the silence before the next entry, drawn to scale */
+      var next = posts[i+1];
+      var spacer = document.createElement("div");
+      var days = next ? daysBetween(date, new Date(next.date)) : 0;
+      if(next && !isNaN(days)){
+        spacer.className = "gap";
+        spacer.style.height = Math.round(46 + Math.min(190, days * 1.6)) + "px";
+        if(days >= 21) spacer.textContent = days + " days";
+      } else {
+        spacer.style.height = "46px";
+      }
+      frag.appendChild(spacer);
+    });
+
+    log.appendChild(frag);
+
+    var newest = new Date(posts[0].date);
+    countEl.textContent = posts.length + (posts.length === 1 ? " entry" : " entries") +
+                          "  //  latest " + ago(newest);
+    countEl.classList.remove("opacity-0");
+  }
+
+  /* ================= the feed didn't load ================= */
+  function fallback(){
+    stopSkeleton();
+    log.setAttribute("aria-busy", "false");
+    var el = document.createElement("div");
+    el.className = "entry";
+    el.innerHTML =
+      '<h2 class="entry__title">The feed didn’t load</h2>' +
+      '<p class="entry__excerpt">Medium’s posts are fetched in the browser and the request didn’t come back. ' +
+      'The writing is all still on Medium.</p>' +
+      '<p class="entry__actions"></p>';
+    var retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "tlink";
+    retry.textContent = "Try again";
+    retry.addEventListener("click", function(){ log.innerHTML = ""; start(); });
+    var out = document.createElement("a");
+    out.className = "tlink";
+    out.href = HANDLE ? "https://medium.com/@" + HANDLE : "https://medium.com";
+    out.target = "_blank";
+    out.rel = "noopener";
+    out.textContent = "Open Medium ↗";
+    el.querySelector(".entry__actions").appendChild(retry);
+    el.querySelector(".entry__actions").appendChild(out);
+    log.appendChild(el);
+  }
+
+  function start(){
+    skeleton();
+    if(!HANDLE){ setTimeout(fallback, 600); return; }
+    viaReader()
+      .catch(viaProxy)
+      .then(render)
+      .catch(fallback);
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>

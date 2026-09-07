@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>최선우 — Sunwoo F. Choi</title>
+<title>Frank Choi</title>
 <meta name="description" content="Sunwoo 'Frank' Choi — neuroscience, memory, computational psychiatry. Amherst College '30.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,37 +19,56 @@
     --font-krmono:   "Nanum Gothic Coding", monospace;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=12">
+<link rel="stylesheet" href="site.css?v=21">
 </head>
-<body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+<body class="m-0 h-svh overflow-hidden bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased">
 
-<a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#enter">Skip to entry</a>
+<a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#links">Skip to links</a>
 <div class="grain" aria-hidden="true"></div>
 
-<main id="main">
-  <!-- ============ HERO — name over a live scramble field of the record ============ -->
-  <section id="hero" class="relative min-h-svh flex items-center justify-center overflow-hidden px-[clamp(1.1rem,5vw,4rem)]">
+<main id="main" class="h-svh">
+  <!-- ============ one screen: name + links on the left, dive-in loose on the right ============ -->
+  <section id="hero" class="relative h-svh overflow-hidden">
     <!-- background field: lines from eidola.me/manifesto, populated + scrambled by site.js -->
     <div id="field" class="field-wall" aria-hidden="true"></div>
 
-    <h1 class="name relative z-10 text-center font-sans font-bold text-ink text-[clamp(2rem,9vw,6.5rem)] tracking-[.02em] leading-[1.04]">&lt;&lt;&nbsp;SUNWOO F. CHOI&nbsp;&gt;&gt;</h1>
+    <div class="relative z-10 h-full w-full md:w-1/2 flex flex-col justify-center px-[clamp(1.1rem,5vw,4rem)]">
+      <h1 class="name font-sans font-bold text-ink text-[clamp(2.4rem,8vw,6.5rem)] tracking-[.02em] leading-[.98]">
+        <span class="block rise" style="animation-delay:.05s">&lt;&lt;&nbsp;FRANK</span>
+        <span class="block rise" style="animation-delay:.20s">CHOI&nbsp;&gt;&gt;</span>
+      </h1>
 
-    <a href="#enter" id="scrollcue" class="absolute bottom-[clamp(1.2rem,5vh,2.5rem)] left-1/2 -translate-x-1/2 z-10 text-[.68rem] tracking-[.24em] uppercase opacity-50 no-underline hover:opacity-90 transition-opacity duration-500">scroll ↓</a>
-  </section>
+      <nav id="links" class="mt-[clamp(1.4rem,4vh,2.6rem)] flex flex-col gap-[.55rem] max-w-[22rem]" aria-label="contact and profiles">
+        <a class="glass rise" style="animation-delay:.45s" href="mailto:sunwoo.f.choi@gmail.com">
+          <svg class="glass__i" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457Z"/></svg>
+          <span class="glass__l">email</span><span class="glass__go">&#8594;</span>
+        </a>
+        <a class="glass rise" style="animation-delay:.58s" href="https://docs.google.com/document/d/1Zn56vbKMmXVWZCqaRQzhiJFimsFPxpRgWNsV0mGJVz4/edit?usp=sharing" target="_blank" rel="noopener">
+          <svg class="glass__i" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h9l5 5v15H5V2Zm3 8h8v1.5H8V10Zm0 3.5h8V15H8v-1.5Zm0 3.5h5.4v1.5H8V17Z"/></svg>
+          <span class="glass__l">resume</span><span class="glass__go">&#8599;</span>
+        </a>
+        <a class="glass rise" style="animation-delay:.71s" href="https://github.com/Sunwoo-droid" target="_blank" rel="noopener">
+          <svg class="glass__i" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          <span class="glass__l">github</span><span class="glass__go">&#8599;</span>
+        </a>
+        <a class="glass rise" style="animation-delay:.84s" href="https://www.linkedin.com/in/sunwoo-choi/" target="_blank" rel="noopener">
+          <svg class="glass__i" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+          <span class="glass__l">linkedin</span><span class="glass__go">&#8599;</span>
+        </a>
+      </nav>
+    </div>
 
-  <!-- ============ ENTER — one field line resolves to the highlighted CTA ============ -->
-  <section id="enter" class="relative min-h-svh flex items-center justify-center overflow-hidden px-[clamp(1.1rem,5vw,4rem)]">
-    <div id="field2" class="field-wall field-wall--dim" aria-hidden="true"></div>
-    <a id="divein" href="projects.html" class="dive absolute -translate-y-1/2 z-10" aria-label="dive in — enter the site">dive in</a>
+    <a id="divein" href="projects.html" class="dive absolute -translate-y-1/2 z-10" aria-label="learn more — enter the site">learn more</a>
   </section>
 </main>
 
-<script src="site.js?v=3"></script>
+<script src="site.js?v=6"></script>
 <script>
 /* ================================================================
-   home gateway — both fields come from the shared engine in site.js;
-   this script only places the dive-in on the grid and wires the
-   scroll cue + the scramble-in of the CTA.
+   home gateway — one screen, no scroll. the field comes from the
+   shared engine in site.js; this script drops the dive-in on a
+   random column of the RIGHT half (so it can never land on the
+   name or the link stack) and scrambles it in once on load.
    ================================================================ */
 (function(){
   "use strict";
@@ -57,57 +76,39 @@
   var reduce = (KR.reduce != null) ? KR.reduce
              : (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
-  /* hero: fragments dot the entire background; the name overlays on top */
-  if(KR.buildField) KR.buildField(document.getElementById("field"), 1.0, null);
+  var field = document.getElementById("field");
+  var dive  = document.getElementById("divein");
+  if(!field || !KR.buildField) return;
 
-  /* enter: the dive-in claims a middle slot of the grid — aligned to a
-     column axis like any fragment — and that slot is reserved so no
-     background fragment can ever spawn on it. */
-  (function(){
-    var field2 = document.getElementById("field2");
-    if(!field2 || !KR.buildField) return;
-    var G = KR.fieldGeom;
-    var H = field2.clientHeight || window.innerHeight || 800;
-    var dc = (G.cols > 2) ? 1 + Math.floor(Math.random()*(G.cols-2)) : Math.floor(Math.random()*G.cols);
-    var diveY = 0.10*H + 1.5*(0.80*H/G.rows);    /* center of the middle row */
-    var diveEl = document.getElementById("divein");
-    if(diveEl){
-      diveEl.style.left = (dc*G.colw + G.pad).toFixed(0) + "px";
-      diveEl.style.top  = diveY.toFixed(0) + "px";
-    }
-    KR.buildField(field2, 0.7, { c: dc, y: diveY });
-  })();
+  var G = KR.fieldGeom;
+  var H = field.clientHeight || window.innerHeight || 800;
+  var narrow = window.innerWidth < 768;
 
-  /* scroll cue: fade out as soon as the user starts scrolling, back if they return to top */
-  var cue = document.getElementById("scrollcue");
-  if(cue){
-    window.addEventListener("scroll", function(){
-      var away = window.scrollY > 40;
-      cue.style.opacity = away ? "0" : "";
-      cue.style.pointerEvents = away ? "none" : "";
-    }, { passive: true });
+  /* pick the slot: right half on desktop (columns from the midpoint up),
+     bottom band on narrow screens where the copy owns the full width. */
+  var first = narrow ? 0 : Math.ceil(G.cols/2);
+  var span  = Math.max(1, G.cols - first);
+  var dc    = first + Math.floor(Math.random()*span);
+  var lo    = narrow ? 0.80 : 0.14;
+  var hi    = narrow ? 0.93 : 0.86;
+  var diveY = (lo + Math.random()*(hi-lo)) * H;
+
+  if(dive){
+    dive.style.left = (dc*G.colw + G.pad).toFixed(0) + "px";
+    dive.style.top  = diveY.toFixed(0) + "px";
   }
 
-  /* dive-in: a highlighted line that scrambles/types itself out when scrolled into view */
-  var dive  = document.getElementById("divein");
-  var enter = document.getElementById("enter");
+  /* that slot is reserved, so no background fragment can spawn on it */
+  KR.buildField(field, 0.85, { c: dc, y: diveY });
+
+  /* learn-more: held blank and invisible for a beat (the chip fades in on
+     a 1s CSS delay), then scrambles itself out on the same clock */
   if(dive){
-    if(reduce || !KR.krType || !("IntersectionObserver" in window)){
-      dive.textContent = "dive in";           /* stays static, still routes on click */
+    if(reduce || !KR.krType){
+      dive.textContent = "learn more";
     } else {
-      /* retrigger on every arrival: blank while off-screen, scramble in each time */
-      var playing = false;
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(e.isIntersecting && !playing){
-            playing = true;
-            KR.krType(dive, "dive in", 62, 220, function(){ playing = false; });
-          } else if(!e.isIntersecting && !playing){
-            dive.textContent = "";
-          }
-        });
-      }, { threshold: 0.6 });
-      io.observe(enter);
+      dive.textContent = "";
+      setTimeout(function(){ KR.krType(dive, "learn more", 62, 220); }, 1000);
     }
   }
 })();

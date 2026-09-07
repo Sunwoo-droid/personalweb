@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>연구 기록 — Projects — Sunwoo F. Choi</title>
+<title>Projects</title>
 <meta name="description" content="Work and research: Eidola, independent EEG research on adolescent brain function, the USC HS Neuroscience Journal Club, and Boston University RISE.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,35 +19,25 @@
     --font-krmono:   "Nanum Gothic Coding", monospace;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=12">
+<link rel="stylesheet" href="site.css?v=21">
 </head>
 <body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
 
 <a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 
-<header class="relative z-20">
-  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] pt-6 pb-2 flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
+<header class="sitehead" data-autohide>
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
     <a class="navlink navlink--home" href="index.html">sunwoo f. choi</a>
     <span class="ml-auto" aria-hidden="true"></span>
     <a class="navlink" href="projects.html" aria-current="page">projects</a>
+    <a class="navlink" href="blog.html">blog</a>
     <a class="navlink" href="off-record.html">off-record</a>
     <a class="navlink" href="contact.html">contact</a>
   </nav>
 </header>
 
 <main id="main">
-  <!-- ============ TITLE — the landing weather, dimmed, behind the page name ============ -->
-  <section class="relative overflow-hidden min-h-[52svh] flex items-center" aria-label="Projects">
-    <div class="field-wall field-wall--page" data-field="0.6" aria-hidden="true"></div>
-    <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-0 bottom-0 text-center text-[clamp(2.6rem,6vw,4.6rem)] opacity-[.07]" aria-hidden="true">연구 기록</span>
-    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,6rem)] relative z-10">
-      <p class="m-0 text-[.66rem] tracking-[.3em] uppercase opacity-45" aria-hidden="true">01 // record</p>
-      <h1 class="m-0 mt-4 font-sans font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Projects</h1>
-      <p class="mt-5 mb-0 max-w-[52ch] text-[.88rem] leading-[1.7] opacity-60" data-krtype data-speed="12">four entries. the numbering carries the order, not the ranking.</p>
-    </div>
-  </section>
-
   <!-- ============ 01 EIDOLA — a pinned looping film; the title, then the
        description, ride over it as you scroll. ============ -->
   <section id="eidola-stage" class="relative h-[240svh]" aria-label="Eidola">
@@ -58,7 +48,7 @@
 
       <!-- the entry number, held on the film like a slate — it stays put
            through both screens, on the same column as 02 and the rest -->
-      <div class="absolute inset-x-0 top-[clamp(1.4rem,5vh,2.8rem)] z-10 pointer-events-none">
+      <div class="absolute inset-x-0 top-[clamp(4.2rem,9vh,5.5rem)] z-10 pointer-events-none">
         <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)]">
           <span class="film-text text-[.8rem] tracking-[.3em] opacity-70 tabular-nums">01</span>
         </div>
@@ -143,7 +133,7 @@
   </div>
 </div>
 
-<script src="site.js?v=3"></script>
+<script src="site.js?v=6"></script>
 <script>
 /* ================================================================
    eidola stage — the loop stays pinned while the title card fades
