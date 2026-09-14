@@ -82,6 +82,13 @@
   var HANDLE = "sunwoo.f.choi";
 
   var FEED   = "https://medium.com/feed/@" + HANDLE;
+
+  /* the reader caches a feed server-side, and that copy can predate a new
+     post by a day. the cache key is the whole rss_url, so an hourly token
+     on the end of it forces a re-read at most once an hour — writing posted
+     today shows up today, without hitting the reader afresh on every load.
+     Medium ignores the parameter it doesn't know. */
+  var FRESH  = FEED + "?_=" + Math.floor(Date.now() / 3600000);
   var WPM    = 220;
   var log    = document.getElementById("log");
   var countEl= document.getElementById("log-count");
@@ -125,7 +132,7 @@
 
   /* ================= fetching ================= */
   function viaReader(){
-    return fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(FEED))
+    return fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(FRESH))
       .then(function(r){ if(!r.ok) throw new Error("reader " + r.status); return r.json(); })
       .then(function(d){
         if(!d || d.status !== "ok" || !d.items || !d.items.length) throw new Error("reader empty");
