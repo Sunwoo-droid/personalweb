@@ -188,9 +188,7 @@
   /* ---- expose the engines so page-specific scripts can reuse them ---- */
   window.KR = {
     krType: krType,
-    toHangul: toHangul,
     reduce: reduce,
-    FRAGMENTS: FRAGMENTS,
     buildField: buildField,
     fieldGeom: GEOM
   };
@@ -236,8 +234,7 @@
     if(i >= queue.length) return;
     var el = queue[i];
     var speed = parseInt(el.getAttribute("data-speed") || "24", 10);
-    var hold  = parseInt(el.getAttribute("data-hold")  || "320", 10);
-    krType(el, el.getAttribute("data-text"), speed, hold, function(){
+    krType(el, el.getAttribute("data-text"), speed, 320, function(){
       runQueue(i+1);
     });
   }

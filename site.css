@@ -22,12 +22,6 @@ a:focus-visible,button:focus-visible{
   opacity:.3;
 }
 
-/* ---- blinking block cursor ---- */
-.cursor{
-  display:inline-block;width:.62ch;height:1.05em;
-  background:currentColor;vertical-align:-.16em;margin-left:.05em;
-  animation:blink 1.05s steps(1) infinite;
-}
 @keyframes blink{50%{opacity:0}}
 
 /* ---- hangul-typing elements: korean glyphs while scrambled ---- */
@@ -43,7 +37,6 @@ a:focus-visible,button:focus-visible{
   font-family:"Geist",ui-monospace,monospace;
   font-size:13px;line-height:20px;
 }
-.field-wall--dim{opacity:.2}
 .field-wall--page{opacity:.16}
 /* fragments left-align to column edges set by the field engine and
    wrap inside their column — full sentences, no truncation */
@@ -79,7 +72,6 @@ a:focus-visible,button:focus-visible{
   padding:.1em .55em;text-decoration:none;
 }
 .dive:hover,.dive:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.dive .cursor{background:#000}
 
 /* ---- quiet text link: hairline underline, brightens on hover ---- */
 .tlink{
@@ -126,7 +118,6 @@ a:focus-visible,button:focus-visible{
 @keyframes diveIn{to{opacity:1}}
 
 @media (prefers-reduced-motion:reduce){
-  .cursor{animation:none}
   .dive{opacity:1;animation:none}
   .field-wall .frag.typing::after{animation:none}
   *{scroll-behavior:auto!important}
