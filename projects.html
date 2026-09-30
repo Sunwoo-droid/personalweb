@@ -101,27 +101,50 @@
 .panel__g{margin:.1rem 0 0;font-family:"Geist",ui-sans-serif,system-ui,sans-serif;font-size:1rem;opacity:.5}
 .panel__m{margin:.9rem 0 0;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;opacity:.44}
 .panel__p p{margin:1.15rem 0 0;max-width:46ch;font-size:.88rem;line-height:1.8;opacity:.72}
-.panel__act{margin:1.7rem 0 0}
-
-
-/* ---- the fullscreen view ---- */
-.pfs{z-index:160}
-.pfs__media{position:absolute;inset:0;z-index:0;overflow:hidden}
-.pfs__media video,.pfs__media canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.pfs__scrim{position:absolute;inset:0;z-index:1;background:rgba(0,0,0,.6)}
-.pfs__in{position:relative;z-index:2;width:100%;max-width:820px;max-height:100%;overflow:auto}
-.pfs__n{display:block;font-size:.72rem;letter-spacing:.3em;opacity:.45;font-variant-numeric:tabular-nums}
-.pfs__t{
-  margin:.7rem 0 0;font-family:"Geist",ui-sans-serif,system-ui,sans-serif;font-weight:700;
-  font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.1;letter-spacing:.04em;text-transform:uppercase;
+.panel__l{
+  margin:1.7rem 0 0;display:flex;flex-wrap:wrap;
+  gap:.8rem 1.7rem;align-items:baseline;
 }
-.pfs__g{margin:.35rem 0 0;font-family:"Geist",ui-sans-serif,system-ui,sans-serif;font-size:clamp(1rem,2vw,1.3rem);opacity:.55}
-.pfs__m{margin:1.1rem 0 0;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
-.pfs__p p{margin:1.4rem 0 0;max-width:62ch;font-size:clamp(.9rem,1.5vw,1rem);line-height:1.8;opacity:.82}
-.pfs__l{margin:2.2rem 0 0;display:flex;flex-wrap:wrap;gap:.9rem 1.8rem;align-items:center}
-.pfs__demo{position:absolute;inset:0;z-index:3;background:#000;display:none}
-.pfs__demo.is-on{display:flex;align-items:center;justify-content:center;padding:clamp(.8rem,4vw,3rem)}
-.pfs__demo iframe{width:100%;max-width:1180px;aspect-ratio:16/9;border:0}
+
+
+/* ---- the background field ----------------------------------------
+   the focused project's own loop, faded in behind the whole page.
+   same two rules as the ring: one owner per property — js writes the
+   layer opacities and nothing else does, and the field is gated on
+   .is-mapped, so no-js, reduced motion and the static index all land
+   on the page's resting state, which is black.
+   ------------------------------------------------------------------ */
+#bgfx{display:none}
+.is-mapped #bgfx{
+  display:block;position:fixed;inset:0;z-index:0;
+  pointer-events:none;background:#000;
+}
+.bgfx__l{position:absolute;inset:0;opacity:0;will-change:opacity}
+.bgfx__l video,.bgfx__l canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* 04 is daylight footage on a beige wall — 2.7x the eidola loop's
+   luminance and the only colour on the page. this is what brings it
+   into the monochrome before the peak below scales it. */
+.bgfx__l--rise video{filter:grayscale(1) contrast(1.08) brightness(.62)}
+/* the scrim: the field runs edge to edge, so this is legibility and
+   nothing else. a soft wash down the left keeps the panel column
+   readable, and a wide radial takes the corners down a little so the
+   frame doesn't fight the type. no black stops anywhere — every one
+   of them was a place the field visibly ended. */
+#bgfx::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(150% 120% at 62% 50%,
+      rgba(0,0,0,0) 0%, rgba(0,0,0,.16) 62%, rgba(0,0,0,.44) 100%),
+    linear-gradient(90deg,
+      rgba(0,0,0,.82) 0%, rgba(0,0,0,.74) 22%,
+      rgba(0,0,0,.34) 44%, rgba(0,0,0,0) 66%);
+}
+/* the field is z-0 and fixed; the page has to sit on top of it */
+#main,body>footer{position:relative;z-index:1}
+/* the header's fill is sized for a black page. over a full-bleed field
+   it becomes a bar with an edge — exactly the band the field is meant
+   not to have. the blur alone still separates the nav from the frame. */
+.is-mapped .sitehead{background:rgba(0,0,0,.28);border-bottom-color:transparent}
 
 @media (prefers-reduced-motion:reduce){
   .orb__s{transition:none}
@@ -132,6 +155,20 @@
 
 <a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
+
+<!-- the background field — filled and faded by the map script; inert
+     and invisible until .is-mapped says the ring is running -->
+<div class="bgfx" id="bgfx" aria-hidden="true">
+  <div class="bgfx__l" id="bgfx-eidola">
+    <video id="bgfx-video" muted loop playsinline preload="none"
+           poster="eidolaloop-poster.jpg" tabindex="-1"></video>
+  </div>
+  <div class="bgfx__l" id="bgfx-eeg"><canvas id="bgfx-canvas"></canvas></div>
+  <div class="bgfx__l bgfx__l--rise" id="bgfx-rise">
+    <video id="bgfx-rise-video" muted loop playsinline preload="none"
+           poster="riseloop-poster.jpg" tabindex="-1"></video>
+  </div>
+</div>
 
 <header class="sitehead" data-autohide>
   <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
@@ -176,7 +213,7 @@
             <p class="mt-4 mb-0 max-w-[62ch] text-[.92rem] leading-[1.8] opacity-70">I founded the team, built the brand identity and website, wrote the manifesto, directed all marketing, and led the clinical work — grounded in memory-reconstruction research in mood disorders.</p>
           </div>
           <p class="p-links mt-8 mb-0 flex flex-wrap gap-x-7 gap-y-3">
-            <a class="tlink" data-demo href="https://drive.google.com/file/d/1myHo4UtFfQbz2FqtPkXLXN0JqF9yYy0Z/preview" target="_blank" rel="noopener">Play the demo ↗</a>
+            <a class="tlink" href="https://drive.google.com/file/d/1myHo4UtFfQbz2FqtPkXLXN0JqF9yYy0Z/preview" target="_blank" rel="noopener">Play the demo ↗</a>
             <a class="tlink" href="https://eidola.me/manifesto">Read the manifesto ↗</a>
           </p>
         </div>
@@ -213,7 +250,7 @@
       </article>
 
       <article class="border-t border-ink/10 py-[clamp(2.8rem,7vh,4.5rem)] grid md:grid-cols-[5rem_1fr] gap-y-3 md:gap-x-[clamp(1rem,3vw,2.5rem)]"
-               data-proj data-n="04" data-title="Boston University RISE"
+               data-proj data-n="04" data-title="Boston University RISE" data-media="rise"
                data-sum="A computational model of the mBDNF/proBDNF pathway, and a BCI built from an EEG rig and an Arduino.">
         <div class="text-[.8rem] tracking-[.3em] opacity-30 tabular-nums pt-1" aria-hidden="true">04</div>
         <div>
@@ -235,16 +272,16 @@
     <div class="map__in" id="map-in">
 
       <div class="panel" id="panel">
-        <!-- a duplicate of what the dialog holds: kept out of the a11y
-             tree, while the open button below stays in it and named -->
-        <div aria-hidden="true">
-          <span class="panel__n" id="panel-n"></span>
-          <h2 class="panel__t" id="panel-t"></h2>
-          <p class="panel__g" id="panel-g"></p>
-          <p class="panel__m" id="panel-m"></p>
-          <div class="panel__p" id="panel-p"></div>
-        </div>
-        <p class="panel__act"><button type="button" class="tlink" id="panel-open" aria-haspopup="dialog"></button></p>
+        <!-- the panel IS the project now — there is no dialog behind it,
+             so this is the only place the copy and the links live while
+             the ring runs. it stays in the a11y tree, and the ring holds
+             still whenever a pointer or the keyboard is inside it. -->
+        <span class="panel__n" id="panel-n"></span>
+        <h2 class="panel__t" id="panel-t"></h2>
+        <p class="panel__g" id="panel-g"></p>
+        <p class="panel__m" id="panel-m"></p>
+        <div class="panel__p" id="panel-p"></div>
+        <p class="panel__l" id="panel-l"></p>
       </div>
 
       <div class="stage" id="stage">
@@ -266,22 +303,6 @@
     <span aria-hidden="true">© 2026 sunwoo f. choi</span>
   </div>
 </footer>
-
-<!-- the fullscreen view: one shell, filled per project on open -->
-<div id="pfs" class="pfs fixed inset-0 hidden items-center justify-center bg-black/92 p-[clamp(.8rem,4vw,3rem)]" role="dialog" aria-modal="true" aria-labelledby="pfs-t">
-  <div class="pfs__media" id="pfs-media" aria-hidden="true"></div>
-  <div class="pfs__scrim" aria-hidden="true"></div>
-  <button type="button" id="pfs-close" class="absolute top-[clamp(.8rem,3vw,2rem)] right-[clamp(.8rem,3vw,2rem)] playbtn z-[4]">close ✕</button>
-  <div class="pfs__in">
-    <span class="pfs__n" id="pfs-n"></span>
-    <h2 class="pfs__t" id="pfs-t"></h2>
-    <p class="pfs__g" id="pfs-g"></p>
-    <p class="pfs__m" id="pfs-m"></p>
-    <div class="pfs__p" id="pfs-p"></div>
-    <p class="pfs__l" id="pfs-l"></p>
-  </div>
-  <div class="pfs__demo" id="pfs-demo"><iframe id="pfs-frame" src="" title="Eidola — demo video" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
-</div>
 
 <script src="site.js?v=6"></script>
 <script>
@@ -331,7 +352,7 @@
   var ell   = document.getElementById("orbit");
   var pN = document.getElementById("panel-n"), pT = document.getElementById("panel-t"),
       pG = document.getElementById("panel-g"), pM = document.getElementById("panel-m"),
-      pP = document.getElementById("panel-p"), pOpen = document.getElementById("panel-open");
+      pP = document.getElementById("panel-p"), pL = document.getElementById("panel-l");
   if(!index || !map || !stage || !orbsEl) return;
 
   function clampv(v, lo, hi){ return v < lo ? lo : (v > hi ? hi : v); }
@@ -357,6 +378,8 @@
     var SWEEP = opts.sweep || 4.6;
     var GAP = 24, WIPE = 90;
     var TRACE = opts.trace || "rgba(255,255,255,.30)";
+    var LW = opts.width || 1;              /* a hairline reads in a dialog; a field needs weight */
+    var GLOW = opts.glow || "";            /* a bloom pass under the trace — luminous, not thick */
     var AMPF = opts.amp || 0.30;
     var BEAM = opts.beam == null ? 1 : opts.beam;
 
@@ -430,12 +453,13 @@
       });
       ctx.globalCompositeOperation = "source-over";
     }
-    /* lay down trace from x0 to x1 (no wrap inside one call) */
+    /* lay down trace from x0 to x1 (no wrap inside one call). the path
+       is built once and stroked twice when there's a bloom — a wide,
+       nearly transparent pass under a crisp one. */
     function draw(x0, x1, t0){
       var dt = SWEEP/W, i, ch, px, tt;
-      ctx.strokeStyle = TRACE;
-      ctx.lineWidth = 1;
       ctx.lineJoin = "round";
+      ctx.lineCap = "round";
       for(i = 0; i < CH; i++){
         ch = chans[i];
         var mid = rowH*(i + 0.5);
@@ -446,7 +470,12 @@
           ch.y = mid + amp*sample(ch, tt);
           ctx.lineTo(px, ch.y);
         }
-        ctx.stroke();
+        if(GLOW){
+          ctx.strokeStyle = GLOW; ctx.lineWidth = LW*9; ctx.stroke();
+          ctx.lineWidth = LW*4;                          /* twice = a falloff, not a slab */
+          ctx.stroke();
+        }
+        ctx.strokeStyle = TRACE; ctx.lineWidth = LW; ctx.stroke();
       }
     }
     /* the beam itself: a crisp head, a short glow running ahead of it */
@@ -563,10 +592,10 @@
   }
 
   /* ================================================================
-     the index, read once into plain objects. the ring, the panel and
-     the dialog are all built from this — never cloned from the
-     articles, because a ring node is a <button> and the articles
-     carry <a href>, which is invalid inside one.
+     the index, read once into plain objects. the ring and the panel are
+     both built from this — never cloned from the articles, because a
+     ring node is a <button> and the articles carry <a href>, which is
+     invalid inside one.
      ================================================================ */
   function text(el){ return el ? el.textContent.replace(/\s+/g, " ").trim() : ""; }
 
@@ -576,17 +605,134 @@
       title: a.getAttribute("data-title"),          /* short: the orbiting label */
       sum:   a.getAttribute("data-sum"),
       media: a.getAttribute("data-media") || "",
-      full:  text(a.querySelector(".p-title")),     /* the heading, for panel + dialog */
+      full:  text(a.querySelector(".p-title")),     /* the heading, as the panel shows it */
       tag:   text(a.querySelector(".p-tag")),
       meta:  text(a.querySelector(".p-meta")),
       paras: [].slice.call(a.querySelectorAll(".p-body p")).map(text),
       links: [].slice.call(a.querySelectorAll(".p-links a")).map(function(l){
-        return { href: l.href, label: text(l), demo: l.hasAttribute("data-demo") };
+        return { href: l.href, label: text(l) };
       }),
       el: a
     };
   });
   if(data.length !== N) return;
+
+  /* ================================================================
+     the background field — the focused project's own loop, behind the
+     whole page. it is handed the panel's envelope rather than a timer
+     of its own, so the field and the text breathe on one clock and
+     every handoff passes through black. 01 gets the eidola loop, 02
+     the same EEG signal it is named for, 04 its own footage. 03 carries
+     no media, so for it the field is black — the page at rest anyway.
+     ================================================================ */
+  /* a cap per layer, under the vignette — the field is felt, not
+     watched. the two carry wildly different amounts of light: the
+     video is a full frame, the EEG is nine hairlines on black, so
+     matching them by eye means not matching them by number. */
+  /* a cap per layer, under the scrim — the field is felt, not watched.
+     the three carry wildly different amounts of light: 01 is a dark
+     nebula, 02 is hairlines on black, 04 is daylight footage even
+     after the filter. matching them by eye means not matching them by
+     number. 01 and 02 land near 10% effective mean luminance; 04 sits
+     a little above them, by choice. */
+  var BG_PEAK = { eidola: 0.58, eeg: 0.62, rise: 0.50 };
+
+  var bgfx = (function(){
+    var host = document.getElementById("bgfx");
+    if(!host) return null;
+
+    /* every layer is an element and an opacity; a video layer also
+       carries the file it has not fetched yet */
+    var layers = {
+      eidola: { el: document.getElementById("bgfx-eidola"), a: -1,
+                vid: document.getElementById("bgfx-video"),      src: "eidolaloop.mp4" },
+      eeg:    { el: document.getElementById("bgfx-eeg"),    a: -1 },
+      rise:   { el: document.getElementById("bgfx-rise"),   a: -1,
+                vid: document.getElementById("bgfx-rise-video"), src: "riseloop.mp4" }
+    };
+    var keys = [], k;
+    for(k in layers){
+      if(!layers[k].el) return null;
+      keys.push(k);
+    }
+
+    var cvs = document.getElementById("bgfx-canvas");
+    var eeg = null, armed = false, live = "";
+
+    /* the gate: 0 while something else owns the screen. it drops hard
+       and eases back, so coming out of a suspend doesn't pop the
+       field on. */
+    var gate = 1, gateT = 1, last = 0;
+
+    function now(){ return window.performance ? performance.now() : Date.now(); }
+
+    function tickGate(){
+      var t = now(), dt = last ? Math.min(0.1, (t - last)/1000) : 0;
+      last = t;
+      if(gate === gateT) return;
+      gate += (gateT - gate) * Math.min(1, dt * 3.4);
+      if(Math.abs(gateT - gate) < 0.004) gate = gateT;
+    }
+
+    /* the two loops are 3.2MB and 1.7MB, and 01 is in focus on
+       arrival: the posters cover the first seconds, and the fetches
+       wait until nothing that blocks paint still wants the network. */
+    function arm(){
+      if(armed || reduce) return;
+      armed = true;
+      for(var i = 0; i < keys.length; i++){
+        var L = layers[keys[i]];
+        if(L.vid && !L.vid.getAttribute("src")) L.vid.setAttribute("src", L.src);
+      }
+      if(cvs && !eeg) eeg = makeEEG(cvs, {
+        trace: "rgba(255,255,255,.68)", glow: "rgba(255,255,255,.045)",
+        width: 1.35, amp: 0.32, channels: 14, sweep: 6.5
+      });
+      sync();
+    }
+
+    function write(k, a){
+      var L = layers[k];
+      if(Math.abs(a - L.a) < 0.004) return;
+      L.a = a;
+      L.el.style.opacity = a.toFixed(3);
+    }
+
+    /* playback follows the live layer, never the other way round:
+       exactly one thing is ever decoding */
+    function sync(){
+      for(var i = 0; i < keys.length; i++){
+        var name = keys[i], L = layers[name];
+        if(!L.vid || !L.vid.getAttribute("src")) continue;
+        var want = (live === name) && !reduce;
+        if(want && L.vid.paused) L.vid.play().catch(function(){});
+        else if(!want && !L.vid.paused) L.vid.pause();
+      }
+      if(eeg) eeg.focus(live === "eeg");
+    }
+
+    return {
+      arm: arm,
+      eng: function(){ return eeg; },          /* the ?map=debug seam */
+      /* one call per painted frame: the focused project's media key,
+         and the very envelope the panel fades on */
+      set: function(key, a){
+        tickGate();
+        var v = a * (BG_PEAK[key] || 0) * gate;
+        var k = v > 0.003 ? (key || "") : "", i;
+        for(i = 0; i < keys.length; i++) write(keys[i], k === keys[i] ? v : 0);
+        if(k !== live){ live = k; sync(); }
+      },
+      /* a hidden tab, a section scrolled away */
+      suspend: function(on){
+        if(on){
+          gate = gateT = 0; last = 0;
+          for(var i = 0; i < keys.length; i++) write(keys[i], 0);
+          if(live){ live = ""; sync(); }
+        } else { gateT = 1; last = 0; }
+      }
+    };
+  })();
 
   /* ================================================================
      the ring
@@ -602,7 +748,6 @@
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "orb__btn";
-      btn.setAttribute("aria-haspopup", "dialog");
       /* the name comes from visible text: number hidden, summary kept
          in the tree even while it is visually faded out, so a screen
          reader hears exactly what a hover shows */
@@ -637,7 +782,7 @@
       btn.addEventListener("pointerleave", function(){ hot(false); });
       btn.addEventListener("focus", function(){ hot(true); });
       btn.addEventListener("blur",  function(){ hot(false); });
-      btn.addEventListener("click", function(){ openFs(i, btn); });
+      btn.addEventListener("click", function(){ spinTo(i); });
     });
     orbsEl.appendChild(frag);
   }
@@ -700,7 +845,16 @@
       p.textContent = d.paras[k];
       pP.appendChild(p);
     }
-    pOpen.textContent = "Open — " + d.title + " ↗";
+    pL.innerHTML = "";
+    for(k = 0; k < d.links.length; k++){
+      var a = document.createElement("a");
+      a.className = "tlink";
+      a.href = d.links[k].href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = d.links[k].label;
+      pL.appendChild(a);
+    }
   }
 
   /* ---- one frame, written from one number ---- */
@@ -720,8 +874,8 @@
       o.wrap.style.transform = "translate3d(" + o.x.toFixed(1) + "px," + o.y.toFixed(1) + "px,0)";
       o.lab.style.transform = "translateY(" + Math.round(-STAGGER*Math.cos(th)) + "px)";
       o.dot.style.transform  = "scale(" + (1 + 0.9*w9).toFixed(3) + ")";
-      var base = 0.26 + 0.74*w4;
-      o.btn.style.opacity = (base + (1 - base)*o.he).toFixed(3);
+      var rest = 0.40 + 0.60*w4;              /* the floor is what an unfocused node reads at */
+      o.btn.style.opacity = (rest + (1 - rest)*o.he).toFixed(3);
       /* the focused node hands its title to the panel */
       o.tl.style.opacity = (1 - smoothstep(0.55, 0.95, w)).toFixed(3);
       z = o.hot ? 20 : Math.round(w*10);
@@ -745,6 +899,8 @@
     link.style.transform = "translate3d(" + panelR.toFixed(1) + "px," + (stageT + f.y).toFixed(1) + "px,0) scaleX(" + Math.max(0, len).toFixed(1) + ")";
     link.style.opacity = (0.30 * f.w * f.w * a).toFixed(3);
 
+    if(bgfx) bgfx.set(data[mod(cur, N)].media, a);
+
     state.cur = mod(cur, N); state.alpha = a; state.rx = rx; state.ry = ry;
   }
 
@@ -752,11 +908,35 @@
   var base = Math.PI;              /* node 01 starts at the focus point */
   var raf = 0, awake = false, prev = 0, lastPaint = -1e9, onScreen = true, frozen = false;
 
+  /* ---- the spin: clicking a node walks the ring round to it ----
+     node i sits at the focus point when base ≡ π − i·(π/2). there are
+     infinitely many such angles; the nearest one is the short way
+     round, which is the only one that doesn't look like a rewind. */
+  var spin = null;
+
+  function spinTo(i){
+    var d = (Math.PI - i*(Math.PI/2)) - base;
+    d -= 2*Math.PI * Math.round(d / (2*Math.PI));
+    if(Math.abs(d) < 1e-3) return;                  /* already the focused one */
+    spin = { from: base, delta: d, t: 0,
+             dur: 0.52 + 0.26 * Math.abs(d)/(Math.PI/2) };
+    start();
+  }
+
   function frame(now){
     raf = 0;
     var dt = Math.min(0.05, (now - prev)/1000);
     prev = now;
-    base -= OMEGA * dt;
+    if(spin){
+      spin.t += dt;
+      var u = Math.min(1, spin.t/spin.dur);
+      /* easeInOutCubic: leaves and arrives at the ring's own pace */
+      var ea = u < 0.5 ? 4*u*u*u : 1 - Math.pow(-2*u + 2, 3)/2;
+      base = spin.from + spin.delta*ea;
+      if(u >= 1) spin = null;
+    } else {
+      base -= OMEGA * dt;
+    }
     for(var i = 0; i < N; i++){
       var o = orbs[i];
       o.he += (o.hot ? 1 - o.he : -o.he) * Math.min(1, dt*9);
@@ -779,158 +959,28 @@
   }
 
   /* ================================================================
-     the fullscreen view — the existing lightbox contract (hidden/flex
-     as the only state, body scroll lock, esc, backdrop, focus back to
-     the opener), plus the focus trap the site didn't have.
+     the hold — the panel's links are live targets on a moving page.
+     while a pointer or the keyboard is inside the panel the ring
+     stands still, so nothing swaps out from under a click. start()
+     already refuses to run while `frozen`, so this is the whole of it.
      ================================================================ */
-  var fs = document.getElementById("pfs"),
-      fsMedia = document.getElementById("pfs-media"),
-      fsClose = document.getElementById("pfs-close"),
-      fsN = document.getElementById("pfs-n"), fsT = document.getElementById("pfs-t"),
-      fsG = document.getElementById("pfs-g"), fsM = document.getElementById("pfs-m"),
-      fsP = document.getElementById("pfs-p"), fsL = document.getElementById("pfs-l"),
-      fsDemo = document.getElementById("pfs-demo"), fsFrame = document.getElementById("pfs-frame");
+  var overP = false, focP = false;
 
-  var DEMO_SRC = "https://drive.google.com/file/d/1myHo4UtFfQbz2FqtPkXLXN0JqF9yYy0Z/preview";
-  var opener = null, eegFs = null, fsVideo = null, fsCanvas = null;
-
-  function mediaFor(d){
-    fsMedia.style.display = d.media ? "" : "none";
-    if(fsVideo) fsVideo.style.display = "none";
-    if(fsCanvas) fsCanvas.parentNode.style.display = "none";
-    if(eegFs) eegFs.focus(false);
-
-    if(d.media === "eidola"){
-      if(!fsVideo){
-        fsVideo = document.createElement("video");
-        fsVideo.muted = true; fsVideo.loop = true; fsVideo.playsInline = true;
-        fsVideo.setAttribute("playsinline", "");
-        fsVideo.preload = "none";
-        fsVideo.poster = "eidolaloop-poster.jpg";
-        fsVideo.setAttribute("aria-hidden", "true");
-        fsVideo.tabIndex = -1;
-        fsMedia.appendChild(fsVideo);
-      }
-      fsVideo.style.display = "";
-      if(!fsVideo.getAttribute("src")) fsVideo.setAttribute("src", "eidolaloop.mp4");
-      if(!reduce) fsVideo.play().catch(function(){});
-    } else if(d.media === "eeg"){
-      if(!fsCanvas){
-        var box = document.createElement("div");
-        box.style.cssText = "position:absolute;inset:0";
-        fsCanvas = document.createElement("canvas");
-        box.appendChild(fsCanvas);
-        fsMedia.appendChild(box);
-        eegFs = makeEEG(fsCanvas, { trace: "rgba(255,255,255,.62)", amp: 0.30 });
-      }
-      fsCanvas.parentNode.style.display = "";
-    }
+  function holdSync(){
+    var want = overP || focP;
+    if(want === frozen) return;
+    frozen = want;
+    if(frozen) stop(); else start();
   }
 
-  function openFs(i, from){
-    var d = data[i];
-    opener = from || null;
-    fsN.textContent = d.n;
-    fsT.textContent = d.full;
-    fsG.textContent = d.tag || "";
-    fsG.style.display = d.tag ? "" : "none";
-    fsM.textContent = d.meta;
-    fsP.innerHTML = "";
-    d.paras.forEach(function(txt){
-      var p = document.createElement("p");
-      p.textContent = txt;
-      fsP.appendChild(p);
-    });
-    fsL.innerHTML = "";
-    d.links.forEach(function(l){
-      var a;
-      if(l.demo){
-        a = document.createElement("button");
-        a.type = "button";
-        a.className = "tlink";
-        a.addEventListener("click", showDemo);
-      } else {
-        a = document.createElement("a");
-        a.className = "tlink";
-        a.href = l.href;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.textContent = l.label;
-      fsL.appendChild(a);
-    });
-
-    mediaFor(d);
-
-    fs.classList.remove("hidden");
-    fs.classList.add("flex");
-    document.body.style.overflow = "hidden";
-    map.inert = true; index.inert = true;
-    frozen = true; stop();
-    if(eegFs && d.media === "eeg"){ eegFs.resize(); eegFs.focus(true); }   /* measure after it is shown */
-    fsClose.focus();
-  }
-
-  function showDemo(){
-    fsFrame.src = DEMO_SRC;
-    fsDemo.classList.add("is-on");
-    if(fsVideo) fsVideo.pause();
-  }
-
-  function closeFs(){
-    if(fs.classList.contains("hidden")) return;
-    fs.classList.add("hidden");
-    fs.classList.remove("flex");
-    fsDemo.classList.remove("is-on");
-    fsFrame.src = "";                       /* unload: stops playback for good */
-    if(fsVideo) fsVideo.pause();
-    if(eegFs) eegFs.focus(false);
-    document.body.style.overflow = "";
-    map.inert = false; index.inert = false;
-    frozen = false;
-    start();
-    if(opener && opener.focus) opener.focus();
-    opener = null;
-  }
-
-  fsClose.addEventListener("click", closeFs);
-  fs.addEventListener("click", function(e){ if(e.target === fs) closeFs(); });
-  document.addEventListener("keydown", function(e){
-    if(fs.classList.contains("hidden")) return;
-    if(e.key === "Escape"){ closeFs(); return; }
-    if(e.key !== "Tab") return;
-    /* inert covers this on current engines; the trap is the fallback */
-    var f = [].slice.call(fs.querySelectorAll("button, a[href], iframe")).filter(function(el){
-      return el.offsetParent !== null || el === fsClose;
-    });
-    if(!f.length) return;
-    var first = f[0], last = f[f.length - 1];
-    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  panel.addEventListener("pointerenter", function(){ overP = true;  holdSync(); });
+  panel.addEventListener("pointerleave", function(){ overP = false; holdSync(); });
+  panel.addEventListener("focusin",      function(){ focP  = true;  holdSync(); });
+  panel.addEventListener("focusout", function(e){
+    if(panel.contains(e.relatedTarget)) return;      /* moving between links */
+    focP = false; holdSync();
   });
 
-  /* the panel's open button is stationary while the ring is not:
-     latch what was on screen when it took focus, so nobody reads one
-     project for twenty seconds and opens the next one */
-  var latch = -1;
-  panel.addEventListener("focusin",  function(){ latch = mod(cur, N); });
-  panel.addEventListener("focusout", function(){ latch = -1; });
-  pOpen.addEventListener("click", function(){
-    openFs(latch >= 0 ? latch : mod(cur, N), pOpen);
-  });
-
-  /* in index mode every article gets the same door */
-  data.forEach(function(d, i){
-    var links = d.el.querySelector(".p-links");
-    if(!links) return;
-    var b = document.createElement("button");
-    b.type = "button";
-    b.className = "tlink";
-    b.setAttribute("aria-haspopup", "dialog");
-    b.textContent = "Open ↗";
-    b.addEventListener("click", function(){ openFs(i, b); });
-    links.appendChild(b);
-  });
 
   /* ================================================================
      mode — no-js, reduced motion and too-narrow are three reasons for
@@ -960,11 +1010,27 @@
         index.hidden = false;
         return;
       }
+      if(bgfx) bgfx.suspend(document.hidden);   /* a tab opened in the background fires no
+                                                  visibilitychange — seed the gate here */
       paint(base);
       start();
+      armBg();
     } else {
       stop();
+      if(bgfx) bgfx.suspend(true);
     }
+  }
+
+  /* the field's media is fetched on idle after load, never on the
+     critical path — the poster holds 01's frame until it lands */
+  function armBg(){
+    if(!bgfx || reduce) return;
+    if(document.readyState !== "complete"){
+      window.addEventListener("load", armBg, { once: true });
+      return;
+    }
+    if(window.requestIdleCallback) window.requestIdleCallback(bgfx.arm, { timeout: 2500 });
+    else window.setTimeout(bgfx.arm, 900);
   }
 
   function remeasure(){
@@ -991,11 +1057,13 @@
     else if(RM.addListener) RM.addListener(onRM);
   }
   document.addEventListener("visibilitychange", function(){
+    if(bgfx) bgfx.suspend(document.hidden);
     if(document.hidden) stop(); else start();
   });
   if(window.IntersectionObserver){
     new IntersectionObserver(function(es){
       onScreen = es[0].isIntersecting;
+      if(bgfx) bgfx.suspend(!onScreen);
       if(onScreen) start(); else stop();
     }, { rootMargin: "120px" }).observe(map);
   }
@@ -1005,7 +1073,7 @@
     window.__map = {
       paint: function(b){ base = b; paint(b); },
       state: state, orbs: orbs, data: data, measure: measure,
-      eegFs: function(){ return eegFs; }, open: openFs, close: closeFs,
+      bgfx: bgfx, spinTo: spinTo, held: function(){ return frozen; },
       geom: function(){ return { cx: cx, cy: cy, rx: rx, ry: ry, fits: fits, stageL: stageL, stageT: stageT, panelR: panelR }; }
     };
   }
