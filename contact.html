@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="inv">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,69 +7,56 @@
 <meta name="description" content="Contact Sunwoo 'Frank' Choi.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400;700&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <style type="text/tailwindcss">
   @theme {
-    --color-paper:   #000000;
-    --color-ink:     #FFFFFF;
-    --font-sans:     "Geist", ui-sans-serif, system-ui, sans-serif;
-    --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --font-krserif:  "Noto Serif KR", serif;
-    --font-krmono:   "Nanum Gothic Coding", monospace;
+    --color-paper:   var(--paper);
+    --color-ink:     var(--ink);
+    --font-serif:    "EB Garamond", Garamond, "Times New Roman", serif;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=21">
+<link rel="stylesheet" href="site.css?v=28">
+<script src="theme.js?v=1"></script>
 </head>
-<body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+<body class="m-0 bg-paper text-ink font-serif text-[18px] leading-[1.6] antialiased overflow-x-hidden">
 
 <a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
-<div class="grain" aria-hidden="true"></div>
 
-<header class="sitehead" data-autohide>
-  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
+<header class="sitehead">
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.82rem] tracking-[.1em]" aria-label="Site">
     <a class="navlink navlink--home" href="index.html">sunwoo f. choi</a>
     <span class="ml-auto" aria-hidden="true"></span>
     <a class="navlink" href="projects.html">projects</a>
     <a class="navlink" href="blog.html">blog</a>
-    <a class="navlink" href="off-record.html">off-record</a>
+    <a class="navlink" href="off-record.html">etc.</a>
     <a class="navlink" href="contact.html" aria-current="page">contact</a>
+    <button type="button" class="navlink themetoggle" data-theme-toggle hidden></button>
   </nav>
 </header>
 
-<!-- the bookend: like the landing, the page sits inside the field -->
-<main id="main" class="relative min-h-svh flex flex-col justify-center overflow-hidden">
-  <div class="field-wall field-wall--page" data-field="0.55" aria-hidden="true"></div>
-  <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-0 bottom-0 text-center text-[clamp(4rem,14vw,10rem)] opacity-[.07]" aria-hidden="true">연락</span>
-
-  <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,6rem)] relative z-10">
-    <p class="m-0 text-[.66rem] tracking-[.3em] uppercase opacity-45" aria-hidden="true">03 // contact</p>
-    <h1 class="m-0 mt-4 font-sans font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,10vw,6.5rem)]">Contact</h1>
-    <p class="mt-5 mb-0 max-w-[46ch] text-[clamp(.95rem,2vw,1.2rem)] leading-[1.6] opacity-70" data-krtype data-speed="16">Feel free to reach out about anything!</p>
+<main id="main">
+  <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(4rem,12vh,8rem)]">
+    <h1 class="m-0 font-serif font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Contact</h1>
+    <p class="mt-5 mb-0 max-w-[46ch] text-[.95rem] leading-[1.7] opacity-65">Feel free to reach out about anything.</p>
 
     <p class="mt-[clamp(2.4rem,7vh,4rem)] mb-0">
-      <a class="inline-block font-sans font-bold no-underline text-[clamp(1.15rem,3.4vw,2.1rem)] tracking-[.01em] border-b border-ink/40 hover:border-ink pb-1.5 transition-colors" href="mailto:sunwoo.f.choi@gmail.com">sunwoo.f.choi@gmail.com</a>
+      <a class="inline-block font-serif font-bold no-underline text-[clamp(1.15rem,3.4vw,2rem)] border-b border-ink/30 hover:border-ink pb-1" href="mailto:sunwoo.f.choi@gmail.com">sunwoo.f.choi@gmail.com</a>
+    </p>
+    <p class="mt-6 mb-0">
+      <a class="inline-block font-serif font-bold no-underline text-[clamp(1.15rem,3.4vw,2rem)] border-b border-ink/30 hover:border-ink pb-1" href="tel:+15123642295">+1 (512) 364-2295</a>
     </p>
 
-    <p class="mt-[clamp(2.4rem,7vh,4rem)] mb-0">
-      <a class="inline-block font-sans font-bold no-underline text-[clamp(1.15rem,3.4vw,2.1rem)] tracking-[.01em] border-b border-ink/40 hover:border-ink pb-1.5 transition-colors" href="tel:+15123642295">+1 (512)-364-2295</a>
-    </p>
-
-    <ul class="mt-[clamp(2.2rem,6vh,3.2rem)] mb-0 p-0 list-none grid gap-y-2.5 text-[.78rem] tracking-[.1em]">
-      <li><span class="opacity-40 uppercase tracking-[.2em] text-[.66rem]">loc</span>&nbsp;&nbsp;<span class="opacity-70">Austin, TX → Amherst, MA</span></li>
-      <li><span class="opacity-40 uppercase tracking-[.2em] text-[.66rem]">geo</span>&nbsp;&nbsp;<span class="opacity-70 tabular-nums">30.2672N 97.7431W → 42.3732N 72.5199W</span></li>
-      <li><span class="opacity-40 uppercase tracking-[.2em] text-[.66rem]">lang</span>&nbsp;&nbsp;<span class="opacity-70">KR fluent // ES proficient // EN</span></li>
-    </ul>
+    <dl class="mt-[clamp(2.4rem,7vh,3.6rem)] mb-0 grid grid-cols-[6rem_1fr] gap-y-2.5 text-[.8rem]">
+      <dt class="opacity-40">Location</dt><dd class="m-0 opacity-75">Austin, TX → Amherst, MA</dd>
+      <dt class="opacity-40">Languages</dt><dd class="m-0 opacity-75">English, Korean, Spanish</dd>
+    </dl>
   </div>
 </main>
 
-<footer class="border-t border-ink/10 relative z-10">
-  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.62rem] tracking-[.2em] opacity-35">
-    <span>sunwoo // frank // choi</span>
-    <span aria-hidden="true">fin — © 2026</span>
-  </div>
+<footer class="border-t border-ink/10">
+  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 text-[.62rem] tracking-[.16em] opacity-40">© 2026 Sunwoo F. Choi</div>
 </footer>
 
-<script src="site.js?v=6"></script>
 </body>
 </html>

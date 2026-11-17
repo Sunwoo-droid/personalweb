@@ -1,210 +1,73 @@
 /* ================================================================
-   shared chrome — monochrome, ink on black everywhere. hierarchy
-   comes from opacity and space, never from boxes or panels.
-   no third color exists.
+   shared chrome — ink on paper, light or dark. hierarchy comes from opacity and
+   space, not boxes or effects.
    ================================================================ */
 
-::selection{background:#fff;color:#000}
+/* ---- the two themes: every colour on the site comes from these ---- */
+:root{--paper:#000;--ink:#fff;color-scheme:dark}
+:root[data-theme="light"]{--paper:#f5f4f0;--ink:#141414;color-scheme:light}
+
+::selection{background:var(--ink);color:var(--paper)}
+
+/* garamond sits small on its body; lift the whole rem scale to match */
+html{font-size:112.5%}
 
 a:focus-visible,button:focus-visible{
   outline:2px solid currentColor;outline-offset:3px;
 }
 
-/* ---- film grain / scanline, felt not seen ---- */
-.grain{
-  position:fixed;inset:0;z-index:60;pointer-events:none;
-  opacity:.07;mix-blend-mode:screen;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.grain::after{
-  content:"";position:absolute;inset:0;
-  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);
-  opacity:.3;
-}
-
-@keyframes blink{50%{opacity:0}}
-
 /* ---- hangul-typing elements: korean glyphs while scrambled ---- */
-.kr-live{font-family:"Nanum Gothic Coding","IBM Plex Mono",monospace!important}
+.kr-live{font-family:"Nanum Gothic Coding","EB Garamond",Garamond,serif!important}
 
-/* ---- the live field: a wall of the record, typing to itself ----
-   type + ink matched to eidola.me's landing canvas:
-   Geist 13px / 20px line height, white at low opacity */
+/* ---- the landing field: manifesto fragments typing to themselves ---- */
+@keyframes blink{50%{opacity:0}}
 .field-wall{
   position:absolute;inset:0;z-index:0;overflow:hidden;
   pointer-events:none;user-select:none;
-  opacity:.25;
-  font-family:"Geist",ui-monospace,monospace;
-  font-size:13px;line-height:20px;
+  opacity:.2;
+  font-family:"EB Garamond",Garamond,serif;
+  font-size:15px;line-height:20px;
 }
-.field-wall--page{opacity:.16}
-/* fragments left-align to column edges set by the field engine and
-   wrap inside their column — full sentences, no truncation */
 .field-wall .frag{position:absolute;transform:translateY(-50%);overflow:hidden;text-align:left}
-/* caret: a small block riding the typed text (6.5×13 blinking block) */
 .field-wall .frag.typing::after{
   content:"";display:inline-block;width:6.5px;height:13px;
-  background:#fff;margin-left:2px;vertical-align:-1.5px;
+  background:var(--ink);margin-left:2px;vertical-align:-1.5px;
   animation:blink 1.05s steps(1) infinite;
 }
 
 .name{text-wrap:balance}
 
-/* ---- nav: quiet lowercase mono, presence by opacity alone ---- */
-.navlink{
-  color:currentColor;text-decoration:none;opacity:.45;
-  transition:opacity .25s ease;
-}
+/* ---- site header: plain, in flow ---- */
+.sitehead{border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent)}
+
+/* ---- nav: lowercase mono, presence by opacity ---- */
+.navlink{color:currentColor;text-decoration:none;opacity:.5}
 .navlink:hover,.navlink:focus-visible{opacity:1}
-.navlink[aria-current="page"]{
-  opacity:1;font-weight:600;
-  border-bottom:1px solid rgba(255,255,255,.65);
-  padding-bottom:.4em;
-}
-.navlink--home{opacity:.75}
+.navlink[aria-current="page"]{opacity:1}
+.navlink--home{opacity:.85}
 
-/* ---- dive-in: sized like a field fragment, but a solid white highlight ---- */
-.dive{
-  display:inline-block;background:#fff;color:#000;
-  opacity:0;animation:diveIn .45s ease 1s forwards;
-  font-family:"IBM Plex Mono",monospace;font-weight:500;
-  font-size:.72rem;line-height:2;letter-spacing:.04em;
-  padding:.1em .55em;text-decoration:none;
-}
-.dive:hover,.dive:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* the theme toggle reads as one more nav link */
+.themetoggle{background:none;border:0;padding:0;margin:0;font:inherit;letter-spacing:inherit;cursor:pointer}
 
-/* ---- quiet text link: hairline underline, brightens on hover ---- */
+/* ---- text link: hairline underline ---- */
 .tlink{
   color:currentColor;text-decoration:none;
   font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  opacity:.6;padding-bottom:.2em;
-  border-bottom:1px solid rgba(255,255,255,.3);
-  transition:opacity .25s ease,border-color .25s ease;
+  opacity:.7;padding-bottom:.2em;
+  border-bottom:1px solid color-mix(in srgb,var(--ink) 30%,transparent);
 }
-.tlink:hover,.tlink:focus-visible{opacity:1;border-color:rgba(255,255,255,.9)}
-
-/* ---- play button: a ghost outline over the film ---- */
-.playbtn{
-  display:inline-flex;align-items:center;gap:.7em;
-  background:rgba(0,0,0,.25);color:#fff;cursor:pointer;
-  border:1px solid rgba(255,255,255,.5);
-  font-family:"IBM Plex Mono",monospace;font-weight:500;
-  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
-  padding:.9em 1.6em;
-  transition:background .3s ease,color .3s ease,border-color .3s ease;
-}
-.playbtn:hover,.playbtn:focus-visible{background:#fff;color:#000;border-color:#fff}
-.playbtn__tri{
-  width:0;height:0;
-  border-left:.58em solid currentColor;
-  border-top:.36em solid transparent;border-bottom:.36em solid transparent;
-}
-
-/* text riding the film reads through a soft shadow, not a band */
-.film-text{text-shadow:0 1px 30px rgba(0,0,0,.7),0 1px 8px rgba(0,0,0,.5)}
-
-/* the stage crossfade is written per animation frame from scroll position —
-   a CSS transition here would lag behind and show both layers at once */
-
-/* ---- vertical korean titles (evangelion title-card treatment) ---- */
-.vtitle{
-  writing-mode:vertical-rl;text-orientation:mixed;
-  font-family:"Noto Serif KR",serif;font-weight:900;
-  letter-spacing:.08em;line-height:1;
-  user-select:none;
-}
-
-/* ---- reduced motion: no typing, no drift, keep layout ---- */
-@keyframes diveIn{to{opacity:1}}
+.tlink:hover,.tlink:focus-visible{opacity:1;border-color:var(--ink)}
+button.tlink{background:none;border:0;border-bottom:1px solid color-mix(in srgb,var(--ink) 30%,transparent);cursor:pointer;font-family:inherit;color:inherit;padding:0 0 .2em}
 
 @media (prefers-reduced-motion:reduce){
-  .dive{opacity:1;animation:none}
   .field-wall .frag.typing::after{animation:none}
-  *{scroll-behavior:auto!important}
-}
-
-/* ---- glass buttons: the landing's only soft surface. still no color —
-   white held back to a few percent, blurred over the live field, with a
-   1px specular lip along the top edge so the pane reads as glass. ---- */
-.glass{
-  position:relative;display:flex;align-items:center;gap:.95em;
-  padding:.8em 1.05em;border-radius:13px;
-  color:#fff;text-decoration:none;
-  font-family:"IBM Plex Mono",monospace;font-weight:500;
-  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.014));
-  border:1px solid rgba(255,255,255,.07);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 30px rgba(0,0,0,.45);
-  backdrop-filter:blur(16px) saturate(150%);
-  -webkit-backdrop-filter:blur(16px) saturate(150%);
-  transition:background .3s ease,border-color .3s ease,box-shadow .3s ease,transform .3s ease;
-}
-.glass:hover,.glass:focus-visible{
-  background:linear-gradient(150deg,rgba(255,255,255,.115),rgba(255,255,255,.035));
-  border-color:rgba(255,255,255,.26);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 12px 34px rgba(0,0,0,.55);
-  transform:translateX(4px);
-}
-.glass:focus-visible{outline:2px solid rgba(255,255,255,.85);outline-offset:3px}
-
-.glass__i{width:16px;height:16px;flex:none;opacity:.72;transition:opacity .3s ease}
-.glass:hover .glass__i,.glass:focus-visible .glass__i{opacity:1}
-.glass__l{flex:1}
-.glass__go{opacity:.35;font-size:.8rem;letter-spacing:0;transition:opacity .3s ease}
-.glass:hover .glass__go,.glass:focus-visible .glass__go{opacity:.95}
-
-/* ---- site header: a thin bar over the content that retreats on the way
-   down and comes back the moment you scroll up ---- */
-.sitehead{
-  position:fixed;top:0;left:0;right:0;z-index:80;
-  background:rgba(0,0,0,.78);
-  border-bottom:1px solid rgba(255,255,255,.09);
-  backdrop-filter:blur(14px) saturate(130%);
-  -webkit-backdrop-filter:blur(14px) saturate(130%);
-  will-change:transform;
-  transition:transform .38s cubic-bezier(.4,0,.2,1);
-}
-.sitehead--hidden{transform:translateY(-102%)}
-
-/* ---- links land after the name has typed itself out ---- */
-.rise{opacity:0;animation:rise .55s ease forwards}
-@keyframes rise{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
-
-@media (prefers-reduced-motion:reduce){
-  .rise{opacity:1;animation:none}
-  .glass:hover,.glass:focus-visible{transform:none}
-  .sitehead{transition:none}
 }
 
 /* ================================================================
-   THE LOG — the blog index, pulled live from Medium at load.
-   entries hang off a hairline spine, and the vertical distance
-   between two entries is the real elapsed time between the posts,
-   so the silences in the record are visible rather than hidden by
-   even spacing. chrome stays mono; the writing itself is set in
-   sans, because the metadata is machine type and the prose isn't.
+   blog — posts pulled from Medium at load, one per row
    ================================================================ */
-.log{
-  --spine:clamp(.4rem,1.2vw,1rem);
-  --indent:clamp(2.6rem,6vw,4.6rem);
-  position:relative;padding-left:var(--indent);
-}
-.log::before{
-  content:"";position:absolute;left:var(--spine);top:.75rem;bottom:0;width:1px;
-  background:linear-gradient(to bottom,rgba(255,255,255,.24),rgba(255,255,255,.08) 72%,transparent);
-}
+.entry{border-top:1px solid color-mix(in srgb,var(--ink) 10%,transparent);padding:clamp(2rem,5vh,3rem) 0}
 
-.entry{position:relative}
-.entry::before{                                  /* the tick, riding the spine */
-  content:"";position:absolute;top:.5rem;
-  left:calc(var(--spine) - var(--indent) - 3.5px);
-  width:8px;height:8px;border-radius:50%;
-  background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);
-  transition:background .3s ease,box-shadow .3s ease;
-}
-.entry:hover::before,.entry.is-open::before{background:#fff;box-shadow:inset 0 0 0 1px #fff}
-
-/* the whole head is the toggle — title, excerpt and thumbnail all click */
 .entry__head{
   display:grid;grid-template-columns:minmax(0,1fr);gap:1.1rem;
   width:100%;text-align:left;background:none;border:0;padding:0;margin:0;
@@ -213,85 +76,42 @@ a:focus-visible,button:focus-visible{
 @media (min-width:820px){
   .entry__head{grid-template-columns:minmax(0,1fr) 168px;gap:clamp(1.4rem,3vw,2.8rem)}
 }
-.entry__date{font-size:.66rem;letter-spacing:.24em;opacity:.42;font-variant-numeric:tabular-nums}
+.entry__date{font-size:.66rem;letter-spacing:.2em;opacity:.45;font-variant-numeric:tabular-nums}
 .entry__title{
-  font-family:"Geist",ui-sans-serif,system-ui,sans-serif;font-weight:700;
-  font-size:clamp(1.25rem,2.6vw,1.72rem);line-height:1.2;
-  margin:.55rem 0 0;transition:opacity .25s ease;
+  font-family:"EB Garamond",Garamond,serif;font-weight:700;
+  font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.2;
+  margin:.5rem 0 0;
 }
-.entry__head:hover .entry__title,.entry__head:focus-visible .entry__title{opacity:.6}
-.entry__excerpt{margin:.85rem 0 0;max-width:58ch;font-size:.88rem;line-height:1.75;opacity:.58}
-.entry__meta{margin:1rem 0 0;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;opacity:.34}
-.entry__thumb{
-  width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;display:block;
-  border:1px solid rgba(255,255,255,.08);
-  filter:grayscale(1) contrast(1.05) brightness(.92);      /* the record is monochrome until you engage with it */
-  transition:filter .45s ease,border-color .3s ease;
-}
-.entry__head:hover .entry__thumb,.entry__head:focus-visible .entry__thumb{
-  filter:none;border-color:rgba(255,255,255,.26);
-}
-.entry__actions{display:flex;flex-wrap:wrap;align-items:center;gap:1.7rem;margin-top:1.15rem}
-button.tlink{background:none;border:0;border-bottom:1px solid rgba(255,255,255,.3);cursor:pointer;font-family:inherit}
-
-/* measured silence between two entries */
-.gap{display:flex;align-items:center;gap:.65rem;font-size:.6rem;letter-spacing:.24em;
-     text-transform:uppercase;opacity:.24;font-variant-numeric:tabular-nums}
-.gap::before{content:"";width:15px;height:1px;background:currentColor;flex:none}
+.entry__head:hover .entry__title,.entry__head:focus-visible .entry__title{opacity:.7}
+.entry__excerpt{margin:.8rem 0 0;max-width:58ch;font-size:.88rem;line-height:1.75;opacity:.6}
+.entry__meta{margin:.9rem 0 0;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;opacity:.4}
+.entry__thumb{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.entry__actions{display:flex;flex-wrap:wrap;align-items:center;gap:1.7rem;margin:1.1rem 0 0}
 
 /* the post itself, expanded in place */
 .more{display:none}
-@supports (grid-template-rows:0fr){
-  .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.4,0,.2,1)}
-  .more__in{overflow:hidden;visibility:hidden;transition:visibility 0s .5s}
-  .entry.is-open .more{grid-template-rows:1fr}
-  .entry.is-open .more__in{visibility:visible;transition:visibility 0s 0s}
-}
-.entry.is-open .more{display:grid}
+.entry.is-open .more{display:block}
 
 .prose{
-  font-family:"Geist",ui-sans-serif,system-ui,sans-serif;
-  font-size:1rem;line-height:1.8;opacity:.82;max-width:66ch;
+  font-family:"EB Garamond",Garamond,serif;
+  font-size:1rem;line-height:1.8;opacity:.85;max-width:66ch;
   padding-top:1.6rem;
 }
 .prose p{margin:0 0 1.15em}
-.prose h1,.prose h2,.prose h3,.prose h4{font-weight:700;line-height:1.25;margin:2em 0 .55em;opacity:1}
+.prose h1,.prose h2,.prose h3,.prose h4{font-weight:700;line-height:1.25;margin:2em 0 .55em}
 .prose h1,.prose h2{font-size:1.3rem}
 .prose h3,.prose h4{font-size:1.06rem}
-.prose a{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)}
-.prose a:hover{text-decoration-color:#fff}
-.prose blockquote{margin:1.6em 0;padding-left:1.2em;border-left:1px solid rgba(255,255,255,.25);opacity:.75}
-.prose img{
-  width:100%;height:auto;border-radius:10px;margin:1.7em 0;
-  border:1px solid rgba(255,255,255,.08);
-  filter:grayscale(1) contrast(1.05) brightness(.92);
-  transition:filter .45s ease;
-}
-.prose img:hover{filter:none}
+.prose a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:color-mix(in srgb,var(--ink) 35%,transparent)}
+.prose a:hover{text-decoration-color:var(--ink)}
+.prose blockquote{margin:1.6em 0;padding-left:1.2em;border-left:1px solid color-mix(in srgb,var(--ink) 25%,transparent);opacity:.75}
+.prose img{width:100%;height:auto;margin:1.7em 0}
 .prose figure{margin:1.7em 0}
 .prose figure img{margin:0}
-.prose figcaption{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;
-  text-transform:uppercase;opacity:.4;margin-top:.8em;text-align:center}
-.prose pre{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;
-  padding:1em 1.1em;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:.8rem;line-height:1.6}
-.prose code{font-family:"IBM Plex Mono",monospace;font-size:.85em}
+.prose figcaption{font-size:.8rem;opacity:.5;margin-top:.6em;text-align:center}
+.prose pre{border-left:1px solid color-mix(in srgb,var(--ink) 20%,transparent);padding:.2em 0 .2em 1.1em;overflow-x:auto;
+  font-family:"EB Garamond",Garamond,serif;font-size:.8rem;line-height:1.6}
+.prose code{font-family:"EB Garamond",Garamond,serif;font-size:.85em}
 .prose ul,.prose ol{margin:0 0 1.15em;padding-left:1.3em}
 .prose li{margin:.35em 0}
-.prose hr{border:0;border-top:1px solid rgba(255,255,255,.12);margin:2.2em 0}
-.prose__end{
-  font-family:"IBM Plex Mono",monospace;margin-top:2.6em;padding-top:1.6em;
-  border-top:1px solid rgba(255,255,255,.1);
-}
-
-/* while the feed is being retrieved, the titles scramble — the same
-   hangul the rest of the site types, used here as the loading state */
-.skel__title{
-  font-family:"Nanum Gothic Coding","IBM Plex Mono",monospace;
-  font-size:clamp(1.25rem,2.6vw,1.72rem);line-height:1.2;margin:.55rem 0 0;opacity:.3;
-}
-.skel__bar{height:1px;background:rgba(255,255,255,.09);margin-top:1.1rem}
-
-@media (prefers-reduced-motion:reduce){
-  .entry__thumb,.entry__title{transition:none}
-  .more,.more__in{transition:none}
-}
+.prose hr{border:0;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);margin:2.2em 0}
+.prose__end{font-family:"EB Garamond",Garamond,serif;margin-top:2.4em}

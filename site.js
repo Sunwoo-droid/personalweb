@@ -1,17 +1,9 @@
 /* ================================================================
-   shared behavior — the hangul-typing signature + the live field.
-
-   THE SIGNATURE: every [data-krtype] element types itself out as
-   the hangul you'd get typing its English text on a Dubeolsik
-   keyboard with the IME on — nonsense until it finishes — then
-   hard-swaps to the English sentence. no fades.
-
-   THE FIELD: the landing-page wall of manifesto fragments that
-   type and clear at random. exposed as KR.buildField so every
-   page header can carry a dim version of the same weather.
-
-   content authors: write plain English in the markup; this file
-   never needs editing to change copy.
+   the landing field — a wall of manifesto fragments that type and
+   clear at random. each one types itself out as the hangul you'd get
+   typing its English on a Dubeolsik keyboard with the IME on, then
+   hard-swaps to the English sentence. any [data-field] element gets
+   one; the attribute's value (0–1) sets how many slots light up.
    ================================================================ */
 (function(){
   "use strict";
@@ -36,14 +28,6 @@
 
   /* type hangul nonsense into el, hold, hard-swap to english */
   function krType(el, english, speed, hold, cb){
-    if(reduce){
-      el.textContent = english;
-      if(cb) cb();
-      return;
-    }
-    /* lock current height so the swap can't shift layout */
-    var h = el.getBoundingClientRect().height;
-    if(h) el.style.minHeight = h + "px";
     el.classList.add("kr-live");
     var nonsense = toHangul(english);
     var k = 0;
@@ -55,8 +39,8 @@
       } else {
         setTimeout(function(){
           el.classList.remove("kr-live");
-          el.textContent = english;   /* the swap — hard cut, no fade */
-          if(cb) cb();
+          el.textContent = english;
+          cb();
         }, hold);
       }
     })();
@@ -88,15 +72,10 @@
 
   function randFragment(){ return FRAGMENTS[Math.floor(Math.random()*FRAGMENTS.length)]; }
 
-  /* ================================================================
-     the field engine — eidola.me's landing canvas, generalized.
-     layout: one column per ~320px of viewport (clamped 2–6), 12px
-     inner column padding, sentences wrapping inside their column,
-     3 slots per column per screen height. slots jitter vertically
-     by up to ±0.9 of a row height so nothing reads as rows, and a
-     relaxation pass pushes near-collisions apart so fragments never
-     overlap. a global budget keeps the page calm.
-     ================================================================ */
+  /* layout: one column per ~320px of viewport (clamped 2–6), sentences
+     wrapping inside their column, 3 slots per column. slots jitter
+     vertically so nothing reads as rows, and a relaxation pass pushes
+     near-collisions apart so fragments never overlap. */
   var W = window.innerWidth || document.documentElement.clientWidth || 1280;
   var GEOM = {
     cols: Math.max(2, Math.min(6, Math.round(W/320))),
@@ -108,10 +87,8 @@
 
   var MAX_LIVE = 25, live = 0;
 
-  /* one fragment: scramble in (calm), hold a good while, clear, wait
-     dark, repeat. every duration is drawn per-cycle from a wide range,
-     and the initial phase spans a whole cycle, so fragments never fall
-     into synchronized waves. */
+  /* one fragment: type in, hold, clear, wait dark, repeat. every duration
+     is drawn per cycle from a wide range so fragments never sync up. */
   function dutyCycle(el){
     if(reduce){                                              /* static, no motion */
       if(live < MAX_LIVE){ live++; el.textContent = randFragment(); }
@@ -127,116 +104,49 @@
       krType(el, randFragment(), 20 + Math.random()*42, 300, function(){
         setTimeout(function(){
           el.classList.remove("typing");
-          el.textContent = "";                               /* clear (go dark) */
+          el.textContent = "";
           live--;
           setTimeout(show, 1400 + Math.random()*7000);       /* stay dark a while */
-        }, 1600 + Math.random()*5400);                       /* stay visible, calm */
+        }, 1600 + Math.random()*5400);                       /* stay visible */
       });
     }
     setTimeout(show, Math.random()*10000);
   }
 
-  function scatterColumn(container, c, H, fill, fixedY){
+  function scatterColumn(container, c, H, fill){
     var top = 0.10*H, rowH = 0.80*H/GEOM.rows;
-    var pts = [];
+    var ys = [];
     for(var r=0;r<GEOM.rows;r++){
-      var base = top + (r+0.5)*rowH;
-      if(fixedY != null && Math.abs(base - fixedY) < rowH/2) continue;  /* reserved slot */
       if(Math.random() >= fill) continue;
-      pts.push({ y: base + 0.9*rowH*(2*Math.random()-1), fixed: false });
+      ys.push(top + (r+0.5)*rowH + 0.9*rowH*(2*Math.random()-1));
     }
-    if(fixedY != null) pts.push({ y: fixedY, fixed: true });   /* reserved: immovable */
     for(var it=0; it<12; it++){
-      pts.sort(function(a,b){ return a.y-b.y; });
+      ys.sort(function(a,b){ return a-b; });
       var moved = false;
-      for(var i=1;i<pts.length;i++){
-        var a = pts[i-1], b = pts[i], dy = b.y - a.y;
+      for(var i=1;i<ys.length;i++){
+        var dy = ys[i] - ys[i-1];
         if(dy >= GEOM.gap) continue;
         moved = true;
-        var push = GEOM.gap - dy;
-        if(a.fixed) b.y += push;
-        else if(b.fixed) a.y -= push;
-        else { a.y -= push/2; b.y += push/2; }
+        ys[i-1] -= (GEOM.gap - dy)/2;
+        ys[i]   += (GEOM.gap - dy)/2;
       }
-      for(var j=0;j<pts.length;j++){
-        if(!pts[j].fixed) pts[j].y = Math.min(Math.max(0.06*H, pts[j].y), 0.94*H);
-      }
+      for(var j=0;j<ys.length;j++) ys[j] = Math.min(Math.max(0.06*H, ys[j]), 0.94*H);
       if(!moved) break;
     }
-    for(var k=0;k<pts.length;k++){
-      if(pts[k].fixed) continue;
+    ys.forEach(function(y){
       var el = document.createElement("span");
       el.className = "frag";
       el.style.left = (c*GEOM.colw + GEOM.pad).toFixed(0) + "px";
-      el.style.top  = pts[k].y.toFixed(0) + "px";
+      el.style.top  = y.toFixed(0) + "px";
       el.style.maxWidth = (GEOM.colw - 2*GEOM.pad).toFixed(0) + "px";   /* wrap inside the column */
       container.appendChild(el);
       dutyCycle(el);
-    }
-  }
-
-  /* fill 0–1 sets how many slots light up; reserved {c, y} keeps one
-     slot permanently clear (the landing's dive-in claims it). */
-  function buildField(container, fill, reserved){
-    if(!container) return;
-    var H = container.clientHeight || window.innerHeight || 800;
-    for(var c=0;c<GEOM.cols;c++){
-      scatterColumn(container, c, H, fill, (reserved && reserved.c === c) ? reserved.y : null);
-    }
-  }
-
-  /* ---- expose the engines so page-specific scripts can reuse them ---- */
-  window.KR = {
-    krType: krType,
-    reduce: reduce,
-    buildField: buildField,
-    fieldGeom: GEOM
-  };
-
-  /* ---- any [data-field] element becomes a live field on load ---- */
-  [].slice.call(document.querySelectorAll("[data-field]")).forEach(function(el){
-    var fill = parseFloat(el.getAttribute("data-field")) || 0.5;
-    buildField(el, fill, null);
-  });
-
-  /* ---- a [data-autohide] header retreats on the way down, returns on the
-     way up. threshold keeps trackpad jitter from flickering the bar. ---- */
-  (function(){
-    var head = document.querySelector("[data-autohide]");
-    if(!head) return;
-    var lastY = window.pageYOffset || 0, queued = false, THRESH = 6;
-    function paint(){
-      queued = false;
-      var y = window.pageYOffset || 0;
-      if(Math.abs(y - lastY) < THRESH) return;      /* below threshold: hold, don't reset */
-      var hide = y > lastY && y > head.offsetHeight;
-      head.classList.toggle("sitehead--hidden", hide);
-      lastY = y;
-    }
-    window.addEventListener("scroll", function(){
-      if(queued) return;
-      queued = true;
-      window.requestAnimationFrame(paint);
-    }, { passive: true });
-    /* keyboard focus must never land on an off-screen bar */
-    head.addEventListener("focusin", function(){ head.classList.remove("sitehead--hidden"); });
-  })();
-
-  /* ---- auto-run every [data-krtype] in document order, sequentially ---- */
-  var queue = [].slice.call(document.querySelectorAll("[data-krtype]"));
-  queue.forEach(function(el){
-    var txt = el.textContent.replace(/\s+/g," ").trim();
-    el.setAttribute("data-text", txt);
-    el.setAttribute("aria-label", txt);      /* AT reads the sentence, not the scramble */
-  });
-
-  function runQueue(i){
-    if(i >= queue.length) return;
-    var el = queue[i];
-    var speed = parseInt(el.getAttribute("data-speed") || "24", 10);
-    krType(el, el.getAttribute("data-text"), speed, 320, function(){
-      runQueue(i+1);
     });
   }
-  if(queue.length) runQueue(0);
+
+  [].slice.call(document.querySelectorAll("[data-field]")).forEach(function(el){
+    var fill = parseFloat(el.getAttribute("data-field")) || 0.5;
+    var H = el.clientHeight || window.innerHeight || 800;
+    for(var c=0;c<GEOM.cols;c++) scatterColumn(el, c, H, fill);
+  });
 })();

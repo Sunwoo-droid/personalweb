@@ -1,102 +1,91 @@
 <!doctype html>
-<html lang="en" class="inv">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Off-Record</title>
+<title>Etc.</title>
 <meta name="description" content="The non-CV self: cello, piano, guitar, photography, film, and languages.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400;700&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <style type="text/tailwindcss">
   @theme {
-    --color-paper:   #000000;
-    --color-ink:     #FFFFFF;
-    --font-sans:     "Geist", ui-sans-serif, system-ui, sans-serif;
-    --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --font-krserif:  "Noto Serif KR", serif;
-    --font-krmono:   "Nanum Gothic Coding", monospace;
+    --color-paper:   var(--paper);
+    --color-ink:     var(--ink);
+    --font-serif:    "EB Garamond", Garamond, "Times New Roman", serif;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=21">
+<link rel="stylesheet" href="site.css?v=28">
+<script src="theme.js?v=1"></script>
 </head>
-<body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+<body class="m-0 bg-paper text-ink font-serif text-[18px] leading-[1.6] antialiased overflow-x-hidden">
 
 <a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
-<div class="grain" aria-hidden="true"></div>
 
-<header class="sitehead" data-autohide>
-  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
+<header class="sitehead">
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.82rem] tracking-[.1em]" aria-label="Site">
     <a class="navlink navlink--home" href="index.html">sunwoo f. choi</a>
     <span class="ml-auto" aria-hidden="true"></span>
     <a class="navlink" href="projects.html">projects</a>
     <a class="navlink" href="blog.html">blog</a>
-    <a class="navlink" href="off-record.html" aria-current="page">off-record</a>
+    <a class="navlink" href="off-record.html" aria-current="page">etc.</a>
     <a class="navlink" href="contact.html">contact</a>
+    <button type="button" class="navlink themetoggle" data-theme-toggle hidden></button>
   </nav>
 </header>
 
 <main id="main">
-  <!-- ============ TITLE — the landing weather, dimmed ============ -->
-  <section class="relative overflow-hidden min-h-[52svh] flex items-center" aria-label="Off-record">
-    <div class="field-wall field-wall--page" data-field="0.6" aria-hidden="true"></div>
-    <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-0 bottom-0 text-center text-[clamp(2.8rem,7vw,5.4rem)] opacity-[.07]" aria-hidden="true">기록 밖</span>
-    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,6rem)] relative z-10">
-      <p class="m-0 text-[.66rem] tracking-[.3em] uppercase opacity-45" aria-hidden="true">02 // private</p>
-      <h1 class="m-0 mt-4 font-sans font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Off-Record</h1>
-      <p class="mt-5 mb-0 max-w-[52ch] text-[.88rem] leading-[1.7] opacity-60" data-krtype data-speed="12">Other things I like.</p>
+  <section aria-label="Etc.">
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pt-[clamp(4rem,12vh,8rem)] pb-[clamp(2.5rem,6vh,4rem)]">
+      <h1 class="m-0 font-serif font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Etc.</h1>
+      <p class="mt-5 mb-0 max-w-[52ch] text-[.95rem] leading-[1.7] opacity-65">Other things I like.</p>
     </div>
   </section>
 
-  <!-- ============ THE LIST — an index of the ungraded self ============ -->
   <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(4rem,10vh,7rem)]">
 
     <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Cello</h2>
-      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Did solo competitions, quartets, and was a soloist for high school orchestra. Now playing with the Amherst Symphony Orchestra.</p>
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Cello</h2>
+      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Did solo competitions, quartets, symphony orchestras. Currently playing with the Amherst Symphony Orchestra.</p>
     </article>
 
     <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Piano</h2>
-      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Freelance accompanist for whoever needs one. Accompanied an admitted NYO '25 audition, a run of UIL solo competitions, other people's recitals.</p>
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Piano</h2>
+      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Freelance accompanist. Accompanied auditions, competitions, and recitals. Perhaps one of my proudest achievements is accompanying my friend's audition that got him into NYO 25'.</p>
     </article>
 
     <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Guitar</h2>
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Guitar</h2>
       <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Self-taught, played for the church as worship team leader. Now playing for Amherst Korean Church.</p>
     </article>
 
     <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Videography</h2>
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Videography</h2>
       <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Worked with @nkwon.fitss on video shooting and editing. Shot, edited, and directed all content for @eidola.me</p>
     </article>
 
     <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Languages</h2>
-      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Fluent in English and Korean, conversational in Spanish. Taught Korean at various Korean Schools.</p>
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Languages</h2>
+      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Fluent in English and Korean, conversational in Spanish.</p>
     </article>
 
-    <article class="border-t border-ink/10 pt-[clamp(2.6rem,6vh,4rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Film</h2>
-      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">I love Kubrick and Lynch and East Asian Movies from the early 2000's. My Letterboxd: @kubrickgaming</p>
+    <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Film</h2>
+      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Kubrick and Lynch. My Letterboxd: @kubrickgaming</p>
     </article>
-    
-    <article class="border-t border-ink/10 pt-[clamp(2.6rem,6vh,4rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
-      <h2 class="m-0 font-sans font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Books</h2>
-      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">One Flew Over the Cuckoo's Nest is probably my favorite book. I'm always down to talk about 20th century postmodern literature.</p>
+
+    <article class="border-t border-ink/10 py-[clamp(2rem,5vh,3rem)] grid md:grid-cols-[11rem_1fr] gap-y-2 md:gap-x-[clamp(1rem,3vw,2.5rem)]">
+      <h2 class="m-0 font-serif font-bold uppercase tracking-[.12em] text-[.8rem] opacity-80 pt-1">Books</h2>
+      <p class="m-0 max-w-[60ch] text-[.95rem] leading-[1.8] opacity-70">Orwell, Vonnegut, and David Foster Wallace.</p>
     </article>
 
   </section>
 </main>
 
 <footer class="border-t border-ink/10">
-  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.62rem] tracking-[.2em] opacity-35">
-    <span>off-record — grain, overexposure</span>
-    <span aria-hidden="true">© 2026 sunwoo f. choi</span>
-  </div>
+  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 text-[.62rem] tracking-[.16em] opacity-40">© 2026 Sunwoo F. Choi</div>
 </footer>
 
-<script src="site.js?v=6"></script>
 </body>
 </html>

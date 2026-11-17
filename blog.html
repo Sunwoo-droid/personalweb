@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="inv">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,68 +7,54 @@
 <meta name="description" content="Writing by Sunwoo 'Frank' Choi — pulled live from Medium.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Geist:wght@400;700&family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <style type="text/tailwindcss">
   @theme {
-    --color-paper:   #000000;
-    --color-ink:     #FFFFFF;
-    --font-sans:     "Geist", ui-sans-serif, system-ui, sans-serif;
-    --font-mono:     "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --font-krserif:  "Noto Serif KR", serif;
-    --font-krmono:   "Nanum Gothic Coding", monospace;
+    --color-paper:   var(--paper);
+    --color-ink:     var(--ink);
+    --font-serif:    "EB Garamond", Garamond, "Times New Roman", serif;
   }
 </style>
-<link rel="stylesheet" href="site.css?v=21">
+<link rel="stylesheet" href="site.css?v=28">
+<script src="theme.js?v=1"></script>
 </head>
-<body class="m-0 bg-paper text-ink font-mono text-[16px] leading-[1.6] antialiased overflow-x-hidden">
+<body class="m-0 bg-paper text-ink font-serif text-[18px] leading-[1.6] antialiased overflow-x-hidden">
 
 <a class="absolute -left-[999px] top-0 z-[200] bg-ink text-paper px-4 py-2.5 text-[.8rem] tracking-[.05em] focus:left-2 focus:top-2" href="#main">Skip to content</a>
-<div class="grain" aria-hidden="true"></div>
 
-<header class="sitehead" data-autohide>
-  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.7rem] tracking-[.16em]" aria-label="Site">
+<header class="sitehead">
+  <nav class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-[1.15rem] flex flex-wrap items-baseline gap-x-7 gap-y-1 text-[.82rem] tracking-[.1em]" aria-label="Site">
     <a class="navlink navlink--home" href="index.html">sunwoo f. choi</a>
     <span class="ml-auto" aria-hidden="true"></span>
     <a class="navlink" href="projects.html">projects</a>
     <a class="navlink" href="blog.html" aria-current="page">blog</a>
-    <a class="navlink" href="off-record.html">off-record</a>
+    <a class="navlink" href="off-record.html">etc.</a>
     <a class="navlink" href="contact.html">contact</a>
+    <button type="button" class="navlink themetoggle" data-theme-toggle hidden></button>
   </nav>
 </header>
 
 <main id="main">
-  <!-- ============ TITLE — the landing weather, dimmed ============ -->
-  <section class="relative overflow-hidden min-h-[46svh] flex items-center" aria-label="Blog">
-    <div class="field-wall field-wall--page" data-field="0.55" aria-hidden="true"></div>
-    <span class="vtitle absolute right-[clamp(1.1rem,5vw,4rem)] top-0 bottom-0 text-center text-[clamp(2.8rem,7vw,5.4rem)] opacity-[.07]" aria-hidden="true">일지</span>
-    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] py-[clamp(3rem,8vh,5rem)] relative z-10">
-      <p class="m-0 text-[.66rem] tracking-[.3em] uppercase opacity-45" data-krtype data-speed="26">live // medium</p>
-      <h1 class="m-0 mt-4 font-sans font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Blog</h1>
-      <p class="mt-5 mb-0 max-w-[52ch] text-[.88rem] leading-[1.7] opacity-60">Some thoughts I have. You can read here or on Medium.</p>
-      <p id="log-count" class="mt-4 mb-0 text-[.64rem] tracking-[.22em] uppercase opacity-0 transition-opacity duration-700 tabular-nums"></p>
+  <section aria-label="Blog">
+    <div class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pt-[clamp(4rem,12vh,8rem)] pb-[clamp(2.5rem,6vh,4rem)]">
+      <h1 class="m-0 font-serif font-bold uppercase tracking-[.03em] leading-[.98] text-[clamp(2.6rem,9vw,5.5rem)]">Blog</h1>
+      <p class="mt-5 mb-0 max-w-[52ch] text-[.95rem] leading-[1.7] opacity-65">Some thoughts I have. You can read them here or on Medium.</p>
     </div>
   </section>
 
-  <!-- ============ THE LOG ============ -->
   <section class="max-w-[1180px] mx-auto w-full px-[clamp(1.1rem,5vw,4rem)] pb-[clamp(4rem,10vh,7rem)]">
-    <div class="max-w-[980px]">
-      <div id="log" class="log" aria-busy="true" aria-live="polite"></div>
-    </div>
+    <div id="log" class="max-w-[980px]" aria-busy="true" aria-live="polite"></div>
   </section>
 </main>
 
 <footer class="border-t border-ink/10">
-  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[.62rem] tracking-[.2em] opacity-35">
-    <span id="foot-note">blog — syndicated from medium</span>
-    <span aria-hidden="true">© 2026 sunwoo f. choi</span>
-  </div>
+  <div class="max-w-[1180px] mx-auto px-[clamp(1.1rem,5vw,4rem)] py-6 text-[.62rem] tracking-[.16em] opacity-40">© 2026 Sunwoo F. Choi</div>
 </footer>
 
-<script src="site.js?v=6"></script>
 <script>
 /* ================================================================
-   the log — Medium's RSS, read at load and rendered as a timeline.
+   the blog — Medium's RSS, read at load and rendered as a list.
 
    Medium serves no CORS headers, so the feed goes through a public
    reader (rss2json), with a raw-XML proxy as the backup. every post
@@ -91,42 +77,16 @@
   var FRESH  = FEED + "?_=" + Math.floor(Date.now() / 3600000);
   var WPM    = 220;
   var log    = document.getElementById("log");
-  var countEl= document.getElementById("log-count");
-  var reduce = (window.KR && window.KR.reduce != null) ? window.KR.reduce
-             : (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   /* ================= the retrieving state ================= */
-  /* three placeholder entries whose titles run the site's hangul
-     scramble — the signature doing an actual job: this is being read. */
-  var JAMO = "ㅂㅈㄷㄱㅅㅛㅕㅑㅐㅔㅁㄴㅇㄹㅎㅗㅓㅏㅣㅋㅌㅊㅍㅠㅜㅡ";
-  var timers = [];
-
   function skeleton(){
-    var frag = document.createDocumentFragment();
-    [30, 22, 27].forEach(function(len, i){
-      var wrap = document.createElement("div");
-      wrap.className = "entry";
-      wrap.innerHTML = '<span class="entry__date">— — — —</span>' +
-                       '<div class="skel__title"></div><div class="skel__bar"></div>';
-      frag.appendChild(wrap);
-      var spacer = document.createElement("div");
-      spacer.style.height = "58px";
-      frag.appendChild(spacer);
-
-      var t = wrap.querySelector(".skel__title");
-      if(reduce){ t.textContent = "—"; return; }
-      timers.push(setInterval(function(){
-        var s = "";
-        for(var k=0;k<len;k++) s += (Math.random() < 0.13) ? " " : JAMO[Math.floor(Math.random()*JAMO.length)];
-        t.textContent = s;
-      }, 90 + i*17));
-    });
-    log.appendChild(frag);
+    var p = document.createElement("p");
+    p.className = "entry__meta";
+    p.textContent = "Loading posts…";
+    log.appendChild(p);
   }
 
   function stopSkeleton(){
-    timers.forEach(clearInterval);
-    timers = [];
     log.innerHTML = "";
   }
 
@@ -250,19 +210,6 @@
     return d.getFullYear() + "." + pad(d.getMonth()+1) + "." + pad(d.getDate());
   }
 
-  function daysBetween(a, b){
-    return Math.max(0, Math.round((a - b) / 86400000));
-  }
-
-  function ago(d){
-    var n = daysBetween(new Date(), d);
-    if(n <= 0) return "today";
-    if(n === 1) return "yesterday";
-    if(n < 30) return n + " days ago";
-    if(n < 365) return Math.round(n/30) + " months ago";
-    return Math.round(n/365) + " years ago";
-  }
-
   /* ================= rendering ================= */
   function render(posts){
     stopSkeleton();
@@ -371,26 +318,10 @@
 
       frag.appendChild(el);
 
-      /* the silence before the next entry, drawn to scale */
-      var next = posts[i+1];
-      var spacer = document.createElement("div");
-      var days = next ? daysBetween(date, new Date(next.date)) : 0;
-      if(next && !isNaN(days)){
-        spacer.className = "gap";
-        spacer.style.height = Math.round(46 + Math.min(190, days * 1.6)) + "px";
-        if(days >= 21) spacer.textContent = days + " days";
-      } else {
-        spacer.style.height = "46px";
-      }
-      frag.appendChild(spacer);
     });
 
     log.appendChild(frag);
 
-    var newest = new Date(posts[0].date);
-    countEl.textContent = posts.length + (posts.length === 1 ? " entry" : " entries") +
-                          "  //  latest " + ago(newest);
-    countEl.classList.remove("opacity-0");
   }
 
   /* ================= the feed didn't load ================= */

@@ -2,7 +2,7 @@
   "name": "personalweb",
   "version": "1.0.0",
   "private": true,
-  "description": "Single-file personal site — bleached-daylight ground, black title cards, typed ether overlay. No build step.",
+  "description": "Personal site — static HTML, Tailwind via CDN, light/dark theme. No build step.",
   "scripts": {
     "dev": "python3 -m http.server 8000"
   }
