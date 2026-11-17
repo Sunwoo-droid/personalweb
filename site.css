@@ -16,31 +16,12 @@ a:focus-visible,button:focus-visible{
   outline:2px solid currentColor;outline-offset:3px;
 }
 
-/* ---- hangul-typing elements: korean glyphs while scrambled ---- */
-.kr-live{font-family:"Nanum Gothic Coding","EB Garamond",Garamond,serif!important}
-
-/* ---- the landing field: manifesto fragments typing to themselves ---- */
-@keyframes blink{50%{opacity:0}}
-.field-wall{
-  position:absolute;inset:0;z-index:0;overflow:hidden;
-  pointer-events:none;user-select:none;
-  opacity:.2;
-  font-family:"EB Garamond",Garamond,serif;
-  font-size:15px;line-height:20px;
-}
-.field-wall .frag{position:absolute;transform:translateY(-50%);overflow:hidden;text-align:left}
-.field-wall .frag.typing::after{
-  content:"";display:inline-block;width:6.5px;height:13px;
-  background:var(--ink);margin-left:2px;vertical-align:-1.5px;
-  animation:blink 1.05s steps(1) infinite;
-}
-
 .name{text-wrap:balance}
 
 /* ---- site header: plain, in flow ---- */
 .sitehead{border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent)}
 
-/* ---- nav: lowercase mono, presence by opacity ---- */
+/* ---- nav: lowercase, presence by opacity ---- */
 .navlink{color:currentColor;text-decoration:none;opacity:.5}
 .navlink:hover,.navlink:focus-visible{opacity:1}
 .navlink[aria-current="page"]{opacity:1}
@@ -58,10 +39,6 @@ a:focus-visible,button:focus-visible{
 }
 .tlink:hover,.tlink:focus-visible{opacity:1;border-color:var(--ink)}
 button.tlink{background:none;border:0;border-bottom:1px solid color-mix(in srgb,var(--ink) 30%,transparent);cursor:pointer;font-family:inherit;color:inherit;padding:0 0 .2em}
-
-@media (prefers-reduced-motion:reduce){
-  .field-wall .frag.typing::after{animation:none}
-}
 
 /* ================================================================
    blog — posts pulled from Medium at load, one per row
